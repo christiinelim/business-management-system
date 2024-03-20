@@ -37,7 +37,7 @@ public class Seller {
     @Column (name = "carousell")
     private String carousell;
 
-    // Empty constructor
+    // Default constructor
     public Seller() {
     }
 

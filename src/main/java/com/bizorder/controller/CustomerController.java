@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bizorder.exception.CustomerNotFoundException;
+import com.bizorder.exception.SearchNotFoundException;
 import com.bizorder.model.Customer;
 import com.bizorder.response.ResponseHandler;
 import com.bizorder.service.CustomerService;
@@ -63,7 +63,7 @@ public class CustomerController {
         try {
             customerService.updateCustomer(customer, customerId);
             return ResponseHandler.responseBuilder("Customer updated successfully", HttpStatus.OK);
-        } catch (CustomerNotFoundException e) {
+        } catch (SearchNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating customer: " + e.getMessage());
@@ -83,7 +83,7 @@ public class CustomerController {
         try {
             customerService.deleteCustomer(customerId);
             return ResponseHandler.responseBuilder("Customer deleted successfully", HttpStatus.OK);
-        } catch (CustomerNotFoundException e) {
+        } catch (SearchNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting customer: " + e.getMessage());

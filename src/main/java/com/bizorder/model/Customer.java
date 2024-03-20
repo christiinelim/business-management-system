@@ -31,7 +31,7 @@ public class Customer {
     @Column(name = "collection_method")
     private String collection_method;
 
-    // Empty constructor
+    // Default constructor
     public Customer() {
     }
 

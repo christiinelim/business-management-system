@@ -2,14 +2,14 @@ package com.bizorder.exception;
 
 import org.springframework.http.HttpStatus;
 
-public class CustomerException {
+public class SearchException {
     
     // Message to send to client
     private final String message;
     private final Throwable throwable;
     private final HttpStatus httpStatus;
 
-    public CustomerException(String message, Throwable throwable, HttpStatus httpStatus) {
+    public SearchException(String message, Throwable throwable, HttpStatus httpStatus) {
         this.message = message;
         this.throwable = throwable;
         this.httpStatus = httpStatus;

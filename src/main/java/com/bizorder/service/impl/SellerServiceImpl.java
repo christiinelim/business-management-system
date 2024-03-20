@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.bizorder.exception.CustomerNotFoundException;
+import com.bizorder.exception.SearchNotFoundException;
 import com.bizorder.model.Seller;
 import com.bizorder.repository.SellerRepository;
 import com.bizorder.service.SellerService;
@@ -21,7 +21,7 @@ public class SellerServiceImpl implements SellerService{
     @Override
     public Seller getSeller(Integer sellerId) {
         if (sellerRepository.findById(sellerId).isEmpty()){
-            throw new CustomerNotFoundException("Requested seller does not exist");
+            throw new SearchNotFoundException("Requested seller does not exist");
         }
         return sellerRepository.findById(sellerId).get();
     }
@@ -51,7 +51,7 @@ public class SellerServiceImpl implements SellerService{
             
             return "Success";
         } else {
-            throw new CustomerNotFoundException("Seller with ID " + sellerId + " not found");
+            throw new SearchNotFoundException("Seller with ID " + sellerId + " not found");
         }
     }
 
@@ -63,7 +63,7 @@ public class SellerServiceImpl implements SellerService{
             sellerRepository.deleteById(sellerId);
             return "Success";
         } else {
-            throw new CustomerNotFoundException("Seller with ID " + sellerId + " not found");
+            throw new SearchNotFoundException("Seller with ID " + sellerId + " not found");
         }
     }
     

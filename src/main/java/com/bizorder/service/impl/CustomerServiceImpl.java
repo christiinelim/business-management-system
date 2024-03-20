@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.bizorder.exception.CustomerNotFoundException;
+import com.bizorder.exception.SearchNotFoundException;
 import com.bizorder.model.Customer;
 import com.bizorder.repository.CustomerRepository;
 import com.bizorder.service.CustomerService;
@@ -26,10 +26,6 @@ public class CustomerServiceImpl implements CustomerService{
     }
 
     @Override
-    // public String updateCustomer(Customer customer){
-    //     customerRepository.save(customer);
-    //     return "Success";
-    // }
     public String updateCustomer(Customer customer, Integer customerId) {
         Optional<Customer> existingCustomerOptional = customerRepository.findById(customerId);
         
@@ -45,15 +41,9 @@ public class CustomerServiceImpl implements CustomerService{
             
             return "Success";
         } else {
-            throw new CustomerNotFoundException("Customer with ID " + customerId + " not found");
+            throw new SearchNotFoundException("Customer with ID " + customerId + " not found");
         }
     }
-
-    // @Override
-    // public String deleteCustomer(Integer customerId){
-    //     customerRepository.deleteById(customerId);
-    //     return "Success";
-    // }
 
     @Override
     public String deleteCustomer(Integer customerId) {
@@ -63,14 +53,14 @@ public class CustomerServiceImpl implements CustomerService{
             customerRepository.deleteById(customerId);
             return "Success";
         } else {
-            throw new CustomerNotFoundException("Customer with ID " + customerId + " not found");
+            throw new SearchNotFoundException("Customer with ID " + customerId + " not found");
         }
     }
 
     @Override
     public Customer getCustomer(Integer customerId){
         if (customerRepository.findById(customerId).isEmpty()){
-            throw new CustomerNotFoundException("Requested customer does not exist");
+            throw new SearchNotFoundException("Requested customer does not exist");
         }
         return customerRepository.findById(customerId).get();
     }

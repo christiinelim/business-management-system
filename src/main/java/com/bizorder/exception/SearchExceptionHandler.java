@@ -6,11 +6,11 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
-public class CustomerExceptionHandler {
+public class SearchExceptionHandler {
 
-    @ExceptionHandler(value = {CustomerNotFoundException.class})
-    public ResponseEntity<Object> handleCustomerNotFoundException(CustomerNotFoundException customerNotFoundException){
-        CustomerException customerException = new CustomerException(
+    @ExceptionHandler(value = {SearchNotFoundException.class})
+    public ResponseEntity<Object> handleCustomerNotFoundException(SearchNotFoundException customerNotFoundException){
+        SearchException customerException = new SearchException(
             customerNotFoundException.getMessage(),
             customerNotFoundException.getCause(),
             HttpStatus.NOT_FOUND
