@@ -69,8 +69,9 @@ public class CustomerServiceImpl implements CustomerService{
 
     @Override
     public Customer getCustomer(Integer customerId){
-        if (customerRepository.findById(customerId).isEmpty())
+        if (customerRepository.findById(customerId).isEmpty()){
             throw new CustomerNotFoundException("Requested customer does not exist");
+        }
         return customerRepository.findById(customerId).get();
     }
 
