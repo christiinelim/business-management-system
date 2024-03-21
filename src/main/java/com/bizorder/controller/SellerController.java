@@ -28,6 +28,15 @@ public class SellerController {
     }
     
     // Read
+    @GetMapping
+    public ResponseEntity<Object> getAllSellers() {
+        try {
+            return ResponseHandler.responseBuilder("Requested seller details retrieved", HttpStatus.OK, sellerService.getAllSellers());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error getting seller details: " + e.getMessage());
+        }
+    }
+
     @GetMapping("{sellerId}")
     public ResponseEntity<Object> getSeller(@PathVariable("sellerId") Integer sellerId) {
         try {

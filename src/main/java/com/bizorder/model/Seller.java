@@ -19,12 +19,6 @@ public class Seller {
     @Column (name = "name")
     private String name;
 
-    @Column (name = "email")
-    private String email;
-
-    @Column (name = "password")
-    private String password;
-
     @Column (name = "contact")
     private String contact;
 
@@ -42,10 +36,8 @@ public class Seller {
     }
 
     // Constructor
-    public Seller(String name, String email, String password, String contact, String instagram, String tiktok, String carousell) {
+    public Seller(String name, String contact, String instagram, String tiktok, String carousell) {
         this.name = name;
-        this.email = email;
-        this.password = password;
         this.contact = contact;
         this.instagram = instagram;
         this.tiktok = tiktok;
@@ -67,22 +59,6 @@ public class Seller {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getContact() {

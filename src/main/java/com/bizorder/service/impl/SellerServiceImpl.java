@@ -1,5 +1,6 @@
 package com.bizorder.service.impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -16,6 +17,11 @@ public class SellerServiceImpl implements SellerService{
 
     public SellerServiceImpl(SellerRepository sellerRepository){
         this.sellerRepository = sellerRepository;
+    }
+
+    @Override
+    public List<Seller> getAllSellers() {
+        return sellerRepository.findAll();
     }
 
     @Override
@@ -39,9 +45,6 @@ public class SellerServiceImpl implements SellerService{
         if (existingSellerOptional.isPresent()) {
             Seller existingSeller = existingSellerOptional.get();
             existingSeller.setName(seller.getName());
-            existingSeller.setEmail(seller.getEmail());
-            existingSeller.setPassword(seller.getPassword());
-            existingSeller.setEmail(seller.getEmail());
             existingSeller.setContact(seller.getContact());
             existingSeller.setInstagram(seller.getInstagram());
             existingSeller.setTiktok(seller.getTiktok());
