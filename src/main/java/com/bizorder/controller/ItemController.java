@@ -44,6 +44,17 @@ public class ItemController {
         }
     }
 
+    // get all items by a seller
+    @GetMapping("seller/{sellerId}")
+    public ResponseEntity<Object> getItemsBySeller(@PathVariable("sellerId") Integer sellerId) {
+        try {
+            return ResponseHandler.responseBuilder("Requested seller items retrieved", HttpStatus.OK, itemService.getItemsBySeller(sellerId));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error getting item details: " + e.getMessage());
+        }
+    }
+    
+
     // Create
     @PostMapping
     public ResponseEntity<Object> createSeller(@RequestBody Item item) {

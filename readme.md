@@ -35,3 +35,7 @@ This project aims to solve the pain point of small business owners by providing 
 ## Proposed SQL Schema
 
 ![SQL Schema](src/main/resources/static/images/sql-schema.png)
+
+## Telegram Bot GitHub (In Progress)
+
+[Link](https://github.com/christiinelim/bizorder-bot)

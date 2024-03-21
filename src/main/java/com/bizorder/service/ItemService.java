@@ -8,6 +8,7 @@ public interface ItemService {
    
     public List<Item> getAllItems();
     public Item getItem(Integer itemId);
+    public List<Item> getItemsBySeller(Integer sellerId);
     public String createItem(Item item);
     public String updateItem(Item item, Integer itemId);
     public String deleteItem(Integer itemId);

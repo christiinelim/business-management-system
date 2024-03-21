@@ -37,6 +37,14 @@ public class ItemServiceImpl implements ItemService{
     }
 
     @Override
+    public List<Item> getItemsBySeller(Integer sellerId) {
+        if (itemRepository.findItemsBySellerId(sellerId).isEmpty()) {
+            throw new SearchNotFoundException("Requested seller does not exist");
+        }
+        return itemRepository.findItemsBySellerId(sellerId);
+    }
+
+    @Override
     public String createItem(Item item) {
         
         // Retrieve the sellerId from the item object
