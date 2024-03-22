@@ -50,7 +50,7 @@ public class ItemServiceImpl implements ItemService{
         // Retrieve the sellerId from the item object
         Integer sellerId = item.getSeller().getSellerId();
         if (sellerId == null) {
-            return "Error: Seller ID not provided";
+            return "Error: Seller ID not indicated";
         }
 
         Optional<Seller> optionalSeller = sellerRepository.findById(sellerId);
@@ -60,7 +60,7 @@ public class ItemServiceImpl implements ItemService{
             itemRepository.save(item);
             return "Success: Item created";
         } else {
-            return "Error: Seller not found";
+            throw new SearchNotFoundException("Seller does not exist");
         }
     }
 
