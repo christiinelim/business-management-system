@@ -21,8 +21,9 @@ public class CustomerServiceImpl implements CustomerService{
 
     @Override
     public String createCustomer(Customer customer){
-        customerRepository.save(customer);
-        return "Success";
+        Customer newCustomer = customerRepository.save(customer);
+        Integer customerId = newCustomer.getCustomerId();
+        return "Success, inserted new customer ID " + customerId;
     }
 
     @Override

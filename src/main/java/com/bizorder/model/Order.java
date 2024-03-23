@@ -1,9 +1,5 @@
 package com.bizorder.model;
 
-import java.time.LocalDate;
-
-import org.springframework.format.annotation.DateTimeFormat;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -39,6 +35,10 @@ public class Order {
     @JoinColumn(name = "customerId_fk", referencedColumnName = "customerId")
     private Customer customer;
 
+    @ManyToOne
+    @JoinColumn(name = "sellerId_fk", referencedColumnName = "sellerId")
+    private Seller seller;
+
     // Empty Constructor
     public Order() {
     }
@@ -52,11 +52,12 @@ public class Order {
     //     this.customer = customer;
     // }
 
-    public Order(String note, String paid, String status, Customer customer) {
+    public Order(String note, String paid, String status, Customer customer, Seller seller) {
         this.note = note;
         this.paid = paid;
         this.status = status;
         this.customer = customer;
+        this.seller = seller;
     }
 
     // Getters and setters
@@ -98,5 +99,13 @@ public class Order {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public Seller getSeller() {
+        return seller;
+    }
+
+    public void setSeller(Seller seller) {
+        this.seller = seller;
     }
 }

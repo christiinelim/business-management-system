@@ -50,8 +50,7 @@ public class CustomerController {
     @PostMapping
     public ResponseEntity<Object> createCustomer(@RequestBody Customer customer){
         try {
-            customerService.createCustomer(customer);
-            return ResponseHandler.responseBuilder("Customer created successfully", HttpStatus.OK);
+            return ResponseHandler.responseBuilder("Customer created successfully", HttpStatus.OK, customerService.createCustomer(customer));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error creating customer: " + e.getMessage());
         }
@@ -61,8 +60,7 @@ public class CustomerController {
     @PutMapping("{customerId}")
     public ResponseEntity<Object> updateCustomer(@PathVariable("customerId") Integer customerId, @RequestBody Customer customer) {
         try {
-            customerService.updateCustomer(customer, customerId);
-            return ResponseHandler.responseBuilder("Customer updated successfully", HttpStatus.OK);
+            return ResponseHandler.responseBuilder("Customer updated successfully", HttpStatus.OK, customerService.updateCustomer(customer, customerId));
         } catch (SearchNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {
@@ -81,8 +79,7 @@ public class CustomerController {
     @DeleteMapping("{customerId}")
     public ResponseEntity<Object> deleteCustomer(@PathVariable("customerId") Integer customerId) {
         try {
-            customerService.deleteCustomer(customerId);
-            return ResponseHandler.responseBuilder("Customer deleted successfully", HttpStatus.OK);
+            return ResponseHandler.responseBuilder("Customer deleted successfully", HttpStatus.OK, customerService.deleteCustomer(customerId));
         } catch (SearchNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {

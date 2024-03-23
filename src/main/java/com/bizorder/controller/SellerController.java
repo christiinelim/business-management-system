@@ -50,8 +50,7 @@ public class SellerController {
     @PostMapping
     public ResponseEntity<Object> createSeller(@RequestBody Seller seller) {
         try {
-            sellerService.createSeller(seller);
-            return ResponseHandler.responseBuilder("Seller created", HttpStatus.OK);
+            return ResponseHandler.responseBuilder("Seller created", HttpStatus.OK, sellerService.createSeller(seller));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error creating seller: " + e.getMessage());
         }
@@ -61,8 +60,7 @@ public class SellerController {
     @PutMapping("{sellerId}")
     public ResponseEntity<Object> updateSeller(@PathVariable("sellerId") Integer sellerId, @RequestBody Seller seller) {
         try {
-            sellerService.updateSeller(seller, sellerId);
-            return ResponseHandler.responseBuilder("Seller details updated", HttpStatus.OK);
+            return ResponseHandler.responseBuilder("Seller details updated", HttpStatus.OK, sellerService.updateSeller(seller, sellerId));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating seller details: " + e.getMessage());
         }
@@ -73,8 +71,7 @@ public class SellerController {
     @DeleteMapping("{sellerId}")
     public ResponseEntity<Object> deleteSeller(@PathVariable("sellerId") Integer sellerId) {
         try {
-            sellerService.deleteSeller(sellerId);
-            return ResponseHandler.responseBuilder("Seller deleted", HttpStatus.OK);
+            return ResponseHandler.responseBuilder("Seller deleted", HttpStatus.OK, sellerService.deleteSeller(sellerId));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting seller information: " + e.getMessage());
         }

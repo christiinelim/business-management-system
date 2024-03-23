@@ -45,10 +45,10 @@ public class OrderController {
     }
 
     // get all order by a customer
-    @GetMapping("customer/{customerId}")
-    public ResponseEntity<Object> getOrderByCustomer(@PathVariable("customerId") Integer customerId) {
+    @GetMapping("seller/{sellerId}")
+    public ResponseEntity<Object> getOrderBySeller(@PathVariable("sellerId") Integer sellerId) {
         try {
-            return ResponseHandler.responseBuilder("Requested customer order retrieved", HttpStatus.OK, orderService.getOrderByCustomer(customerId));
+            return ResponseHandler.responseBuilder("Requested seller orders retrieved", HttpStatus.OK, orderService.getOrderBySeller(sellerId));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error getting customer's order details: " + e.getMessage());
         }
@@ -59,8 +59,7 @@ public class OrderController {
     @PostMapping
     public ResponseEntity<Object> createOrder(@RequestBody Order order) {
         try {
-            orderService.createOrder(order);
-            return ResponseHandler.responseBuilder("Order created", HttpStatus.OK);
+            return ResponseHandler.responseBuilder("Order created", HttpStatus.OK, orderService.createOrder(order));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error creating order: " + e.getMessage());
         }
@@ -70,8 +69,7 @@ public class OrderController {
     @PutMapping("{orderId}")
     public ResponseEntity<Object> updateOrder(@PathVariable("orderId") Integer orderId, @RequestBody Order order) {
         try {
-            orderService.updateOrder(order, orderId);
-            return ResponseHandler.responseBuilder("Item details updated", HttpStatus.OK);
+            return ResponseHandler.responseBuilder("Item details updated", HttpStatus.OK,orderService.updateOrder(order, orderId));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating item details: " + e.getMessage());
         }
@@ -82,8 +80,7 @@ public class OrderController {
     @DeleteMapping("{orderId}")
     public ResponseEntity<Object> deleteOrder(@PathVariable("orderId") Integer orderId) {
         try {
-            orderService.deleteOrder(orderId);
-            return ResponseHandler.responseBuilder("Order deleted", HttpStatus.OK);
+            return ResponseHandler.responseBuilder("Order deleted", HttpStatus.OK, orderService.deleteOrder(orderId));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting order: " + e.getMessage());
         }

@@ -48,8 +48,7 @@ public class ItemOrderController {
     @PostMapping
     public ResponseEntity<Object> createItemOrder(@RequestBody ItemOrder itemOrder) {
         try {
-            itemOrderService.createItemOrder(itemOrder);
-            return ResponseHandler.responseBuilder("Purchase created", HttpStatus.OK);
+            return ResponseHandler.responseBuilder("Purchase created", HttpStatus.OK, itemOrderService.createItemOrder(itemOrder));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error creating item: " + e.getMessage());
         }
@@ -59,8 +58,7 @@ public class ItemOrderController {
     @PutMapping("{purchaseId}")
     public ResponseEntity<Object> updateItemOrder(@PathVariable("purchaseId") Integer purchaseId, @RequestBody ItemOrder itemOrder) {
         try {
-            itemOrderService.updateItemOrder(itemOrder, purchaseId);
-            return ResponseHandler.responseBuilder("Purchase details updated", HttpStatus.OK);
+            return ResponseHandler.responseBuilder("Purchase details updated", HttpStatus.OK, itemOrderService.updateItemOrder(itemOrder, purchaseId));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating purchase details: " + e.getMessage());
         }
@@ -71,8 +69,7 @@ public class ItemOrderController {
     @DeleteMapping("{purchaseId}")
     public ResponseEntity<Object> deleteItemOrder(@PathVariable("purchaseId") Integer purchaseId) {
         try {
-            itemOrderService.deleteItemOrder(purchaseId);
-            return ResponseHandler.responseBuilder("Item deleted", HttpStatus.OK);
+            return ResponseHandler.responseBuilder("Item deleted", HttpStatus.OK, itemOrderService.deleteItemOrder(purchaseId));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting item: " + e.getMessage());
         }

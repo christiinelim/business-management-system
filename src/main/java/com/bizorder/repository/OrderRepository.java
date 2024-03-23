@@ -9,6 +9,6 @@ import com.bizorder.model.Order;
 
 public interface OrderRepository extends JpaRepository<Order, Integer> {
     
-    @Query("SELECT i FROM Order i WHERE i.customer.customerId = :customerId")
-    List<Order> findItemsByCustomerId(Integer customerId);
+    @Query("SELECT i FROM Order i WHERE i.seller.sellerId = :sellerId")
+    List<Order> findOrdersBySellerId(Integer sellerId);
 }
