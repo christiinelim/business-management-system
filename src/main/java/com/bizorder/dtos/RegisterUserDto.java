@@ -2,10 +2,9 @@ package com.bizorder.dtos;
 
 public class RegisterUserDto {
     private String email;
-    
     private String password;
-    
     private String fullName;
+    private Integer sellerId;
 
     // Getter for email
     public String getEmail() {
@@ -35,5 +34,13 @@ public class RegisterUserDto {
     // Setter for fullName
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public Integer getSellerId() {
+        return this.sellerId;
+    }
+
+    public void setSellerId(Integer sellerId) {
+        this.sellerId = sellerId;
     }
 }

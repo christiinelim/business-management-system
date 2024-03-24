@@ -14,8 +14,10 @@ import com.bizorder.dtos.LoginUserDto;
 import com.bizorder.dtos.RegisterUserDto;
 import com.bizorder.exception.TokenExpiredException;
 import com.bizorder.model.ResetToken;
+import com.bizorder.model.Seller;
 import com.bizorder.model.Account;
 import com.bizorder.repository.ResetTokenRepository;
+import com.bizorder.repository.SellerRepository;
 import com.bizorder.repository.AccountRepository;
 import com.bizorder.service.AuthenticationService;
 import com.bizorder.service.JwtService;
@@ -27,21 +29,28 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
     private final ResetTokenRepository resetTokenRepository;
+    private final SellerRepository sellerRepository;
 
-    public AuthenticationServiceImpl(AccountRepository accountRepository, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, JwtService jwtService, ResetTokenRepository resetTokenRepository) {
+    public AuthenticationServiceImpl(AccountRepository accountRepository, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, JwtService jwtService, ResetTokenRepository resetTokenRepository, SellerRepository sellerRepository) {
         this.accountRepository = accountRepository;
         this.authenticationManager = authenticationManager;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
         this.resetTokenRepository = resetTokenRepository;
+        this.sellerRepository = sellerRepository;
     }
 
     @Override
     public Account signup(RegisterUserDto input) {
+        System.out.println(input.getSellerId());
+        Seller seller = sellerRepository.findById(input.getSellerId())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid seller ID"));
+                
         Account user = new Account()
             .setFullName(input.getFullName())
             .setEmail(input.getEmail())
-            .setPassword(passwordEncoder.encode(input.getPassword()));
+            .setPassword(passwordEncoder.encode(input.getPassword()))
+            .setSeller(seller);
 
         return accountRepository.save(user);
     }
