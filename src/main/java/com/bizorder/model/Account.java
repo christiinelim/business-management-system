@@ -10,13 +10,13 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-@Table(name = "users")
+@Table(name = "accounts")
 @Entity
-public class User implements UserDetails {
+public class Account implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(nullable = false)
-    private Integer id;
+    @Column(nullable = false, name = "accountId")
+    private Integer accountId;
 
     @Column(nullable = false)
     private String fullName;
@@ -36,19 +36,19 @@ public class User implements UserDetails {
     private Date updatedAt;
     
     // Getters and setters
-    public Integer getId() {
-        return id;
+    public Integer getAccountId() {
+        return accountId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setAccountId(Integer accountId) {
+        this.accountId = accountId;
     }
 
     public String getFullName() {
         return fullName;
     }
 
-    public User setFullName(String fullName) {
+    public Account setFullName(String fullName) {
         this.fullName = fullName;
         return this;
     }
@@ -57,7 +57,7 @@ public class User implements UserDetails {
         return email;
     }
 
-    public User setEmail(String email) {
+    public Account setEmail(String email) {
         this.email = email;
         return this;
     }
@@ -66,7 +66,7 @@ public class User implements UserDetails {
         return password;
     }
 
-    public User setPassword(String password) {
+    public Account setPassword(String password) {
         this.password = password;
         return this;
     }

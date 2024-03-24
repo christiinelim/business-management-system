@@ -14,22 +14,22 @@ import com.bizorder.dtos.LoginUserDto;
 import com.bizorder.dtos.RegisterUserDto;
 import com.bizorder.exception.TokenExpiredException;
 import com.bizorder.model.ResetToken;
-import com.bizorder.model.User;
+import com.bizorder.model.Account;
 import com.bizorder.repository.ResetTokenRepository;
-import com.bizorder.repository.UserRepository;
+import com.bizorder.repository.AccountRepository;
 import com.bizorder.service.AuthenticationService;
 import com.bizorder.service.JwtService;
 
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
-    private final UserRepository userRepository;
+    private final AccountRepository accountRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
     private final ResetTokenRepository resetTokenRepository;
 
-    public AuthenticationServiceImpl(UserRepository userRepository, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, JwtService jwtService, ResetTokenRepository resetTokenRepository) {
-        this.userRepository = userRepository;
+    public AuthenticationServiceImpl(AccountRepository accountRepository, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, JwtService jwtService, ResetTokenRepository resetTokenRepository) {
+        this.accountRepository = accountRepository;
         this.authenticationManager = authenticationManager;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
@@ -37,17 +37,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public User signup(RegisterUserDto input) {
-        User user = new User()
+    public Account signup(RegisterUserDto input) {
+        Account user = new Account()
             .setFullName(input.getFullName())
             .setEmail(input.getEmail())
             .setPassword(passwordEncoder.encode(input.getPassword()));
 
-        return userRepository.save(user);
+        return accountRepository.save(user);
     }
 
     @Override
-    public User authenticate(LoginUserDto input) {
+    public Account authenticate(LoginUserDto input) {
         authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(
                 input.getEmail(),
@@ -55,17 +55,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             )
         );
 
-        return userRepository.findByEmail(input.getEmail())
+        return accountRepository.findByEmail(input.getEmail())
             .orElseThrow();
     }
 
     @Override
     public boolean updatePassword(String email, String newPassword) {
-        Optional<User> optionalUser = userRepository.findByEmail(email);
+        Optional<Account> optionalUser = accountRepository.findByEmail(email);
         if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
+            Account user = optionalUser.get();
             user.setPassword(passwordEncoder.encode(newPassword));
-            userRepository.save(user);
+            accountRepository.save(user);
             return true;
         }
         return false;
@@ -110,8 +110,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public boolean resetPassword(String email, String token, String newPassword) {
-        Optional<User> optionalUser = userRepository.findByEmail(email);
-        User user = optionalUser.orElseThrow(() -> new RuntimeException("User not found"));
+        Optional<Account> optionalUser = accountRepository.findByEmail(email);
+        Account user = optionalUser.orElseThrow(() -> new RuntimeException("User not found"));
 
         Optional<ResetToken> optionalResetToken = resetTokenRepository.findByEmail(email);
         if (!optionalResetToken.isPresent()) {
@@ -146,7 +146,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         user.setPassword(passwordEncoder.encode(newPassword));
 
         // Save the updated user
-        userRepository.save(user);
+        accountRepository.save(user);
 
         resetTokenRepository.deleteByHashedToken(storedHashedToken);
 

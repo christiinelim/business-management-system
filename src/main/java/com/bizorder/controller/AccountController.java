@@ -7,32 +7,32 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bizorder.model.User;
-import com.bizorder.service.UserService;
+import com.bizorder.model.Account;
+import com.bizorder.service.AccountService;
 
 import java.util.List;
 
-@RequestMapping("/users")
+@RequestMapping("/account")
 @RestController
-public class UserController {
-    private final UserService userService;
+public class AccountController {
+    private final AccountService accountService;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
+    public AccountController(AccountService accountService) {
+        this.accountService = accountService;
     }
 
     @GetMapping("/admin")
-    public ResponseEntity<User> authenticatedUser() {
+    public ResponseEntity<Account> authenticatedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        User currentUser = (User) authentication.getPrincipal();
+        Account currentUser = (Account) authentication.getPrincipal();
 
         return ResponseEntity.ok(currentUser);
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> allUsers() {
-        List <User> users = userService.getAllUsers();
+    public ResponseEntity<List<Account>> allUsers() {
+        List <Account> users = accountService.getAllAccounts();
 
         return ResponseEntity.ok(users);
     }

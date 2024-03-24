@@ -11,7 +11,7 @@ import com.bizorder.dtos.LoginResponse;
 import com.bizorder.dtos.LoginUserDto;
 import com.bizorder.dtos.RegisterUserDto;
 import com.bizorder.dtos.ResetPasswordRequest;
-import com.bizorder.model.User;
+import com.bizorder.model.Account;
 import com.bizorder.service.AuthenticationService;
 import com.bizorder.service.JwtService;
 
@@ -28,15 +28,15 @@ public class AuthenticationController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<User> register(@RequestBody RegisterUserDto registerUserDto) {
-        User registeredUser = authenticationService.signup(registerUserDto);
+    public ResponseEntity<Account> register(@RequestBody RegisterUserDto registerUserDto) {
+        Account registeredUser = authenticationService.signup(registerUserDto);
 
         return ResponseEntity.ok(registeredUser);
     }
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> authenticate(@RequestBody LoginUserDto loginUserDto) {
-        User authenticatedUser = authenticationService.authenticate(loginUserDto);
+        Account authenticatedUser = authenticationService.authenticate(loginUserDto);
 
         String jwtToken = jwtService.generateToken(authenticatedUser);
 
