@@ -7,4 +7,6 @@ import com.bizorder.model.User;
 public interface AuthenticationService {
     User signup(RegisterUserDto input);
     User authenticate(LoginUserDto input);
+    boolean updatePassword(String email, String newPassword);
+    String hashResetToken(String token);
 }

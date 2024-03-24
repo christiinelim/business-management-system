@@ -1,6 +1,8 @@
 package com.bizorder.service.impl;
 
 import java.security.Key;
+import java.security.SecureRandom;
+import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -87,5 +89,18 @@ public class JwtServiceImpl implements JwtService {
     private Key getSignInKey() {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    @Override
+    public String generateResetToken(String email) {
+        String randomToken = generateRandomToken(32);
+        return randomToken;
+    }
+
+    private String generateRandomToken(int length) {
+        SecureRandom secureRandom = new SecureRandom();
+        byte[] tokenBytes = new byte[length];
+        secureRandom.nextBytes(tokenBytes);
+        return Base64.getUrlEncoder().withoutPadding().encodeToString(tokenBytes);
     }
 }

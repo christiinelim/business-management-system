@@ -19,4 +19,6 @@ public interface JwtService {
     long getExpirationTime();
 
     boolean isTokenValid(String token, UserDetails userDetails);
+
+    String generateResetToken(String email);
 }
