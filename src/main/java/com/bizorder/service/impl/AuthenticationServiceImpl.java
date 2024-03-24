@@ -2,6 +2,7 @@ package com.bizorder.service.impl;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,24 +12,28 @@ import org.springframework.stereotype.Service;
 
 import com.bizorder.dtos.LoginUserDto;
 import com.bizorder.dtos.RegisterUserDto;
+import com.bizorder.exception.TokenExpiredException;
+import com.bizorder.model.ResetToken;
 import com.bizorder.model.User;
+import com.bizorder.repository.ResetTokenRepository;
 import com.bizorder.repository.UserRepository;
 import com.bizorder.service.AuthenticationService;
+import com.bizorder.service.JwtService;
 
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
+    private final JwtService jwtService;
+    private final ResetTokenRepository resetTokenRepository;
 
-    public AuthenticationServiceImpl(
-        UserRepository userRepository,
-        AuthenticationManager authenticationManager,
-        PasswordEncoder passwordEncoder
-    ) {
+    public AuthenticationServiceImpl(UserRepository userRepository, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, JwtService jwtService, ResetTokenRepository resetTokenRepository) {
         this.userRepository = userRepository;
         this.authenticationManager = authenticationManager;
         this.passwordEncoder = passwordEncoder;
+        this.jwtService = jwtService;
+        this.resetTokenRepository = resetTokenRepository;
     }
 
     @Override
@@ -84,5 +89,67 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             e.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    public String generateAndSaveResetToken(String email) {
+        String resetToken = jwtService.generateResetToken(email);
+
+        String hashedToken = hashResetToken(resetToken);
+
+        ResetToken tokenEntity = new ResetToken(hashedToken, email);
+        resetTokenRepository.save(tokenEntity);
+        
+        System.out.println("resetToken");
+        System.out.println(resetToken);
+        System.out.println("hashedToken");
+        System.out.println(hashedToken);
+
+        return resetToken;
+    }
+
+    @Override
+    public boolean resetPassword(String email, String token, String newPassword) {
+        Optional<User> optionalUser = userRepository.findByEmail(email);
+        User user = optionalUser.orElseThrow(() -> new RuntimeException("User not found"));
+
+        Optional<ResetToken> optionalResetToken = resetTokenRepository.findByEmail(email);
+        if (!optionalResetToken.isPresent()) {
+            // token not found
+            return false;
+        }
+
+        String storedHashedToken = resetTokenRepository.getHashedTokenByEmail(email);
+        String hashedToken = hashResetToken(token);
+
+        System.out.println("storedHashedToken");
+        System.out.println(storedHashedToken);
+        System.out.println("hashedToken");
+        System.out.println(hashedToken);
+
+
+
+        if (!(storedHashedToken != null && storedHashedToken.equals(hashedToken))) {
+            // token do not match
+            return false;
+        }
+
+        Date expiry = resetTokenRepository.getExpiresAtByEmail(email);
+        Date currentDate = new Date(); 
+
+        if (!currentDate.before(expiry)) {
+            // token expired
+            resetTokenRepository.deleteByHashedToken(storedHashedToken);
+            throw new TokenExpiredException("Token has expired. Please generate a new one.");
+        }
+
+        user.setPassword(passwordEncoder.encode(newPassword));
+
+        // Save the updated user
+        userRepository.save(user);
+
+        resetTokenRepository.deleteByHashedToken(storedHashedToken);
+
+        return true;
     }
 }

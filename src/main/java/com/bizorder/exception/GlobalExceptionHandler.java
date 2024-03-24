@@ -53,5 +53,12 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(errorDetail.getStatus()).body(errorDetail);
     }
+
+    @ExceptionHandler(value = {TokenExpiredException.class})
+    public ResponseEntity<ProblemDetail> handleTokenExpiredException(TokenExpiredException exception) {
+        ProblemDetail errorDetail = ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, "Token has expired. Please generate a new one.");
+        errorDetail.setProperty("Error", "Token has expired");
+        return ResponseEntity.status(errorDetail.getStatus()).body(errorDetail);
+    }
 }
 

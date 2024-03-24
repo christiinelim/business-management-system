@@ -9,4 +9,6 @@ public interface AuthenticationService {
     User authenticate(LoginUserDto input);
     boolean updatePassword(String email, String newPassword);
     String hashResetToken(String token);
+    String generateAndSaveResetToken(String email);
+    boolean resetPassword(String email, String token, String newPassword);
 }

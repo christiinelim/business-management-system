@@ -10,9 +10,8 @@ import com.bizorder.dtos.ForgotPasswordRequest;
 import com.bizorder.dtos.LoginResponse;
 import com.bizorder.dtos.LoginUserDto;
 import com.bizorder.dtos.RegisterUserDto;
-import com.bizorder.model.ResetToken;
+import com.bizorder.dtos.ResetPasswordRequest;
 import com.bizorder.model.User;
-import com.bizorder.repository.ResetTokenRepository;
 import com.bizorder.service.AuthenticationService;
 import com.bizorder.service.JwtService;
 
@@ -22,12 +21,10 @@ public class AuthenticationController {
 
     private final JwtService jwtService;
     private final AuthenticationService authenticationService;
-    private final ResetTokenRepository resetTokenRepository;
 
-    public AuthenticationController(JwtService jwtService, AuthenticationService authenticationService, ResetTokenRepository resetTokenRepository) {
+    public AuthenticationController(JwtService jwtService, AuthenticationService authenticationService) {
         this.jwtService = jwtService;
         this.authenticationService = authenticationService;
-        this.resetTokenRepository = resetTokenRepository;
     }
 
     @PostMapping("/signup")
@@ -53,37 +50,26 @@ public class AuthenticationController {
         // validate or say if email exist...
         // userService.checkIfEmailExists(request.getEmail());
 
-        String resetToken = jwtService.generateResetToken(request.getEmail());
-
-        String hashedToken = authenticationService.hashResetToken(resetToken); // Hash the token value
-
-        ResetToken tokenEntity = new ResetToken(hashedToken, request.getEmail());
-
-        System.out.println(hashedToken);
+        String resetToken = authenticationService.generateAndSaveResetToken(request.getEmail());
 
         System.out.println(resetToken);
-        System.out.println(request.getEmail());
-        resetTokenRepository.save(tokenEntity);
 
+        // TO UNCOMMENT
         // emailService.sendResetEmail(request.getEmail(), resetToken);
 
         return ResponseEntity.ok("Reset email sent successfully");
     }
 
-    // @PostMapping("/reset-password")
-    // public ResponseEntity<ResetPasswordResponse> resetPassword(@RequestBody ResetPasswordRequest request) {
-    //     // Validate the reset token
-    //     if (!jwtService.isValidResetToken(request.getResetToken())) {
-    //         return ResponseEntity.badRequest().body(new ResetPasswordResponse("Invalid reset token"));
-    //     }
 
-    //     // Update the user's password in the database
-    //     boolean passwordUpdated = authenticationService.updatePassword(request.getEmail(), request.getNewPassword());
+    @PostMapping("/reset-password")
+    public ResponseEntity<String> resetPassword(@RequestBody ResetPasswordRequest request) {
+        System.out.println("resetting path entered");
+        boolean resetSuccessful = authenticationService.resetPassword(request.getEmail(), request.getResetToken(), request.getNewPassword());
 
-    //     if (passwordUpdated) {
-    //         return ResponseEntity.ok(new ResetPasswordResponse("Password updated successfully"));
-    //     } else {
-    //         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResetPasswordResponse("Failed to update password"));
-    //     }
-    // }
+        if (resetSuccessful) {
+            return ResponseEntity.ok("Password reset successfully");
+        } else {
+            return ResponseEntity.badRequest().body("Failed to reset password");
+        }
+    }
 }
