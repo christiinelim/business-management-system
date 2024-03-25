@@ -1,5 +1,6 @@
 package com.bizorder.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,6 +13,7 @@ import com.bizorder.dtos.LoginUserDto;
 import com.bizorder.dtos.RegisterUserDto;
 import com.bizorder.dtos.ResetPasswordRequest;
 import com.bizorder.model.Account;
+import com.bizorder.response.ResponseHandler;
 import com.bizorder.service.AuthenticationService;
 import com.bizorder.service.EmailService;
 import com.bizorder.service.JwtService;
@@ -31,48 +33,60 @@ public class AuthenticationController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<Account> register(@RequestBody RegisterUserDto registerUserDto) {
-        Account registeredUser = authenticationService.signup(registerUserDto);
-
-        return ResponseEntity.ok(registeredUser);
+    public ResponseEntity<Object> register(@RequestBody RegisterUserDto registerUserDto) {
+        try {
+            return ResponseHandler.responseBuilder("Signup success", HttpStatus.OK, authenticationService.signup(registerUserDto));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error signing up: " + e.getMessage());
+        }
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> authenticate(@RequestBody LoginUserDto loginUserDto) {
-        Account authenticatedUser = authenticationService.authenticate(loginUserDto);
-
-        String jwtToken = jwtService.generateToken(authenticatedUser);
-
-        LoginResponse loginResponse = new LoginResponse().setToken(jwtToken).setExpiresIn(jwtService.getExpirationTime());
-
-        return ResponseEntity.ok(loginResponse);
+    public ResponseEntity<Object> authenticate(@RequestBody LoginUserDto loginUserDto) {
+        try {
+            Account authenticatedUser = authenticationService.authenticate(loginUserDto);
+            String jwtToken = jwtService.generateToken(authenticatedUser);
+            LoginResponse loginResponse = new LoginResponse().setToken(jwtToken).setExpiresIn(jwtService.getExpirationTime());
+            return ResponseHandler.responseBuilder("Login success", HttpStatus.OK, loginResponse);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error logging in: " + e.getMessage());
+        }
     }
 
     @PostMapping("/forgot-password")
-    public ResponseEntity<String> forgotPassword(@RequestBody ForgotPasswordRequest request) {
-        // validate or say if email exist...
-        // userService.checkIfEmailExists(request.getEmail());
+    public ResponseEntity<Object> forgotPassword(@RequestBody ForgotPasswordRequest request) {
+        try {
+            // validate or say if email exist...
+            // userService.checkIfEmailExists(request.getEmail());
+            
+            String resetToken = authenticationService.generateAndSaveResetToken(request.getEmail());
 
-        String resetToken = authenticationService.generateAndSaveResetToken(request.getEmail());
+            System.out.println(resetToken);
 
-        System.out.println(resetToken);
+            // TO UNCOMMENT
+            emailService.sendResetEmail(request.getEmail(), resetToken);
 
-        // TO UNCOMMENT
-        emailService.sendResetEmail(request.getEmail(), resetToken);
-
-        return ResponseEntity.ok("Reset email sent successfully");
+            return ResponseHandler.responseBuilder("Reset email sent successfully", HttpStatus.OK);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error signing up: " + e.getMessage());
+        }
     }
 
 
     @PostMapping("/reset-password")
-    public ResponseEntity<String> resetPassword(@RequestBody ResetPasswordRequest request) {
-        System.out.println("resetting path entered");
-        boolean resetSuccessful = authenticationService.resetPassword(request.getEmail(), request.getResetToken(), request.getNewPassword());
+    public ResponseEntity<Object> resetPassword(@RequestBody ResetPasswordRequest request) {
+        try {
+            System.out.println("resetting path entered");
+            boolean resetSuccessful = authenticationService.resetPassword(request.getEmail(), request.getResetToken(), request.getNewPassword());
 
-        if (resetSuccessful) {
-            return ResponseEntity.ok("Password reset successfully");
-        } else {
-            return ResponseEntity.badRequest().body("Failed to reset password");
+            if (resetSuccessful) {
+                return ResponseHandler.responseBuilder("Password reset successful", HttpStatus.OK);
+            } else {
+                return ResponseHandler.responseBuilder("Failed to reset password", HttpStatus.BAD_REQUEST);
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error signing up: " + e.getMessage());
         }
+
     }
 }

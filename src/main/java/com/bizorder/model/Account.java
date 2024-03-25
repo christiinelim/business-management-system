@@ -27,6 +27,9 @@ public class Account implements UserDetails {
     @Column(nullable = false)
     private String password;
 
+    @Column(name = "status")
+    private String status;
+
     @CreationTimestamp
     @Column(updatable = false, name = "created_at")
     private Date createdAt;
@@ -73,6 +76,14 @@ public class Account implements UserDetails {
     public Account setPassword(String password) {
         this.password = password;
         return this;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+    
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Date getCreatedAt() {

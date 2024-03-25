@@ -50,6 +50,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             .setFullName(input.getFullName())
             .setEmail(input.getEmail())
             .setPassword(passwordEncoder.encode(input.getPassword()))
+            // .setStatus(input.getStatus())
             .setSeller(seller);
 
         return accountRepository.save(user);
