@@ -16,7 +16,7 @@ public interface ResetTokenRepository extends JpaRepository<ResetToken, Integer>
     Optional<ResetToken> findByEmail(String email);
 
     @Query("SELECT rt.token FROM ResetToken rt WHERE rt.email = :email")
-    String getHashedTokenByEmail(@Param("email") String email);
+    String getResetTokenByEmail(@Param("email") String email);
 
     @Query("SELECT rt.expiresAt FROM ResetToken rt WHERE rt.email = :email")
     Date getExpiresAtByEmail(@Param("email") String email);
@@ -24,6 +24,5 @@ public interface ResetTokenRepository extends JpaRepository<ResetToken, Integer>
     @Transactional
     @Modifying
     @Query("DELETE FROM ResetToken rt WHERE rt.token = :hashedToken")
-    void deleteByHashedToken(String hashedToken);
-
+    void deleteByResetToken(String hashedToken);
 }
