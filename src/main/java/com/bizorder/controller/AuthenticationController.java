@@ -13,6 +13,7 @@ import com.bizorder.dtos.RegisterUserDto;
 import com.bizorder.dtos.ResetPasswordRequest;
 import com.bizorder.model.Account;
 import com.bizorder.service.AuthenticationService;
+import com.bizorder.service.EmailService;
 import com.bizorder.service.JwtService;
 
 @RequestMapping("/auth")
@@ -21,10 +22,12 @@ public class AuthenticationController {
 
     private final JwtService jwtService;
     private final AuthenticationService authenticationService;
+    private final EmailService emailService;
 
-    public AuthenticationController(JwtService jwtService, AuthenticationService authenticationService) {
+    public AuthenticationController(JwtService jwtService, AuthenticationService authenticationService, EmailService emailService) {
         this.jwtService = jwtService;
         this.authenticationService = authenticationService;
+        this.emailService = emailService;
     }
 
     @PostMapping("/signup")
@@ -55,7 +58,7 @@ public class AuthenticationController {
         System.out.println(resetToken);
 
         // TO UNCOMMENT
-        // emailService.sendResetEmail(request.getEmail(), resetToken);
+        emailService.sendResetEmail(request.getEmail(), resetToken);
 
         return ResponseEntity.ok("Reset email sent successfully");
     }

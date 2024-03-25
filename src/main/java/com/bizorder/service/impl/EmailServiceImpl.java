@@ -16,7 +16,8 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public void sendResetEmail(String recipientEmail, String resetToken) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("hi@demomailtrap.com"); 
+        // message.setFrom("hi@demomailtrap.com"); 
+        message.setFrom("bizordermanager@gmail.com");
         message.setTo(recipientEmail);
         message.setSubject("Password Reset");
         message.setText("Your password reset token is: " + resetToken);
