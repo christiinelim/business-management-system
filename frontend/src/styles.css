@@ -1,0 +1,52 @@
+html, body, p, h1, h2, h3, h4, div {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Open Sans";
+    font-size: 10px;
+}
+
+html, body, app-root {
+    height: 100%
+}
+
+app-root {
+    display: flex;
+    flex-direction: column;
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+.mt-40 {
+    margin-top: 40px;
+}
+
+.mb-20 {
+    margin-bottom: 20px;
+}
+
+.mb-40 {
+    margin-bottom: 40px;
+}
+
+.gap-10 {
+    gap: 10px;
+}
+
+.gap-20 {
+    gap: 20px;
+}
+
+@media (min-width: 768px) {
+    html, body, p, h1, h2, h3, h4, div {
+        font-size: 11px;
+    }
+}
+
+@media (min-width: 992px) {
+    html, body, p, h1, h2, h3, h4, div {
+        font-size: 13px;
+    }
+}
