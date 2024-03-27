@@ -11,11 +11,16 @@ import { Router } from '@angular/router';
 export class HeaderComponent {
   constructor(private router: Router) {}
 
-  navigateToSignUp() {
-    this.router.navigateByUrl('/login');
-  }
-
   navigateToHome() {
     this.router.navigateByUrl('');
   }
+
+  navigateToSignUp() {
+    this.router.navigateByUrl('/signup');
+  }
+
+  navigateToLogin() {
+    this.router.navigateByUrl('/login');
+  }
+  
 }

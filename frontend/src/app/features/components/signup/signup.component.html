@@ -1,6 +1,6 @@
 <div class="row wrapper">
     <div class="col-12 col-md-7 signup-form">
-        <form [formGroup] = "signupForm" (ngSubmit)="submitSignupForm()">
+        <form [formGroup] = "signupForm" (ngSubmit)="onSubmitSignupForm(signupForm.value)">
             <div>
                 <label>Name</label>
                 <input 

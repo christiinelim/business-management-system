@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { passwordValidator } from '../../../shared/validators/password.validator';
+import { AuthenticationService } from '../../../core/services/authentication/authentication.service';
+import { Seller } from '../../../core/models/seller/seller.model';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -13,10 +16,11 @@ import { passwordValidator } from '../../../shared/validators/password.validator
 })
 
 export class SignupComponent implements OnInit {
-  signupForm!: FormGroup;
-  confirmPasswordInvalid: boolean = false;
+  protected signupForm!: FormGroup;
+  protected confirmPasswordInvalid: boolean = false;
+  protected subscription: Subscription | undefined;
 
-  constructor(){
+  constructor(private authenticationService: AuthenticationService){
     
   }
 
@@ -36,8 +40,16 @@ export class SignupComponent implements OnInit {
     })
   }
 
-  submitSignupForm() {
-    console.log("Form [Submit] - ", this.signupForm.value);
+  onSubmitSignupForm(formData: any) {
+    console.log(formData)
+    const { name, contact, instagram, tiktok, carousell } = formData;
+    const seller: Seller = { name, contact, instagram, tiktok, carousell };
+    this.authenticationService.save(seller)
+      .subscribe((response: any) => {
+        console.log(response.data)
+      }, (error: any) => { 
+        console.error('Error:', error);
+      });
   }
 
   checkConfirmPassword() {
@@ -48,4 +60,10 @@ export class SignupComponent implements OnInit {
       this.confirmPasswordInvalid = passwordControl !== confirmPasswordControl;
     }
   }  
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 }
