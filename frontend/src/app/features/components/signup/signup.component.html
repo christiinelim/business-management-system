@@ -1,144 +1,148 @@
-<div>
-    <div class="row">
-        <div class="col-12 col-md-7 form">
-            <form [formGroup] = "signupForm" (ngSubmit)="submitSignupForm()">
-                <div>
-                    <label>Name</label>
-                    <input 
-                        type="text"
-
-                        formControlName="name"
-                    />
+<div class="row wrapper">
+    <div class="col-12 col-md-7 signup-form">
+        <form [formGroup] = "signupForm" (ngSubmit)="submitSignupForm()">
+            <div>
+                <label>Name</label>
+                <input 
+                    type="text"
+                
+                    formControlName="name"
+                />
+                
+                <div 
+                    class="text-danger"
+                    *ngIf="signupForm.get('name')?.invalid && signupForm.get('name')?.dirty">
                     
-                    <div 
-                        class="text-danger"
-                        *ngIf="signupForm.get('name')?.invalid && signupForm.get('name')?.dirty">
-                        
-                        <div *ngIf="signupForm.get('name')?.hasError('required')">Name is required</div>
+                    <div *ngIf="signupForm.get('name')?.hasError('required')">Name is required</div>
+                </div>
+            </div>
+            <div>
+                <label>Email</label>
+                <input 
+                    type="text"
+
+                    formControlName="email"
+                />
+
+                <div 
+                    class="text-danger"
+                    *ngIf="signupForm.get('email')?.invalid && signupForm.get('email')?.dirty">
+                    
+                    <div *ngIf="signupForm.get('email')?.hasError('required')">Email is required</div>
+                    <div *ngIf="signupForm.get('email')?.hasError('email')">Invalid format</div>
+                </div>
+            </div>
+            <div>
+                <label>Password</label>
+                <input 
+                    type="password"
+                    (keyup)="checkConfirmPassword()"
+
+                    formControlName="password"
+                />
+
+                <div 
+                    class="text-danger"
+                    *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.dirty">
+                    
+                    <div *ngIf="signupForm.get('password')?.hasError('required')">Password is required</div>
+                    <div *ngIf="signupForm.get('password')?.hasError('invalidPassword')">
+                        Password needs at least 1 uppercase, 1 lowercase and 1 special character with a minimum of 8 characters
                     </div>
                 </div>
-                <div>
-                    <label>Email</label>
-                    <input 
-                        type="text"
+            </div>
+            <div>
+                <label>Retype Password</label>
+                <input 
+                    type="password"
+                    (keyup)="checkConfirmPassword()"
 
-                        formControlName="email"
+                    formControlName="confirmPassword"
+                />
+
+                <div 
+                    class="text-danger"
+                    *ngIf="(signupForm.get('confirmPassword')?.invalid && signupForm.get('confirmPassword')?.dirty) || (confirmPasswordInvalid === true)">
+                    
+                    <div *ngIf="signupForm.get('confirmPassword')?.hasError('required')">Input is required</div>
+                    <div *ngIf="confirmPasswordInvalid">Passwords do not match</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <label>Instagram</label>
+                    <input 
+                    type="text"
+
+                    formControlName="instagram"
                     />
 
                     <div 
                         class="text-danger"
-                        *ngIf="signupForm.get('email')?.invalid && signupForm.get('email')?.dirty">
+                        *ngIf="signupForm.get('instagram')?.invalid && signupForm.get('instagram')?.dirty">
                         
-                        <div *ngIf="signupForm.get('email')?.hasError('required')">Email is required</div>
-                        <div *ngIf="signupForm.get('email')?.hasError('email')">Invalid format</div>
+                        <div *ngIf="signupForm.get('instagram')?.hasError('required')">Indicate "NA" if not available</div>
                     </div>
                 </div>
-                <div>
-                    <label>Password</label>
+                <div class="col-4">
+                    <label>Tiktok</label>
                     <input 
-                        type="text"
+                    type="text"
 
-                        formControlName="password"
+                    formControlName="tiktok"
                     />
 
                     <div 
                         class="text-danger"
-                        *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.dirty">
+                        *ngIf="signupForm.get('tiktok')?.invalid && signupForm.get('tiktok')?.dirty">
                         
-                        <div *ngIf="signupForm.get('password')?.hasError('required')">Password is required</div>
+                        <div *ngIf="signupForm.get('tiktok')?.hasError('required')">Indicate "NA" if not available</div>
                     </div>
                 </div>
-                <div>
-                    <label>Retype Password</label>
+                <div class="col-4">
+                    <label>Carousell</label>
                     <input 
-                        type="text"
+                    type="text"
 
-                        formControlName="confirmPassword"
+                    formControlName="carousell"
                     />
 
                     <div 
                         class="text-danger"
-                        *ngIf="signupForm.get('confirmPassword')?.invalid && signupForm.get('confirmPassword')?.dirty">
+                        *ngIf="signupForm.get('carousell')?.invalid && signupForm.get('carousell')?.dirty">
                         
-                        <div *ngIf="signupForm.get('confirmPassword')?.hasError('required')">Password is required</div>
+                        <div *ngIf="signupForm.get('carousell')?.hasError('required')">Indicate "NA" if not available</div>
                     </div>
                 </div>
-                <div>
-                    <div>
-                        <label>Instagram</label>
-                        <input 
-                        type="text"
+            </div>
 
-                        formControlName="instagram"
-                        />
+            <div>
+                <label>Contact Number</label>
+                <input 
+                    type="text"
 
-                        <div 
-                            class="text-danger"
-                            *ngIf="signupForm.get('instagram')?.invalid && signupForm.get('instagram')?.dirty">
-                            
-                            <div *ngIf="signupForm.get('instagram')?.hasError('required')">Indicate "NA" if Instagram not available</div>
-                        </div>
-                    </div>
-                    <div>
-                        <label>Tiktok</label>
-                        <input 
-                        type="text"
+                    formControlName="contact"
+                />
 
-                        formControlName="tiktok"
-                        />
-
-                        <div 
-                            class="text-danger"
-                            *ngIf="signupForm.get('tiktok')?.invalid && signupForm.get('tiktok')?.dirty">
-                            
-                            <div *ngIf="signupForm.get('tiktok')?.hasError('required')">Indicate "NA" if TikTok not available</div>
-                        </div>
-                    </div>
-                    <div>
-                        <label>Carousell</label>
-                        <input 
-                        type="text"
-
-                        formControlName="carousell"
-                        />
-
-                        <div 
-                            class="text-danger"
-                            *ngIf="signupForm.get('carousell')?.invalid && signupForm.get('carousell')?.dirty">
-                            
-                            <div *ngIf="signupForm.get('carousell')?.hasError('required')">Indicate "NA" if Carousell not available</div>
-                        </div>
-                    </div>
+                <div 
+                    class="text-danger"
+                    *ngIf="signupForm.get('contact')?.invalid && signupForm.get('contact')?.dirty">
+                    
+                    <div *ngIf="signupForm.get('contact')?.hasError('required')">Contact number required</div>
+                    <div *ngIf="signupForm.get('contact')?.hasError('pattern')">Indicate as XXXXXXXX e.g. 98267261</div>
                 </div>
+            </div>
 
-                <div>
-                    <label>Contact Number</label>
-                    <input 
-                        type="text"
-
-                        formControlName="contact"
-                    />
-
-                    <div 
-                        class="text-danger"
-                        *ngIf="signupForm.get('contact')?.invalid && signupForm.get('contact')?.dirty">
-                        
-                        <div *ngIf="signupForm.get('contact')?.hasError('contact')">Contact number required</div>
-                        <div *ngIf="signupForm.get('contact')?.hasError('pattern')">Indicate as XXXXXXXX e.g. 98267261</div>
-                    </div>
-                </div>
-
-                <div>
-                    <button 
-                        type="submit"
-                        disabled="signupForm.invalid">
-                        Create Account
-                    </button>
-                </div>
-            </form>
-        </div>
-        <div class="col-12 col-md-5 image-container">
-            
-        </div>
+            <div>
+                <button 
+                    type="submit"
+                    [disabled]="signupForm.invalid">
+                    Create Account
+                </button>
+            </div>
+        </form>
+    </div>
+    <div class="col-12 col-md-5 image-container">
+        <img src="././assets/images/signup/signup.png" alt="sign up image"/>
     </div>
 </div>

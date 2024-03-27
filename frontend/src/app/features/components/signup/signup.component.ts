@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { passwordValidator } from '../../../shared/validators/password.validator';
+
 
 @Component({
   selector: 'app-signup',
@@ -9,27 +11,41 @@ import { CommonModule } from '@angular/common';
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.css'
 })
+
 export class SignupComponent implements OnInit {
   signupForm!: FormGroup;
+  confirmPasswordInvalid: boolean = false;
 
-  constructor(private fb: FormBuilder){
+  constructor(){
     
   }
 
   ngOnInit(): void {
-    this.signupForm = this.fb.group({
-      name: ["", [Validators.required]],
-      contact: ["", [Validators.required, Validators.pattern('[0-9]{8}')]],
-      instagram: ["", [Validators.required]],
-      tiktok: ["", [Validators.required]],
-      carousell: ["", [Validators.required]],
-      email: ["", [Validators.required, Validators.email]],
-      password: ["", [Validators.required]],
-      confirmPassword: ["", [Validators.required]]
+    // regex pattern
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[*.!@$%^&(){}[\]:;<>,.?/~_+-=|\\]).{8,32}$/;
+
+    this.signupForm = new FormGroup({
+      name: new FormControl("", [Validators.required]),
+      contact: new FormControl("", [Validators.required, Validators.pattern('[0-9]{8}')]),
+      instagram: new FormControl("", [Validators.required]),
+      tiktok: new FormControl("", [Validators.required]),
+      carousell: new FormControl("", [Validators.required]),
+      email: new FormControl("", [Validators.required, Validators.email]),
+      password: new FormControl("", [Validators.required, passwordValidator(passwordRegex)]),
+      confirmPassword: new FormControl("", [Validators.required])
     })
   }
 
   submitSignupForm() {
     console.log("Form [Submit] - ", this.signupForm.value);
   }
+
+  checkConfirmPassword() {
+    const passwordControl = this.signupForm.get('password')?.value;
+    const confirmPasswordControl = this.signupForm.get('confirmPassword')?.value;
+
+    if (passwordControl && confirmPasswordControl) {
+      this.confirmPasswordInvalid = passwordControl !== confirmPasswordControl;
+    }
+  }  
 }
