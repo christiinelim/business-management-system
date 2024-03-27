@@ -1,0 +1,38 @@
+<div class="row wrapper">
+    <div class="col-12 col-md-7 signup-form">
+        <form [formGroup] = "loginForm" (ngSubmit)="submitLoginForm()">
+            <div>
+                <label>Email</label>
+                <input 
+                    type="text"
+                    formControlName="email"
+                />
+            </div>
+            <div>
+                <label>Password</label>
+                <input 
+                    type="password"
+                    formControlName="password"
+                />
+            </div>
+
+            <div>
+                <button 
+                    type="submit"
+                    [disabled]="loginForm.invalid">
+                    Login
+                </button>
+            </div>
+
+            <!-- <div 
+                class="text-danger"
+                *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.dirty">
+                
+                <div *ngIf="loginForm.get('email')?.hasError('required')">Email is required</div>
+            </div> -->
+        </form>
+    </div>
+    <div class="col-12 col-md-5 image-container">
+        <img src="././assets/images/login/login.png" alt="sign up image"/>
+    </div>
+</div>
