@@ -5,12 +5,14 @@ import { passwordValidator } from '../../../shared/validators/password.validator
 import { AuthenticationService } from '../../../core/services/authentication/authentication.service';
 import { Seller } from '../../../core/models/seller/seller.model';
 import { Subscription } from 'rxjs';
+import { CoreModule } from '../../../core/core.module';
+import { FeaturesModule } from '../../features.module';
 
 
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [FeaturesModule, CoreModule],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.css'
 })
@@ -20,8 +22,8 @@ export class SignupComponent implements OnInit {
   protected confirmPasswordInvalid: boolean = false;
   protected subscription: Subscription | undefined;
 
-  constructor(private authenticationService: AuthenticationService){
-    
+  constructor(private authenticationService: AuthenticationService) {
+
   }
 
   ngOnInit(): void {
@@ -47,7 +49,7 @@ export class SignupComponent implements OnInit {
     this.authenticationService.save(seller)
       .subscribe((response: any) => {
         console.log(response.data)
-      }, (error: any) => { 
+      }, (error: any) => {
         console.error('Error:', error);
       });
   }
@@ -59,7 +61,7 @@ export class SignupComponent implements OnInit {
     if (passwordControl && confirmPasswordControl) {
       this.confirmPasswordInvalid = passwordControl !== confirmPasswordControl;
     }
-  }  
+  }
 
   ngOnDestroy() {
     if (this.subscription) {
