@@ -1,10 +1,10 @@
 <header class="wrapper">
-    <div class="logo-container">
+    <div class="logo-container" (click)="navigateToHome()">
         <img src="././assets/images/home/logo.png" alt="Logo image" class="logo">
         <div class="name">BizOrder</div>
     </div>
     <div class="button-container gap-10">
         <div><button class="login-button">Login</button></div>
-        <div><button class="sign-up-button">Sign Up</button></div>
+        <div><button class="sign-up-button" (click)="navigateToSignUp()">Sign Up</button></div>
     </div>
 </header>
