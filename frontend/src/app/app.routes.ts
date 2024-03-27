@@ -6,14 +6,14 @@ import { LoginComponent } from './features/components/login/login.component';
 export const routes: Routes = [
     {
         path: '',
-        children: [{ path: '', component: HomeComponent}]
+        children: [{ path: '', component: HomeComponent }]
     },
     {
         path: 'signup',
-        children: [{ path: '', component: SignupComponent}]
+        children: [{ path: '', component: SignupComponent }]
     },
     {
         path: 'login',
-        children: [{ path: '', component: LoginComponent}]
+        children: [{ path: '', component: LoginComponent }]
     }
 ];
