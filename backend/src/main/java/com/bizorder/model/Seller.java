@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -31,17 +33,22 @@ public class Seller {
     @Column (name = "carousell")
     private String carousell;
 
+    @OneToOne
+    @JoinColumn(name = "accountId_fk", referencedColumnName = "accountId")
+    private Account account;
+
     // Default constructor
     public Seller() {
     }
 
     // Constructor
-    public Seller(String name, String contact, String instagram, String tiktok, String carousell) {
+    public Seller(String name, String contact, String instagram, String tiktok, String carousell, Account account) {
         this.name = name;
         this.contact = contact;
         this.instagram = instagram;
         this.tiktok = tiktok;
         this.carousell = carousell;
+        this.account = account;
     }
 
     // Getter and Setter
@@ -91,6 +98,15 @@ public class Seller {
 
     public void setCarousell(String carousell) {
         this.carousell = carousell;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public Seller setAccount(Account account) {
+        this.account = account;
+        return this;
     }
 }
 

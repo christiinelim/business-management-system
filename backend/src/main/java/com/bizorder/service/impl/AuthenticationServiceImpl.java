@@ -12,15 +12,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.bizorder.dtos.LoginResponse;
-import com.bizorder.dtos.LoginUserDto;
-import com.bizorder.dtos.RegisterUserDto;
+import com.bizorder.dtos.LoginAccountDto;
+import com.bizorder.dtos.RegisterAccountDto;
 import com.bizorder.exception.SearchNotFoundException;
 import com.bizorder.model.ResetToken;
-import com.bizorder.model.Seller;
 import com.bizorder.model.VerificationToken;
 import com.bizorder.model.Account;
 import com.bizorder.repository.ResetTokenRepository;
-import com.bizorder.repository.SellerRepository;
 import com.bizorder.repository.VerificationTokenRepository;
 import com.bizorder.repository.AccountRepository;
 import com.bizorder.service.AuthenticationService;
@@ -34,40 +32,38 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final JwtService jwtService;
     private final ResetTokenRepository resetTokenRepository;
     private final VerificationTokenRepository verificationTokenRepository;
-    private final SellerRepository sellerRepository;
 
-    public AuthenticationServiceImpl(AccountRepository accountRepository, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, JwtService jwtService, ResetTokenRepository resetTokenRepository, VerificationTokenRepository verificationTokenRepository, SellerRepository sellerRepository) {
+    public AuthenticationServiceImpl(AccountRepository accountRepository, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, JwtService jwtService, ResetTokenRepository resetTokenRepository, VerificationTokenRepository verificationTokenRepository) {
         this.accountRepository = accountRepository;
         this.authenticationManager = authenticationManager;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
         this.resetTokenRepository = resetTokenRepository;
         this.verificationTokenRepository = verificationTokenRepository;
-        this.sellerRepository = sellerRepository;
     }
 
     @Override
-    public Account signup(RegisterUserDto input) {
+    public Account signup(RegisterAccountDto input) {
 
         Optional<Account> existingAccount = accountRepository.findByEmail(input.getEmail());
         if (existingAccount.isPresent()) {
             throw new SearchNotFoundException("Email already exists");
         }
-    
-        Seller seller = sellerRepository.findById(input.getSellerId())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid seller ID"));
+
+
+        // Seller seller = sellerRepository.findById(input.getSellerId())
+        //         .orElseThrow(() -> new IllegalArgumentException("Invalid seller ID"));
                 
         Account user = new Account()
             .setEmail(input.getEmail())
             .setPassword(passwordEncoder.encode(input.getPassword()))
-            .setStatus("Unverified")
-            .setSeller(seller);
+            .setStatus("Unverified");
 
         return accountRepository.save(user);
     }
 
     @Override
-    public Account authenticate(LoginUserDto input) {
+    public Account authenticate(LoginAccountDto input) {
         authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(
                 input.getEmail(),
@@ -80,7 +76,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public LoginResponse authenticateAndGenerateResponse(LoginUserDto loginUserDto) {
+    public LoginResponse authenticateAndGenerateResponse(LoginAccountDto loginUserDto) {
         Account authenticatedUser = authenticate(loginUserDto);
         if (authenticatedUser.getStatus().equals("Unverified")) {
             throw new SearchNotFoundException("Account is not verified");

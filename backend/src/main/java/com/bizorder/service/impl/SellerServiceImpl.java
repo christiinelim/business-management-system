@@ -6,7 +6,9 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.bizorder.exception.SearchNotFoundException;
+import com.bizorder.model.Account;
 import com.bizorder.model.Seller;
+import com.bizorder.repository.AccountRepository;
 import com.bizorder.repository.SellerRepository;
 import com.bizorder.service.SellerService;
 
@@ -14,9 +16,11 @@ import com.bizorder.service.SellerService;
 public class SellerServiceImpl implements SellerService{
     
     SellerRepository sellerRepository;
+    AccountRepository accountRepository;
 
-    public SellerServiceImpl(SellerRepository sellerRepository){
+    public SellerServiceImpl(SellerRepository sellerRepository, AccountRepository accountRepository){
         this.sellerRepository = sellerRepository;
+        this.accountRepository = accountRepository;
     }
 
     @Override
@@ -34,8 +38,21 @@ public class SellerServiceImpl implements SellerService{
 
     @Override
     public String createSeller(Seller seller) {
-        sellerRepository.save(seller);
-        return "Success";
+        try {
+            Integer accountId = seller.getAccount().getAccountId();
+            Optional<Account> optionalAccount = accountRepository.findById(accountId);
+            
+            if (optionalAccount.isEmpty()) {
+                throw new SearchNotFoundException("Account does not exist");
+            }
+            Account account = optionalAccount.get();
+            seller.setAccount(account);
+            sellerRepository.save(seller);
+            return "Success"; 
+
+        } catch (Exception e) {
+            return "Error creating seller: " + e.getMessage();
+        }
     }
 
     @Override

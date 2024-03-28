@@ -1,14 +1,14 @@
 package com.bizorder.service;
 
 import com.bizorder.dtos.LoginResponse;
-import com.bizorder.dtos.LoginUserDto;
-import com.bizorder.dtos.RegisterUserDto;
+import com.bizorder.dtos.LoginAccountDto;
+import com.bizorder.dtos.RegisterAccountDto;
 import com.bizorder.model.Account;
 
 public interface AuthenticationService {
-    Account signup(RegisterUserDto input);
-    Account authenticate(LoginUserDto input);
-    LoginResponse authenticateAndGenerateResponse(LoginUserDto loginUserDto);
+    Account signup(RegisterAccountDto input);
+    Account authenticate(LoginAccountDto input);
+    LoginResponse authenticateAndGenerateResponse(LoginAccountDto loginUserDto);
     Integer generateAndSaveVerificationToken(String email);
     void verifyAccount(String email, Integer token);
     boolean updatePassword(String email, String newPassword);

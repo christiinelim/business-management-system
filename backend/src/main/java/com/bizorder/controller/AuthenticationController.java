@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bizorder.dtos.ForgotPasswordRequest;
-import com.bizorder.dtos.LoginUserDto;
-import com.bizorder.dtos.RegisterUserDto;
+import com.bizorder.dtos.LoginAccountDto;
+import com.bizorder.dtos.RegisterAccountDto;
 import com.bizorder.dtos.ResetPasswordRequest;
 import com.bizorder.dtos.VerifyAccountRequest;
 import com.bizorder.model.Account;
@@ -30,7 +30,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<Object> register(@RequestBody RegisterUserDto registerUserDto) {
+    public ResponseEntity<Object> register(@RequestBody RegisterAccountDto registerUserDto) {
         try {
             Integer verificationToken = authenticationService.generateAndSaveVerificationToken(registerUserDto.getEmail());
             Account signedUpUser = authenticationService.signup(registerUserDto);
@@ -42,7 +42,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Object> authenticate(@RequestBody LoginUserDto loginUserDto) {
+    public ResponseEntity<Object> authenticate(@RequestBody LoginAccountDto loginUserDto) {
         try {
             return ResponseHandler.responseBuilder("Login success", HttpStatus.OK, authenticationService.authenticateAndGenerateResponse(loginUserDto));
         } catch (Exception e) {

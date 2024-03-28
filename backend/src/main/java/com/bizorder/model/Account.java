@@ -34,10 +34,6 @@ public class Account implements UserDetails {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private Date updatedAt;
-
-    @OneToOne
-    @JoinColumn(name = "sellerId_fk", referencedColumnName = "sellerId")
-    private Seller seller;
     
     // Getters and setters
     public Integer getAccountId() {
@@ -89,15 +85,6 @@ public class Account implements UserDetails {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    public Seller getSeller() {
-        return seller;
-    }
-
-    public Account setSeller(Seller seller) {
-        this.seller = seller;
-        return this;
     }
 
     @Override

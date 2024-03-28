@@ -1,8 +1,7 @@
 package com.bizorder.dtos;
 
-public class LoginUserDto {
+public class RegisterAccountDto {
     private String email;
-    
     private String password;
 
     // Getter for email
