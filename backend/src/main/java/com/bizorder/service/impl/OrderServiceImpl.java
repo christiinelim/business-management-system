@@ -1,29 +1,30 @@
 package com.bizorder.service.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import com.bizorder.exception.SearchNotFoundException;
+import com.bizorder.model.Account;
 import com.bizorder.model.Customer;
 import com.bizorder.model.Order;
-import com.bizorder.model.Seller;
+import com.bizorder.repository.AccountRepository;
 import com.bizorder.repository.CustomerRepository;
 import com.bizorder.repository.OrderRepository;
-import com.bizorder.repository.SellerRepository;
 import com.bizorder.service.OrderService;
 
 @Service
 public class OrderServiceImpl implements OrderService {
-    OrderRepository orderRepository;
-    CustomerRepository customerRepository;
-    SellerRepository sellerRepository;
+    private final OrderRepository orderRepository;
+    private final CustomerRepository customerRepository;
+    private final AccountRepository accountRepository;
 
-    public OrderServiceImpl(OrderRepository orderRepository, CustomerRepository customerRepository, SellerRepository sellerRepository) {
+    public OrderServiceImpl(OrderRepository orderRepository, CustomerRepository customerRepository, AccountRepository accountRepository) {
         this.orderRepository = orderRepository;
         this.customerRepository = customerRepository;
-        this.sellerRepository = sellerRepository;
+        this.accountRepository = accountRepository;
     }
 
     @Override
@@ -40,34 +41,36 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> getOrderBySeller(Integer sellerId){
-        if (orderRepository.findOrdersBySellerId(sellerId).isEmpty()) {
-            throw new SearchNotFoundException("Requested seller does not exist");
+    public List<Order> getOrderByAccount(Integer accountId){
+        if (orderRepository.findOrdersByAccountId(accountId).isEmpty()) {
+            throw new SearchNotFoundException("Requested account does not exist");
         }
-        return orderRepository.findOrdersBySellerId(sellerId);
+        return orderRepository.findOrdersByAccountId(accountId);
     }
 
     @Override
     public String createOrder(Order order){
         Integer customerId = order.getCustomer().getCustomerId();
-        Integer sellerId = order.getSeller().getSellerId();
-        if (customerId == null || sellerId == null) {
+        Integer accountId = order.getAccount().getAccountId();
+        if (customerId == null || accountId == null) {
             return "Error: Customer ID or seller ID not indicated";
         }
 
         Optional<Customer> optionalCustomer = customerRepository.findById(customerId);
         if (optionalCustomer.isPresent()) {
-            Optional<Seller> optionalSeller = sellerRepository.findById(sellerId);
-            if (optionalCustomer.isPresent()) {
+            Optional<Account> optionalAccount = accountRepository.findById(accountId);
+            if (optionalAccount.isPresent()) {
                 Customer foundCustomer = optionalCustomer.get();
                 order.setCustomer(foundCustomer);
-                Seller foundSeller = optionalSeller.get();
-                order.setSeller(foundSeller);
+                Account foundAccount = optionalAccount.get();
+                order.setAccount(foundAccount);
+                order.setStatus("Pending");
+                order.setPaid("No");
                 Order newOrder = orderRepository.save(order);
                 Integer orderId = newOrder.getOrderId();
                 return "Success, inserted new order ID " + orderId;
             } else {
-                throw new SearchNotFoundException("Seller does not exist");
+                throw new SearchNotFoundException("Account does not exist");
             }   
         } else {
             throw new SearchNotFoundException("Customer does not exist");

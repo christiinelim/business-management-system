@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bizorder.dtos.ForgotPasswordRequest;
 import com.bizorder.dtos.LoginAccountDto;
-import com.bizorder.dtos.RegisterAccountDto;
 import com.bizorder.dtos.ResetPasswordRequest;
 import com.bizorder.dtos.VerifyAccountRequest;
 import com.bizorder.model.Account;
@@ -30,23 +29,20 @@ public class AuthenticationController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<Object> register(@RequestBody RegisterAccountDto registerUserDto) {
+    public ResponseEntity<Object> register(@RequestBody Account account) {
         try {
-            Integer verificationToken = authenticationService.generateAndSaveVerificationToken(registerUserDto.getEmail());
-            Account signedUpUser = authenticationService.signup(registerUserDto);
-            emailService.sendVerificationEmail(registerUserDto.getEmail(), verificationToken);
-            return ResponseHandler.responseBuilder("Signup success, check mailbox for verification code", HttpStatus.OK, signedUpUser);
+            return ResponseHandler.responseBuilder("Signup success, check mailbox for verification code", HttpStatus.OK, authenticationService.signup(account));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error signing up: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
         }
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Object> authenticate(@RequestBody LoginAccountDto loginUserDto) {
+    public ResponseEntity<Object> login(@RequestBody LoginAccountDto loginUserDto) {
         try {
-            return ResponseHandler.responseBuilder("Login success", HttpStatus.OK, authenticationService.authenticateAndGenerateResponse(loginUserDto));
+            return ResponseHandler.responseBuilder("Login success", HttpStatus.OK, authenticationService.login(loginUserDto));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error logging in: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
         }
     }
 
@@ -56,7 +52,7 @@ public class AuthenticationController {
             authenticationService.verifyAccount(request.getEmail(), request.getVerificationToken());
             return ResponseHandler.responseBuilder("Verification successful", HttpStatus.OK);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error logging in: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
         }
     }
 
@@ -74,7 +70,7 @@ public class AuthenticationController {
 
             return ResponseHandler.responseBuilder("Reset email sent successfully", HttpStatus.OK);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error signing up: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
         }
     }
 
@@ -90,7 +86,7 @@ public class AuthenticationController {
                 return ResponseHandler.responseBuilder("Failed to reset password", HttpStatus.BAD_REQUEST);
             }
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error signing up: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
         }
 
     }

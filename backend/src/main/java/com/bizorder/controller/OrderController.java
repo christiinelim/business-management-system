@@ -31,7 +31,7 @@ public class OrderController {
         try {
             return ResponseHandler.responseBuilder("Requested orders details retrieved", HttpStatus.OK, orderService.getAllOrders());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error getting order details: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
         }
     }
 
@@ -40,17 +40,17 @@ public class OrderController {
         try {
             return ResponseHandler.responseBuilder("Requested order details retrieved", HttpStatus.OK, orderService.getOrder(orderId));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error getting item details: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
         }
     }
 
     // get all order by a customer
-    @GetMapping("seller/{sellerId}")
-    public ResponseEntity<Object> getOrderBySeller(@PathVariable("sellerId") Integer sellerId) {
+    @GetMapping("seller/{accountId}")
+    public ResponseEntity<Object> getOrderBySeller(@PathVariable("accountId") Integer accountId) {
         try {
-            return ResponseHandler.responseBuilder("Requested seller orders retrieved", HttpStatus.OK, orderService.getOrderBySeller(sellerId));
+            return ResponseHandler.responseBuilder("Requested seller orders retrieved", HttpStatus.OK, orderService.getOrderByAccount(accountId));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error getting customer's order details: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
         }
     }
     
@@ -61,7 +61,7 @@ public class OrderController {
         try {
             return ResponseHandler.responseBuilder("Order created", HttpStatus.OK, orderService.createOrder(order));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error creating order: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
         }
     }
 
@@ -71,7 +71,7 @@ public class OrderController {
         try {
             return ResponseHandler.responseBuilder("Item details updated", HttpStatus.OK,orderService.updateOrder(order, orderId));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating item details: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
         }
     }
   
@@ -82,7 +82,7 @@ public class OrderController {
         try {
             return ResponseHandler.responseBuilder("Order deleted", HttpStatus.OK, orderService.deleteOrder(orderId));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting order: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
         }
     }
 }

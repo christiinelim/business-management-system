@@ -32,7 +32,7 @@ public class CustomerController {
         try {
             return ResponseHandler.responseBuilder("Requested customer details retrieved", HttpStatus.OK, customerService.getCustomer(customerId));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error getting customer: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
         }
     }
 
@@ -42,7 +42,7 @@ public class CustomerController {
         try {
             return ResponseHandler.responseBuilder("Requested customer list retrieved", HttpStatus.OK, customerService.getAllCustomers());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error retrieving customer list: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
         }
     }
 
@@ -52,7 +52,7 @@ public class CustomerController {
         try {
             return ResponseHandler.responseBuilder("Customer created successfully", HttpStatus.OK, customerService.createCustomer(customer));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error creating customer: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
         }
     }
 
@@ -64,16 +64,9 @@ public class CustomerController {
         } catch (SearchNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating customer: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
         }
     }
-
-    // // Delete
-    // @DeleteMapping("{customerId}")
-    // public String deleteCustomer(@PathVariable("customerId") Integer customerId){
-    //     customerService.deleteCustomer(customerId);
-    //     return "Customer deleted successfully";
-    // }
 
     // Delete
     @DeleteMapping("{customerId}")
@@ -83,7 +76,7 @@ public class CustomerController {
         } catch (SearchNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting customer: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
         }
     }
 }

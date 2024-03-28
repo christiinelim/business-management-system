@@ -9,6 +9,6 @@ import com.bizorder.model.Item;
 
 public interface ItemRepository extends JpaRepository<Item, Integer> {
     
-    @Query("SELECT i FROM Item i WHERE i.seller.sellerId = :sellerId")
-    List<Item> findItemsBySellerId(Integer sellerId);
+    @Query("SELECT i FROM Item i WHERE i.account.accountId = :accountId")
+    List<Item> findItemsByAccountId(Integer accountId);
 }

@@ -8,12 +8,12 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.bizorder.dtos.LoginResponse;
 import com.bizorder.dtos.LoginAccountDto;
-import com.bizorder.dtos.RegisterAccountDto;
 import com.bizorder.exception.SearchNotFoundException;
 import com.bizorder.model.ResetToken;
 import com.bizorder.model.VerificationToken;
@@ -22,6 +22,7 @@ import com.bizorder.repository.ResetTokenRepository;
 import com.bizorder.repository.VerificationTokenRepository;
 import com.bizorder.repository.AccountRepository;
 import com.bizorder.service.AuthenticationService;
+import com.bizorder.service.EmailService;
 import com.bizorder.service.JwtService;
 
 @Service
@@ -32,51 +33,61 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final JwtService jwtService;
     private final ResetTokenRepository resetTokenRepository;
     private final VerificationTokenRepository verificationTokenRepository;
+    private final EmailService emailService;
 
-    public AuthenticationServiceImpl(AccountRepository accountRepository, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, JwtService jwtService, ResetTokenRepository resetTokenRepository, VerificationTokenRepository verificationTokenRepository) {
+    public AuthenticationServiceImpl(AccountRepository accountRepository, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, JwtService jwtService, ResetTokenRepository resetTokenRepository, VerificationTokenRepository verificationTokenRepository, EmailService emailService) {
         this.accountRepository = accountRepository;
         this.authenticationManager = authenticationManager;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
         this.resetTokenRepository = resetTokenRepository;
         this.verificationTokenRepository = verificationTokenRepository;
+        this.emailService = emailService;
     }
 
     @Override
-    public Account signup(RegisterAccountDto input) {
+    public String signup(Account account) {
 
-        Optional<Account> existingAccount = accountRepository.findByEmail(input.getEmail());
-        if (existingAccount.isPresent()) {
-            throw new SearchNotFoundException("Email already exists");
+        Optional<Account> optionalAccount = accountRepository.findByEmail(account.getEmail());
+        if (optionalAccount.isPresent()) {
+            throw new SearchNotFoundException("Account does not exists");
         }
 
+        Integer verificationToken = generateAndSaveVerificationToken(account.getEmail());
+        emailService.sendVerificationEmail(account.getEmail(), verificationToken);
+        account.setPassword(passwordEncoder.encode(account.getPassword()));
+        account.setStatus("Unverified");
+        accountRepository.save(account);
 
-        // Seller seller = sellerRepository.findById(input.getSellerId())
-        //         .orElseThrow(() -> new IllegalArgumentException("Invalid seller ID"));
-                
-        Account user = new Account()
-            .setEmail(input.getEmail())
-            .setPassword(passwordEncoder.encode(input.getPassword()))
-            .setStatus("Unverified");
-
-        return accountRepository.save(user);
+        return "Success";
     }
 
     @Override
     public Account authenticate(LoginAccountDto input) {
-        authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(
-                input.getEmail(),
-                input.getPassword()
-            )
-        );
 
-        return accountRepository.findByEmail(input.getEmail())
-            .orElseThrow();
+        try {
+            authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                    input.getEmail(),
+                    input.getPassword()
+                )
+            );
+        } catch (AuthenticationException e) {
+            throw new SearchNotFoundException("Wrong email or password");
+        }
+
+        Optional<Account> optionalAccount = accountRepository.findByEmail(input.getEmail());
+        return optionalAccount.orElseThrow(() -> new SearchNotFoundException("Account not found"));
     }
 
     @Override
-    public LoginResponse authenticateAndGenerateResponse(LoginAccountDto loginUserDto) {
+    public LoginResponse login(LoginAccountDto loginUserDto) {
+        Optional<Account> optionalAccount = accountRepository.findByEmail(loginUserDto.getEmail());
+    
+        if (!optionalAccount.isPresent()){
+            throw new SearchNotFoundException("Account does not exist, please sign up");
+        } 
+
         Account authenticatedUser = authenticate(loginUserDto);
         if (authenticatedUser.getStatus().equals("Unverified")) {
             throw new SearchNotFoundException("Account is not verified");

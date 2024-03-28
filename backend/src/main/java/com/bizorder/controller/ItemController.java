@@ -31,7 +31,7 @@ public class ItemController {
         try {
             return ResponseHandler.responseBuilder("Requested items details retrieved", HttpStatus.OK, itemService.getAllItems());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error getting item details: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
         }
     }
 
@@ -40,17 +40,17 @@ public class ItemController {
         try {
             return ResponseHandler.responseBuilder("Requested item details retrieved", HttpStatus.OK, itemService.getItem(itemId));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error getting item details: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
         }
     }
 
     // get all items by a seller
-    @GetMapping("seller/{sellerId}")
-    public ResponseEntity<Object> getItemsBySeller(@PathVariable("sellerId") Integer sellerId) {
+    @GetMapping("seller/{accountId}")
+    public ResponseEntity<Object> getItemsBySeller(@PathVariable("accountId") Integer accountId) {
         try {
-            return ResponseHandler.responseBuilder("Requested seller items retrieved", HttpStatus.OK, itemService.getItemsBySeller(sellerId));
+            return ResponseHandler.responseBuilder("Requested seller items retrieved", HttpStatus.OK, itemService.getItemsByAccount(accountId));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error getting item details: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
         }
     }
     
@@ -61,7 +61,7 @@ public class ItemController {
         try {
             return ResponseHandler.responseBuilder("Item created", HttpStatus.OK, itemService.createItem(item));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error creating item: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
         }
     }
 
@@ -71,7 +71,7 @@ public class ItemController {
         try {
             return ResponseHandler.responseBuilder("Item details updated", HttpStatus.OK, itemService.updateItem(item, itemId));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating item details: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
         }
     }
   
@@ -82,7 +82,7 @@ public class ItemController {
         try {
             return ResponseHandler.responseBuilder("Item deleted", HttpStatus.OK, itemService.deleteItem(itemId));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting item: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
         }
     }
 }

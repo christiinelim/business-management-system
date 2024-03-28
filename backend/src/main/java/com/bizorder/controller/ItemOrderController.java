@@ -31,7 +31,7 @@ public class ItemOrderController {
         try {
             return ResponseHandler.responseBuilder("Requested purchase details retrieved", HttpStatus.OK, itemOrderService.getPurchase(purchaseId));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error getting purchase details: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
         }
     }
 
@@ -40,7 +40,7 @@ public class ItemOrderController {
         try {
             return ResponseHandler.responseBuilder("Requested order details retrieved", HttpStatus.OK, itemOrderService.getItemsByOrder(orderId));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error getting item details: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
         }
     }
     
@@ -50,7 +50,7 @@ public class ItemOrderController {
         try {
             return ResponseHandler.responseBuilder("Purchase created", HttpStatus.OK, itemOrderService.createItemOrder(itemOrder));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error creating item: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
         }
     }
 
@@ -60,7 +60,7 @@ public class ItemOrderController {
         try {
             return ResponseHandler.responseBuilder("Purchase details updated", HttpStatus.OK, itemOrderService.updateItemOrder(itemOrder, purchaseId));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating purchase details: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
         }
     }
   
@@ -71,7 +71,7 @@ public class ItemOrderController {
         try {
             return ResponseHandler.responseBuilder("Item deleted", HttpStatus.OK, itemOrderService.deleteItemOrder(purchaseId));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting item: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
         }
     }
 }

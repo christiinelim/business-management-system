@@ -17,9 +17,9 @@ import com.bizorder.service.ItemOrderService;
 @Service
 public class ItemOrderServiceImpl implements ItemOrderService {
     
-    ItemOrderRepository itemOrderRepository;
-    OrderRepository orderRepository;
-    ItemRepository itemRepository;
+    private final ItemOrderRepository itemOrderRepository;
+    private final OrderRepository orderRepository;
+    private final ItemRepository itemRepository;
 
     public ItemOrderServiceImpl(ItemOrderRepository itemOrderRepository, OrderRepository orderRepository, ItemRepository itemRepository) {
         this.itemOrderRepository = itemOrderRepository;

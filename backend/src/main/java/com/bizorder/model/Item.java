@@ -34,21 +34,21 @@ public class Item {
     private Integer stock_on_hand;
 
     @ManyToOne
-    @JoinColumn(name = "sellerId_fk", referencedColumnName = "sellerId")
-    private Seller seller;
+    @JoinColumn(name = "accountId_fk", referencedColumnName = "accountId")
+    private Account account;
 
     // Default constructor
     public Item() {
     }
 
     // Constructor
-    public Item(String name, double cost, String description, String reference, Integer stock_on_hand, Seller seller) {
+    public Item(String name, double cost, String description, String reference, Integer stock_on_hand, Account account) {
         this.name = name;
         this.cost = cost;
         this.description = description;
         this.reference = reference;
         this.stock_on_hand = stock_on_hand;
-        this.seller = seller;
+        this.account = account;
     }
 
     // Getters and setters
@@ -100,12 +100,12 @@ public class Item {
         this.stock_on_hand = stock_on_hand;
     }
 
-    public Seller getSeller() {
-        return seller;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setSeller(Seller seller) {
-        this.seller = seller;
+    public void setAccount(Account account) {
+        this.account = account;
     }
     
 }

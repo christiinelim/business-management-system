@@ -1,10 +1,5 @@
 package com.bizorder.controller;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,35 +7,62 @@ import com.bizorder.model.Account;
 import com.bizorder.response.ResponseHandler;
 import com.bizorder.service.AccountService;
 
-import java.util.List;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
-@RequestMapping("/api/account")
+
 @RestController
+@RequestMapping("/api/account")
 public class AccountController {
-    private final AccountService accountService;
 
-    public AccountController(AccountService accountService) {
+    AccountService accountService;
+
+    public AccountController(AccountService accountService){
         this.accountService = accountService;
     }
-
+    
+    // Read
     @GetMapping
-    public ResponseEntity<Object> authenticatedUser() {
+    public ResponseEntity<Object> getAllAccounts() {
         try {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            Account currentUser = (Account) authentication.getPrincipal();
-            return ResponseHandler.responseBuilder("Accounts retrieved", HttpStatus.OK, currentUser);
+            return ResponseHandler.responseBuilder("Requested account details retrieved", HttpStatus.OK, accountService.getAllAccounts());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error retrieving accounts: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
         }
     }
 
-    @GetMapping("/admin")
-    public ResponseEntity<Object> allUsers() {
+    @GetMapping("{accountId}")
+    public ResponseEntity<Object> getAccount(@PathVariable("accountId") Integer accountId) {
         try {
-            List <Account> users = accountService.getAllAccounts();
-            return ResponseHandler.responseBuilder("User account retrieved", HttpStatus.OK, users);
+            return ResponseHandler.responseBuilder("Requested account details retrieved", HttpStatus.OK, accountService.getAccount(accountId));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error retrieving user details: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
+        }
+    }
+
+    // Update
+    @PutMapping("{accountId}")
+    public ResponseEntity<Object> updateAccount(@PathVariable("accountId") Integer accountId, @RequestBody Account account) {
+        try {
+            return ResponseHandler.responseBuilder("Account details updated", HttpStatus.OK, accountService.updateAccount(account, accountId));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
+        }
+    }
+  
+
+    // Delete
+    @DeleteMapping("{accountId}")
+    public ResponseEntity<Object> deleteAccount(@PathVariable("accountId") Integer accountId) {
+        try {
+            return ResponseHandler.responseBuilder("Account deleted", HttpStatus.OK, accountService.deleteAccount(accountId));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
         }
     }
     

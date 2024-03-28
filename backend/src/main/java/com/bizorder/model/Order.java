@@ -1,5 +1,11 @@
 package com.bizorder.model;
 
+import java.util.Date;
+import java.util.List;
+
+import org.hibernate.annotations.CreationTimestamp;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -7,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -18,10 +25,6 @@ public class Order {
     @Column (name = "orderId", insertable = false, updatable = false)
     private Integer orderId;
 
-    // @DateTimeFormat(pattern = "yyyy-MM-dd")
-    // @Column(name = "collection_date")
-    // private LocalDate collection_date;
-
     @Column (name = "note")
     private String note;
 
@@ -31,33 +34,35 @@ public class Order {
     @Column (name = "status")
     private String status;
 
+    @Column(name = "collection_date")
+    private Date collection_date;
+
+    @CreationTimestamp
+    @Column(updatable = false, name = "created_at")
+    private Date createdAt;
+
     @ManyToOne
     @JoinColumn(name = "customerId_fk", referencedColumnName = "customerId")
     private Customer customer;
 
     @ManyToOne
-    @JoinColumn(name = "sellerId_fk", referencedColumnName = "sellerId")
-    private Seller seller;
+    @JoinColumn(name = "accountId_fk", referencedColumnName = "accountId")
+    private Account account;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private List<ItemOrder> itemOrder;
 
     // Empty Constructor
     public Order() {
     }
 
-    // Constructor
-    // public Order(LocalDate collection_date, String note, String paid, String status, Customer customer) {
-    //     this.collection_date = collection_date;
-    //     this.note = note;
-    //     this.paid = paid;
-    //     this.status = status;
-    //     this.customer = customer;
-    // }
-
-    public Order(String note, String paid, String status, Customer customer, Seller seller) {
+    public Order(String note, String paid, String status, Date collection_date, Customer customer, Account account) {
         this.note = note;
         this.paid = paid;
         this.status = status;
+        this.collection_date = collection_date;
         this.customer = customer;
-        this.seller = seller;
+        this.account = account;
     }
 
     // Getters and setters
@@ -93,6 +98,14 @@ public class Order {
         this.status = status;
     }
 
+    public Date getCollectionDate() {
+        return collection_date;
+    }
+
+    public void setCollectionDate(Date collection_date) {
+        this.collection_date = collection_date;
+    }
+
     public Customer getCustomer() {
         return customer;
     }
@@ -101,11 +114,11 @@ public class Order {
         this.customer = customer;
     }
 
-    public Seller getSeller() {
-        return seller;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setSeller(Seller seller) {
-        this.seller = seller;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 }

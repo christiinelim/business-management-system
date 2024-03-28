@@ -6,21 +6,21 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.bizorder.exception.SearchNotFoundException;
+import com.bizorder.model.Account;
 import com.bizorder.model.Item;
-import com.bizorder.model.Seller;
+import com.bizorder.repository.AccountRepository;
 import com.bizorder.repository.ItemRepository;
-import com.bizorder.repository.SellerRepository;
 import com.bizorder.service.ItemService;
 
 @Service
 public class ItemServiceImpl implements ItemService{
 
-    ItemRepository itemRepository;
-    SellerRepository sellerRepository;
+    private final ItemRepository itemRepository;
+    private final AccountRepository accountRepository;
 
-    public ItemServiceImpl(ItemRepository itemRepository, SellerRepository sellerRepository) {
+    public ItemServiceImpl(ItemRepository itemRepository, AccountRepository accountRepository) {
         this.itemRepository = itemRepository;
-        this.sellerRepository = sellerRepository;
+        this.accountRepository = accountRepository;
     }
 
     @Override
@@ -37,31 +37,31 @@ public class ItemServiceImpl implements ItemService{
     }
 
     @Override
-    public List<Item> getItemsBySeller(Integer sellerId) {
-        if (itemRepository.findItemsBySellerId(sellerId).isEmpty()) {
-            throw new SearchNotFoundException("Requested seller does not exist");
+    public List<Item> getItemsByAccount(Integer accountId) {
+        if (itemRepository.findItemsByAccountId(accountId).isEmpty()) {
+            throw new SearchNotFoundException("Requested account and seller does not exist");
         }
-        return itemRepository.findItemsBySellerId(sellerId);
+        return itemRepository.findItemsByAccountId(accountId);
     }
 
     @Override
     public String createItem(Item item) {
-        
-        // Retrieve the sellerId from the item object
-        Integer sellerId = item.getSeller().getSellerId();
-        if (sellerId == null) {
-            return "Error: Seller ID not indicated";
+
+        Integer accountId = item.getAccount().getAccountId();
+        if (accountId == null) {
+            return "Error: Account ID not indicated";
         }
 
-        Optional<Seller> optionalSeller = sellerRepository.findById(sellerId);
-        if (optionalSeller.isPresent()) {
-            Seller foundSeller = optionalSeller.get();
-            item.setSeller(foundSeller);
-            itemRepository.save(item);
-            return "Success: Item created";
-        } else {
-            throw new SearchNotFoundException("Seller does not exist");
+        Optional<Account> optionalAccount = accountRepository.findById(item.getAccount().getAccountId());
+        if (optionalAccount.isEmpty()) {
+            throw new SearchNotFoundException("Account does not exist");
         }
+        
+        Account account = optionalAccount.get();
+        item.setAccount(account);
+
+        itemRepository.save(item);
+        return "Success: Item created";
     }
 
 

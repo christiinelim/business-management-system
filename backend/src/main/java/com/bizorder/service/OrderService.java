@@ -8,7 +8,7 @@ public interface OrderService {
    
     public List<Order> getAllOrders();
     public Order getOrder(Integer orderId);
-    public List<Order> getOrderBySeller(Integer sellerId);
+    public List<Order> getOrderByAccount(Integer accountId);
     public String createOrder(Order order);
     public String updateOrder(Order order, Integer orderId);
     public String deleteOrder(Integer orderId);

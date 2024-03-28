@@ -24,6 +24,21 @@ public class Account implements UserDetails {
     @Column(nullable = false)
     private String password;
 
+    @Column (name = "name")
+    private String name;
+
+    @Column (name = "contact")
+    private String contact;
+
+    @Column (name = "instagram")
+    private String instagram;
+
+    @Column (name = "tiktok")
+    private String tiktok;
+
+    @Column (name = "carousell")
+    private String carousell;
+
     @Column(name = "status")
     private String status;
 
@@ -34,6 +49,32 @@ public class Account implements UserDetails {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private Date updatedAt;
+
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    private List<Item> items;
+
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    private List<Order> orders;
+
+    // Constructor
+    public Account() {
+    }
+    
+
+    // Constructor
+    public Account(String email, String password, String name, String contact, String instagram,
+                String tiktok, String carousell, String status, Date createdAt, Date updatedAt) {
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.contact = contact;
+        this.instagram = instagram;
+        this.tiktok = tiktok;
+        this.carousell = carousell;
+        this.status = status;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
     
     // Getters and setters
     public Integer getAccountId() {
@@ -60,6 +101,46 @@ public class Account implements UserDetails {
     public Account setPassword(String password) {
         this.password = password;
         return this;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
+
+    public String getInstagram() {
+        return instagram;
+    }
+
+    public void setInstagram(String instagram) {
+        this.instagram = instagram;
+    }
+
+    public String getTiktok() {
+        return tiktok;
+    }
+
+    public void setTiktok(String tiktok) {
+        this.tiktok = tiktok;
+    }
+
+    public String getCarousell() {
+        return carousell;
+    }
+
+    public void setCarousell(String carousell) {
+        this.carousell = carousell;
     }
 
     public String getStatus() {
