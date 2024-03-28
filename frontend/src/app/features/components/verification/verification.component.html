@@ -1,0 +1,24 @@
+<div>
+    <div class="gif-container">
+        <img src="././assets/images/verification/verification.gif" alt="verification image"/>
+    </div>
+    <div>Please verify your email</div>
+    <div>You're almost there! We have sent an email containing the verification code. If you don't see it, you may have to check the spam folder</div>
+    <div>
+        <form [formGroup]="verificationForm" (ngSubmit)="onSubmitVerification(verificationForm.value)">
+            <div>
+                <input type="text" formControlName="email" placeholder="Input email" />
+            </div>
+            <div formGroupName="verificationCode">
+                <input type="number" maxlength="1" formControlName="digit1" #digitInput1 (input)="onDigitInput(digitInput1, 1)">
+                <input type="number" maxlength="1" formControlName="digit2" #digitInput2 (input)="onDigitInput(digitInput2, 2)">
+                <input type="number" maxlength="1" formControlName="digit3" #digitInput3 (input)="onDigitInput(digitInput3, 3)">
+                <input type="number" maxlength="1" formControlName="digit4" #digitInput4 (input)="onDigitInput(digitInput4, 4)">
+                <input type="number" maxlength="1" formControlName="digit5" #digitInput5 (input)="onDigitInput(digitInput5, 5)">
+                <input type="number" maxlength="1" formControlName="digit6" #digitInput6 (input)="onDigitInput(digitInput6, null)">
+            </div>
+            <button type="submit">Verify Code</button>
+          </form>
+    </div>
+
+</div>

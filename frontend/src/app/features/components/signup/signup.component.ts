@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { CoreModule } from '../../../core/core.module';
 import { FeaturesModule } from '../../features.module';
 import { Account } from '../../../core/models/account/account.model';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -22,7 +23,7 @@ export class SignupComponent implements OnInit {
   protected subscription: Subscription | undefined;
   protected emailExists: boolean = false;
 
-  constructor(private authenticationService: AuthenticationService) {
+  constructor(private authenticationService: AuthenticationService, private router: Router) {
     
   }
 
@@ -48,6 +49,7 @@ export class SignupComponent implements OnInit {
     this.authenticationService.save(account)
       .subscribe((response: any) => {
         this.emailExists = false;
+        this.router.navigateByUrl('/verification');
       }, (error: any) => {
         if (error.error == "Error: Account does not exists") {
           this.emailExists = true;

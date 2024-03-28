@@ -48,7 +48,7 @@ public class OrderController {
     @GetMapping("seller/{accountId}")
     public ResponseEntity<Object> getOrderBySeller(@PathVariable("accountId") Integer accountId) {
         try {
-            return ResponseHandler.responseBuilder("Requested seller orders retrieved", HttpStatus.OK, orderService.getOrderByAccount(accountId));
+            return ResponseHandler.responseBuilder("Requested orders retrieved", HttpStatus.OK, orderService.getOrderByAccount(accountId));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
         }

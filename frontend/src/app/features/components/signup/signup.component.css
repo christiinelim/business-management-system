@@ -53,13 +53,27 @@ button:hover{
     cursor: pointer;
 }
 
+.emailError{
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    color: #721c24 !important;
+    background-color: #f8d7da;
+    position: relative;
+    padding: 6px 12px;
+    margin-bottom: 1rem;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+    font-size: 10px;
+}
+
 @media (min-width: 768px) {
     .wrapper {
         flex-direction: row;
         justify-content: center;
         padding: 50px 10%;
         gap: 0px;
-        margin-top: 40px;
+        margin-top: 10px;
     }
 
     img {
@@ -87,12 +101,18 @@ button:hover{
         padding: 7px 16px;
         font-size: 11px;
     }
+
+    .emailError{
+        gap: 8px;
+        padding: 7px 16px;
+        font-size: 11px;
+    }
 }
 
 @media (min-width: 992px) {
     .wrapper {
         padding: 50px 14%;
-        margin-top: 35px;
+        margin-top: 15px;
     }
 
     img {
@@ -109,6 +129,12 @@ button:hover{
     }
 
     button {
+        padding: 8px 20px;
+        font-size: 13px;
+    }
+
+    .emailError{
+        gap: 10px;
         padding: 8px 20px;
         font-size: 13px;
     }
