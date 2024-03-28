@@ -9,7 +9,7 @@ export class AuthenticationService {
   private baseUrl: string;
 
   constructor(private http: HttpClient) {
-    this.baseUrl = 'http://localhost:8080/auth/signup'
+    this.baseUrl = 'http://localhost:8080/api/seller'
   }
 
   public save(seller: Seller) {

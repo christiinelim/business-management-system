@@ -58,7 +58,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid seller ID"));
                 
         Account user = new Account()
-            .setFullName(input.getFullName())
             .setEmail(input.getEmail())
             .setPassword(passwordEncoder.encode(input.getPassword()))
             .setStatus("Unverified")

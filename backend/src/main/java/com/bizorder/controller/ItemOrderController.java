@@ -16,7 +16,7 @@ import com.bizorder.response.ResponseHandler;
 import com.bizorder.service.ItemOrderService;
 
 @RestController
-@RequestMapping("/purchase")
+@RequestMapping("/api/purchase")
 public class ItemOrderController {
 
     ItemOrderService itemOrderService;

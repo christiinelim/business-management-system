@@ -14,7 +14,7 @@ import com.bizorder.service.AccountService;
 
 import java.util.List;
 
-@RequestMapping("/account")
+@RequestMapping("/api/account")
 @RestController
 public class AccountController {
     private final AccountService accountService;

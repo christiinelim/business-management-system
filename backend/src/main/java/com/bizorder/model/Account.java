@@ -18,9 +18,6 @@ public class Account implements UserDetails {
     @Column(nullable = false, name = "accountId")
     private Integer accountId;
 
-    @Column(nullable = false)
-    private String fullName;
-
     @Column(unique = true, length = 100, nullable = false)
     private String email;
 
@@ -49,15 +46,6 @@ public class Account implements UserDetails {
 
     public void setAccountId(Integer accountId) {
         this.accountId = accountId;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public Account setFullName(String fullName) {
-        this.fullName = fullName;
-        return this;
     }
 
     public String getEmail() {

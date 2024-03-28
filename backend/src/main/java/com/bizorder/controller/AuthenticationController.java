@@ -17,7 +17,7 @@ import com.bizorder.response.ResponseHandler;
 import com.bizorder.service.AuthenticationService;
 import com.bizorder.service.EmailService;
 
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 @RestController
 public class AuthenticationController {
 

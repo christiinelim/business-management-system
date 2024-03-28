@@ -16,7 +16,7 @@ import com.bizorder.response.ResponseHandler;
 import com.bizorder.service.ItemService;
 
 @RestController
-@RequestMapping("/item")
+@RequestMapping("/api/item")
 public class ItemController {
 
     ItemService itemService;

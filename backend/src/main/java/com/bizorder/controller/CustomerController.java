@@ -17,7 +17,7 @@ import com.bizorder.response.ResponseHandler;
 import com.bizorder.service.CustomerService;
 
 @RestController
-@RequestMapping("/customer")
+@RequestMapping("/api/customer")
 public class CustomerController {
 
     CustomerService customerService;

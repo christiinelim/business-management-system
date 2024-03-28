@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
-@RequestMapping("/seller")
+@RequestMapping("/api/seller")
 public class SellerController {
 
     SellerService sellerService;
