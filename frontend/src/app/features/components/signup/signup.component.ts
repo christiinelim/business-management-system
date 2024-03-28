@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { passwordValidator } from '../../../shared/validators/password.validator';
 import { AuthenticationService } from '../../../core/services/authentication/authentication.service';
-import { Seller } from '../../../core/models/seller/seller.model';
 import { Subscription } from 'rxjs';
 import { CoreModule } from '../../../core/core.module';
 import { FeaturesModule } from '../../features.module';
+import { Account } from '../../../core/models/account/account.model';
 
 
 @Component({
@@ -20,6 +20,7 @@ export class SignupComponent implements OnInit {
   protected signupForm!: FormGroup;
   protected confirmPasswordInvalid: boolean = false;
   protected subscription: Subscription | undefined;
+  protected emailExists: boolean = false;
 
   constructor(private authenticationService: AuthenticationService) {
     
@@ -42,14 +43,16 @@ export class SignupComponent implements OnInit {
   }
 
   onSubmitSignupForm(formData: any) {
-    console.log(formData)
-    const { name, contact, instagram, tiktok, carousell } = formData;
-    const seller: Seller = { name, contact, instagram, tiktok, carousell };
-    this.authenticationService.save(seller)
+    const { name, email, password, contact, instagram, tiktok, carousell } = formData;
+    const account: Account = { name, email, password, contact, instagram, tiktok, carousell };
+    this.authenticationService.save(account)
       .subscribe((response: any) => {
-        console.log(response.data)
+        this.emailExists = false;
       }, (error: any) => {
-        console.error('Error:', error);
+        if (error.error == "Error: Account does not exists") {
+          this.emailExists = true;
+        }
+        
       });
   }
 

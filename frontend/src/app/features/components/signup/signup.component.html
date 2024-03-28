@@ -140,6 +140,10 @@
                     Create Account
                 </button>
             </div>
+
+            <div class="text-danger" *ngIf="emailExists">
+                Email already exists
+            </div>
         </form>
     </div>
     <div class="col-12 col-md-5 image-container">
