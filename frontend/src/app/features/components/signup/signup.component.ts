@@ -49,12 +49,11 @@ export class SignupComponent implements OnInit {
     this.authenticationService.save(account)
       .subscribe((response: any) => {
         this.emailExists = false;
-        this.router.navigateByUrl('/verification');
+        this.router.navigateByUrl('/verification', { state: { email: formData.email }});
       }, (error: any) => {
         if (error.error == "Error: Account does not exists") {
           this.emailExists = true;
         }
-        
       });
   }
 

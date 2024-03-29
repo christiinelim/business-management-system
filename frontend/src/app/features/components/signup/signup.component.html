@@ -3,12 +3,7 @@
         <form [formGroup] = "signupForm" (ngSubmit)="onSubmitSignupForm(signupForm.value)">
             <div>
                 <label>Name</label>
-                <input 
-                    type="text"
-                
-                    formControlName="name"
-                />
-                
+                <input type="text" formControlName="name"/>
                 <div 
                     class="text-danger"
                     *ngIf="signupForm.get('name')?.invalid && signupForm.get('name')?.dirty">
@@ -18,11 +13,7 @@
             </div>
             <div>
                 <label>Email</label>
-                <input 
-                    type="text"
-
-                    formControlName="email"
-                />
+                <input type="text" formControlName="email"/>
 
                 <div 
                     class="text-danger"
@@ -34,12 +25,7 @@
             </div>
             <div>
                 <label>Password</label>
-                <input 
-                    type="password"
-                    (keyup)="checkConfirmPassword()"
-
-                    formControlName="password"
-                />
+                <input type="password" (keyup)="checkConfirmPassword()" formControlName="password"/>
 
                 <div 
                     class="text-danger"
@@ -53,12 +39,7 @@
             </div>
             <div>
                 <label>Retype Password</label>
-                <input 
-                    type="password"
-                    (keyup)="checkConfirmPassword()"
-
-                    formControlName="confirmPassword"
-                />
+                <input type="password" (keyup)="checkConfirmPassword()" formControlName="confirmPassword"/>
 
                 <div 
                     class="text-danger"
@@ -71,11 +52,7 @@
             <div class="row">
                 <div class="col-4">
                     <label>Instagram</label>
-                    <input 
-                    type="text"
-
-                    formControlName="instagram"
-                    />
+                    <input type="text" formControlName="instagram"/>
 
                     <div 
                         class="text-danger"
@@ -86,11 +63,7 @@
                 </div>
                 <div class="col-4">
                     <label>Tiktok</label>
-                    <input 
-                    type="text"
-
-                    formControlName="tiktok"
-                    />
+                    <input type="text" formControlName="tiktok"/>
 
                     <div 
                         class="text-danger"
@@ -101,11 +74,7 @@
                 </div>
                 <div class="col-4">
                     <label>Carousell</label>
-                    <input 
-                    type="text"
-
-                    formControlName="carousell"
-                    />
+                    <input type="text" formControlName="carousell"/>
 
                     <div 
                         class="text-danger"
@@ -118,11 +87,7 @@
 
             <div>
                 <label>Contact Number</label>
-                <input 
-                    type="text"
-
-                    formControlName="contact"
-                />
+                <input type="text" formControlName="contact"/>
 
                 <div 
                     class="text-danger"
@@ -134,9 +99,7 @@
             </div>
 
             <div>
-                <button 
-                    type="submit"
-                    [disabled]="signupForm.invalid">
+                <button type="submit" [disabled]="signupForm.invalid">
                     Create Account
                 </button>
             </div>

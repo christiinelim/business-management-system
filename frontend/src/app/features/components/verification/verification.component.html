@@ -1,24 +1,49 @@
-<div>
+<div class="wrapper">
     <div class="gif-container">
         <img src="././assets/images/verification/verification.gif" alt="verification image"/>
     </div>
-    <div>Please verify your email</div>
-    <div>You're almost there! We have sent an email containing the verification code. If you don't see it, you may have to check the spam folder</div>
+    <div class="verify-heading-container">
+        <div class="verify-heading">Please verify your email</div>
+    </div>
     <div>
-        <form [formGroup]="verificationForm" (ngSubmit)="onSubmitVerification(verificationForm.value)">
+        <form class="verification-form" [formGroup] = "verificationForm" (ngSubmit)="onSubmitVerification(verificationForm.value)">
+            <div>A verification code has been sent to</div>
             <div>
-                <input type="text" formControlName="email" placeholder="Input email" />
+                <input class="email-input" type="text" [value]="email" disabled/>
             </div>
-            <div formGroupName="verificationCode">
-                <input type="number" maxlength="1" formControlName="digit1" #digitInput1 (input)="onDigitInput(digitInput1, 1)">
-                <input type="number" maxlength="1" formControlName="digit2" #digitInput2 (input)="onDigitInput(digitInput2, 2)">
-                <input type="number" maxlength="1" formControlName="digit3" #digitInput3 (input)="onDigitInput(digitInput3, 3)">
-                <input type="number" maxlength="1" formControlName="digit4" #digitInput4 (input)="onDigitInput(digitInput4, 4)">
-                <input type="number" maxlength="1" formControlName="digit5" #digitInput5 (input)="onDigitInput(digitInput5, 5)">
-                <input type="number" maxlength="1" formControlName="digit6" #digitInput6 (input)="onDigitInput(digitInput6, null)">
+            <div class="instructions">If you don't see it, you may have to check the spam folder. Please enter the code below to verify your email. The code will expire in 30 minutes.</div>
+            <div class="digit-input">
+                <div>
+                    <input type="number" formControlName="digitOne" maxlength="1" #digitInput1 (keyup)="onDigitInput($event, '', digitInput1, digitInput2)">
+                </div>
+                <div>
+                    <input type="number" formControlName="digitTwo" maxlength="1" #digitInput2 (keyup)="onDigitInput($event, digitInput1, digitInput2, digitInput3)">
+                </div>
+                <div>
+                    <input type="number" formControlName="digitThree" maxlength="1" #digitInput3 (keyup)="onDigitInput($event, digitInput2, digitInput3, digitInput4)">
+                </div>
+                <div>
+                    <input type="number" formControlName="digitFour" maxlength="1" #digitInput4 (keyup)="onDigitInput($event, digitInput3, digitInput4, digitInput5)">
+                </div>
+                <div>
+                    <input type="number" formControlName="digitFive" maxlength="1" #digitInput5 (keyup)="onDigitInput($event, digitInput4, digitInput5, digitInput6)">
+                </div>
+                <div>
+                    <input type="number" formControlName="digitSix" maxlength="1" #digitInput6 (keyup)="onDigitInput($event, digitInput5, digitInput6, '')">
+                </div>
             </div>
-            <button type="submit">Verify Code</button>
-          </form>
+            <button type="submit" [disabled]="verificationForm.invalid">Verify Code</button>
+
+            <div class="verification-error" *ngIf="verificationError">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                        <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"/>
+                    </svg>
+                </div>
+                <div>Invalid verification token</div>
+            </div>
+        </form>
     </div>
 
 </div>
