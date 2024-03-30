@@ -21,7 +21,8 @@ export class SignupComponent implements OnInit {
   protected signupForm!: FormGroup;
   protected confirmPasswordInvalid: boolean = false;
   protected subscription: Subscription | undefined;
-  protected emailExists: boolean = false;
+  protected submitError: boolean = false;
+  protected errorMessage: string = "";
 
   constructor(private authenticationService: AuthenticationService, private router: Router) {
     
@@ -44,17 +45,25 @@ export class SignupComponent implements OnInit {
   }
 
   onSubmitSignupForm(formData: any) {
-    const { name, email, password, contact, instagram, tiktok, carousell } = formData;
-    const account: Account = { name, email, password, contact, instagram, tiktok, carousell };
-    this.authenticationService.save(account)
-      .subscribe((response: any) => {
-        this.emailExists = false;
-        this.router.navigateByUrl('/verification', { state: { email: formData.email }});
-      }, (error: any) => {
-        if (error.error == "Error: Account does not exists") {
-          this.emailExists = true;
-        }
-      });
+    if (!formData.name || !formData.contact || !formData.instagram || !formData.tiktok ||
+        !formData.carousell || !formData.email || !formData.password || !formData.confirmPassword) {
+      this.submitError = true;
+      this.errorMessage = "Please fill up all the fields";
+    } else {
+      this.submitError = false;
+      const { name, email, password, contact, instagram, tiktok, carousell } = formData;
+      const account: Account = { name, email, password, contact, instagram, tiktok, carousell };
+      this.authenticationService.signup(account)
+        .subscribe((response: any) => {
+          this.submitError = false;
+          this.router.navigateByUrl('/verification', { state: { email: formData.email }});
+        }, (error: any) => {
+          if (error.error == "Error: Account does not exists") {
+            this.submitError = true;
+            this.errorMessage = "Email already exists";
+          }
+        });
+    }
   }
 
   checkConfirmPassword() {

@@ -40,7 +40,10 @@ img {
 form {
     display: flex;
     flex-direction: column;
-    gap: 10px
+}
+
+.password-div {
+    margin-top: 10px;
 }
 
 label {
@@ -87,6 +90,23 @@ button:hover{
     width: 100%;
 }
 
+.forgot-password {
+    display: flex;
+    justify-content: flex-end;
+    margin: 2px 0px 10px 0px; 
+    color: #5B5959;
+}
+
+.forgot-password:hover {
+    cursor: pointer;
+    color: #737373;
+    opacity: 80%;
+}
+
+.forgot {
+    font-size: 8px;
+}
+
 @media (min-width: 768px) {
     .wrapper {
         flex-direction: row;
@@ -107,6 +127,10 @@ button:hover{
 
     form {
         padding-right: 80px;
+    }
+
+    .password-div {
+        margin-top: 14px;
     }
 
     input {
@@ -142,6 +166,10 @@ button:hover{
         padding: 7px 16px;
         font-size: 11px;
     }
+
+    .forgot {
+        font-size: 9px;
+    }
 }
 
 @media (min-width: 992px) {
@@ -167,6 +195,10 @@ button:hover{
         padding-right: 120px;
     }
 
+    .password-div {
+        margin-top: 16px;
+    }
+
     input {
         height: 35px;
     }
@@ -186,5 +218,9 @@ button:hover{
         gap: 10px;
         padding: 8px 20px;
         font-size: 13px;
+    }
+
+    .forgot {
+        font-size: 11px;
     }
 }

@@ -59,13 +59,8 @@ public class AuthenticationController {
     @PostMapping("/forgot-password")
     public ResponseEntity<Object> forgotPassword(@RequestBody ForgotPasswordRequest request) {
         try {
-            // validate or say if email exist...
-            // userService.checkIfEmailExists(request.getEmail());
-            
             String resetToken = authenticationService.generateAndSaveResetToken(request.getEmail());
-
             System.out.println(resetToken);
-
             emailService.sendResetEmail(request.getEmail(), resetToken);
 
             return ResponseHandler.responseBuilder("Reset email sent successfully", HttpStatus.OK);

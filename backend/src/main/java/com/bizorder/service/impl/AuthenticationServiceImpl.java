@@ -172,6 +172,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public String generateAndSaveResetToken(String email) {
+        Optional <Account> optionalAccount = accountRepository.findByEmail(email);
+        if (!optionalAccount.isPresent()){
+            throw new SearchNotFoundException("Account does not exist, please sign up");
+        }
+
         String resetToken = jwtService.generateResetToken(email);
 
         String hashedToken = hashResetToken(resetToken);
@@ -200,13 +205,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         String storedHashedToken = resetTokenRepository.getResetTokenByEmail(email);
         String hashedToken = hashResetToken(token);
-
-        System.out.println("storedHashedToken");
-        System.out.println(storedHashedToken);
-        System.out.println("hashedToken");
-        System.out.println(hashedToken);
-
-
 
         if (!(storedHashedToken != null && storedHashedToken.equals(hashedToken))) {
             throw new SearchNotFoundException("Reset token is incorrect");
