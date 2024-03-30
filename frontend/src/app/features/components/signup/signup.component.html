@@ -1,6 +1,12 @@
 <div class="row wrapper">
     <div class="col-12 col-md-7 signup-form">
         <form [formGroup] = "signupForm" (ngSubmit)="onSubmitSignupForm(signupForm.value)">
+            <div *ngIf="loading" class="loading-overlay">
+                <div class="text-primary" role="status">
+                    <img src="././assets/images/shared/loading.gif" alt="loading"/>
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
             <div>
                 <label>Business Name</label>
                 <input type="text" formControlName="name"/>

@@ -23,6 +23,7 @@ export class SignupComponent implements OnInit {
   protected subscription: Subscription | undefined;
   protected submitError: boolean = false;
   protected errorMessage: string = "";
+  protected loading: boolean = false; 
 
   constructor(private authenticationService: AuthenticationService, private router: Router) {
     
@@ -50,16 +51,19 @@ export class SignupComponent implements OnInit {
       this.submitError = true;
       this.errorMessage = "Please fill up all the fields";
     } else {
+      this.loading = true;
       this.submitError = false;
       const { name, email, password, contact, instagram, tiktok, carousell } = formData;
       const account: Account = { name, email, password, contact, instagram, tiktok, carousell };
       this.authenticationService.signup(account)
         .subscribe((response: any) => {
           this.submitError = false;
+          this.loading = false;
           this.router.navigateByUrl('/verification', { state: { email: formData.email }});
         }, (error: any) => {
           if (error.error == "Error: Account does not exists") {
             this.submitError = true;
+            this.loading = false;
             this.errorMessage = "Email already exists";
           }
         });

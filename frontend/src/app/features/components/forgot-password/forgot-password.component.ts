@@ -24,6 +24,7 @@ export class ForgotPasswordComponent implements OnInit {
   protected emailed: boolean = false;
   protected submitError: boolean = false;
   protected errorMessage: string = "";
+  protected loading: boolean = false; 
 
   constructor (private authenticationService: AuthenticationService, private router: Router) {
 
@@ -58,6 +59,7 @@ export class ForgotPasswordComponent implements OnInit {
     } else {
       this.submitError = false;
       if (!this.reset) {
+        this.loading = true;
         const { email } = formData;
         const forgotPassword: ForgotPassword = { email };
         this.authenticationService.forgot(forgotPassword)
@@ -65,8 +67,10 @@ export class ForgotPasswordComponent implements OnInit {
             this.reset = true;
             this.description = "";
             this.emailed = true;
+            this.loading = false;
           }, (error: any) => {
             if (error.error === "Error: Account does not exist, please sign up"){
+              this.loading = false;
               this.submitError = true;
               this.errorMessage = "Account does not exist, please sign up";
             }
