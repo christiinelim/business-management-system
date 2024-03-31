@@ -1,6 +1,6 @@
 <app-nav>
     <div class="wrapper">
-        <div class="button">
+        <div class="button" (click)="showFormPopup = true">
             <div class="add-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
                     <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
@@ -41,6 +41,52 @@
                         </svg>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <div class="form-popup-overlay" *ngIf="showFormPopup">
+            <div class="form-popup">
+                <div class="close">
+                    <button (click)="showFormPopup = false">X</button>
+                </div>
+                <div class="form-header">
+                    Add New Product
+                </div>
+                <form class="form" [formGroup]="productForm" (ngSubmit)="submitForm(productForm.value)">
+                    <div>
+                        <label>Product</label>
+                        <input type="text" formControlName="name"/>
+                    </div>
+                    <div>
+                        <label>Description</label>
+                        <input type="text" formControlName="description"/>
+                    </div>
+                    <div>
+                        <label>Cost</label>
+                        <input type="number" formControlName="cost"/>
+                    </div>
+                    <div>
+                        <label>Stock on Hand</label>
+                        <input type="number" formControlName="stock_on_hand"/>
+                    </div>
+                    <div>
+                        <label>Rerence Website</label>
+                        <input type="text" formControlName="reference"/>
+                    </div>
+                    <div class="submit-button">
+                        <button type="submit">Add</button>
+                    </div>
+
+                    <div class="error" *ngIf="error">
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-circle" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"/>
+                            </svg>
+                        </div>
+                        <div>{{errorMessage}}</div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

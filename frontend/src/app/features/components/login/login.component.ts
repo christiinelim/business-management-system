@@ -60,7 +60,6 @@ export class LoginComponent implements OnInit {
       this.authenticationService.login(login)
         .subscribe((response: any) => {
           this.loginError = false;
-          console.log(response)
           this.router.navigateByUrl('/dashboard', { state: { currentPage: "Dashboard"} });
         }, (error: any) => {
           

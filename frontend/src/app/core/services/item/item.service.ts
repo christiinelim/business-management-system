@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { GlobalService } from '../global/global.service';
 import { CookieService } from 'ngx-cookie-service';
+import { Item } from '../../models/item/item.model';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,10 @@ export class ItemService {
 
   getItemsByAccountId() {
     const accountId = this.cookieService.get('id');
-
     return this.http.get(this.globalService.apiUrl + '/item/account/' + accountId);
+  }
+
+  createItem(item: Item) {
+    return this.http.post<Item>(this.globalService.apiUrl + '/item', item);
   }
 }

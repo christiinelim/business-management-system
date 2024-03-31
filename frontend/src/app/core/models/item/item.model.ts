@@ -1,5 +1,4 @@
 export interface Item {
-  itemId: number;
   name: string;
   cost: number;
   description: string;
@@ -7,6 +6,5 @@ export interface Item {
   stock_on_hand: number;
   account: {
     accountId: number;
-    email: string;
   };
 }
