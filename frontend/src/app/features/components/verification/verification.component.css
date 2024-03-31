@@ -1,5 +1,6 @@
 .wrapper {
-    padding: 30px 18%;
+    padding: 60px 18%;
+    height: calc(100vh - 60px);
 }
 
 .gif-container {
@@ -86,7 +87,8 @@ button:hover{
 
 @media (min-width: 768px) {
     .wrapper {
-        padding: 40px 25%;
+        padding: 80px 25%;
+        height: calc(100vh - 65px);
     }
 
     .verify-heading-container{
@@ -123,7 +125,8 @@ button:hover{
 
 @media (min-width: 992px) {
     .wrapper {
-        padding: 22px 30%;
+        padding: 80px 30%;
+        height: calc(100vh - 75px);
     }
 
     .verify-heading-container{

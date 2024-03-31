@@ -8,11 +8,13 @@ import { AuthenticationService } from '../../../core/services/authentication/aut
 import { Router } from '@angular/router';
 import { ForgotPassword } from '../../../core/models/forgot-password/forgot-password.model';
 import { CoreModule } from '../../../core/core.module';
+import { HeaderComponent } from '../../../shared/components/header/header.component';
+import { FooterComponent } from '../../../shared/components/footer/footer.component';
 
 @Component({
   selector: 'app-forgot-password',
   standalone: true,
-  imports: [FeaturesModule, CoreModule],
+  imports: [FeaturesModule, CoreModule, HeaderComponent, FooterComponent],
   templateUrl: './forgot-password.component.html',
   styleUrl: './forgot-password.component.css'
 })

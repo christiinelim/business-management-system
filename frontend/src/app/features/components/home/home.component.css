@@ -6,7 +6,7 @@
     background-color: #1A2E44;
     width: 100%;
     padding: 0px 10% !important;
-    height: 100%;
+    height: calc(100vh - 60px);
     color: white;
     padding: 0px 40px;
     margin: 0px;
@@ -64,6 +64,7 @@ img {
     .wrapper{
         padding: 0px 50px;
         flex-direction: row;
+        height: calc(100vh - 65px);
     }
 
     .landing-description{
@@ -95,6 +96,7 @@ img {
 @media (min-width: 992px) {
     .wrapper{
         padding: 0px 60px;
+        height: calc(100vh - 75px);
     }
     
     .header {

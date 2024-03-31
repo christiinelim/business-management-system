@@ -4,6 +4,7 @@
     justify-content: center;
     padding: 80px 15%;
     gap: 35px;
+    height: calc(100vh - 60px);
 }
 
 .verified{
@@ -113,11 +114,11 @@ button:hover{
         justify-content: center;
         padding: 50px 10%;
         gap: 0px;
-        margin-top: 80px;
+        height: calc(100vh - 65px);
     }
 
     .signup-form{
-        margin-top: 50px;
+        margin-top: 170px;
     }
 
     img {
@@ -175,11 +176,11 @@ button:hover{
 @media (min-width: 992px) {
     .wrapper {
         padding: 50px 14%;
-        margin-top: 35px;
+        height: calc(100vh - 75px);
     }
 
     .signup-form{
-        margin-top: 80px;
+        margin-top: 160px;
     }
 
     img {

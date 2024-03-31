@@ -86,7 +86,8 @@ button:hover{
         justify-content: center;
         padding: 50px 10%;
         gap: 0px;
-        margin-top: 10px;
+        margin-top: 0px;
+        height: calc(100vh - 65px);
     }
 
     img {
@@ -99,6 +100,11 @@ button:hover{
     }
 
     .image-container{
+        align-items: center;
+    }
+
+    .signup-form {
+        display: flex;
         align-items: center;
     }
 
@@ -126,6 +132,7 @@ button:hover{
     .wrapper {
         padding: 50px 14%;
         margin-top: 15px;
+        height: calc(100vh - 90px);
     }
 
     img {

@@ -7,12 +7,14 @@ import { CoreModule } from '../../../core/core.module';
 import { FeaturesModule } from '../../features.module';
 import { Account } from '../../../core/models/account/account.model';
 import { Router } from '@angular/router';
+import { HeaderComponent } from '../../../shared/components/header/header.component';
+import { FooterComponent } from '../../../shared/components/footer/footer.component';
 
 
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [FeaturesModule, CoreModule],
+  imports: [FeaturesModule, CoreModule, HeaderComponent, FooterComponent],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.css'
 })

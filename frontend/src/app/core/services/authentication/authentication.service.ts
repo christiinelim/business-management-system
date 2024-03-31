@@ -13,10 +13,11 @@ import { ResetPassword } from '../../models/reset-password/reset-password.model'
   providedIn: 'root'
 })
 export class AuthenticationService {
+
   constructor(
-    private http: HttpClient, 
+    private http: HttpClient,
     private globalService: GlobalService,
-    private cookieService: CookieService
+    private cookieService: CookieService,
   ) {}
 
   signup(account: Account) {
@@ -59,4 +60,5 @@ export class AuthenticationService {
   removeToken() {
     this.cookieService.delete('token');
   }
+
 }

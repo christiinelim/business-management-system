@@ -6,11 +6,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Verification } from '../../../core/models/verification/verification.model';
 import { Subscription } from 'rxjs';
 import { AuthenticationService } from '../../../core/services/authentication/authentication.service';
+import { HeaderComponent } from '../../../shared/components/header/header.component';
+import { FooterComponent } from '../../../shared/components/footer/footer.component';
 
 @Component({
   selector: 'app-verification',
   standalone: true,
-  imports: [FeaturesModule, CoreModule],
+  imports: [FeaturesModule, CoreModule, HeaderComponent, FooterComponent],
   templateUrl: './verification.component.html',
   styleUrl: './verification.component.css'
 })

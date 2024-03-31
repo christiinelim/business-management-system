@@ -5,11 +5,13 @@ import { CoreModule } from '../../../core/core.module';
 import { Login } from '../../../core/models/login/login.model';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../../core/services/authentication/authentication.service';
+import { HeaderComponent } from '../../../shared/components/header/header.component';
+import { FooterComponent } from '../../../shared/components/footer/footer.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FeaturesModule, CoreModule],
+  imports: [FeaturesModule, CoreModule, HeaderComponent, FooterComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -27,9 +29,14 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     const state = window.history.state;
-    if (state && state.display) {
-      this.display = state.display;
-      this.message = state.message;
+    if (state) {
+      if (state.display) {
+        this.display = state.display;
+        this.message = state.message;
+      }  else if (state.loginError) {
+        this.loginError = state.loginError;
+        this.errorMessage = state.errorMessage;
+      }
     }
 
     this.loginForm = new FormGroup({
@@ -53,7 +60,7 @@ export class LoginComponent implements OnInit {
       this.authenticationService.login(login)
         .subscribe((response: any) => {
           this.loginError = false;
-          this.router.navigateByUrl('/signup');
+          this.router.navigateByUrl('/dashboard');
         }, (error: any) => {
           
           if (error.error === "Error: Account does not exist, please sign up"){
