@@ -1,0 +1,189 @@
+.wrapper {
+    padding: 30px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px
+}
+
+.button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    border: 1px solid #FF8622;
+    background-color: #FF8622;
+    color: white;
+    padding: 4px 10px;
+    font-weight: bold;
+    border-radius: 5px;
+    font-size: 10px;
+    width: 100px;
+}
+
+.button:hover {
+    cursor: pointer;
+    border: 1px solid #FF9922;
+    background-color: #FF9922;
+}
+
+.button svg {
+    width: 13px;
+    height: auto;
+}
+
+.items {
+    gap: 10px;
+}
+
+.item {
+    width: calc(50% - 10px); 
+    margin-bottom: 15px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    box-shadow: 0 0 6px rgba(0,0,0,0.1);
+    padding: 10px;
+}
+
+.name {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    line-height: 13px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.reference {
+    display: flex;
+    gap: 2px
+}
+
+.reference a {
+    color: #3D85D4;
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 2px;
+    margin-top: 10px;
+}
+
+.actions-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+}
+
+.actions-item svg {
+    width: 10px;
+    height: 10px;
+}
+
+.edit {
+    border: 1px solid #6CBF98;
+}
+
+.edit svg {
+    color: #6CBF98;
+}
+
+.delete {
+    border: 1px solid #EB9F9F;
+}
+
+.delete svg {
+    color: #EB9F9F;
+}
+
+.edit:hover {
+    cursor: pointer;
+    border: 1px solid #399469;
+}
+
+.edit svg:hover {
+    cursor: pointer;
+    color: #399469;
+}
+
+.delete:hover {
+    cursor: pointer;
+    border: 1px solid #E86868;
+}
+
+.delete svg:hover {
+    cursor: pointer;
+    color: #E86868;
+}
+
+@media (min-width: 768px) {
+
+    .wrapper {
+        padding: 30px 35px;
+    }
+
+    .button {
+        gap: 7px;
+        padding: 7px 10px;
+        font-size: 11px;
+        width: 110px;
+    }
+
+    .button svg {
+        width: 14px;
+        height: auto;
+    }
+
+    .items {
+        gap: 16px;
+    }
+    
+    .item {
+        width: calc(33.333% - 16px); 
+        padding: 15px;
+    }
+
+    .actions {
+        gap: 4px;
+        margin-top: 12px;
+    }
+    
+    .actions-item {
+        width: 19px;
+        height: 19px;
+    }
+    
+    .actions-item svg {
+        width: 11px;
+        height: 11px;
+    }
+
+}
+
+@media (min-width: 992px) {
+    .wrapper {
+        padding: 30px 45px;
+    }
+
+    .items {
+        gap: 18px;
+    }
+    
+    .item {
+        width: calc(25% - 16px); 
+        padding: 16px;
+    }
+    
+    .actions-item {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .actions-item svg {
+        width: 12px;
+        height: 12px;
+    }
+}

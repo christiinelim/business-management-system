@@ -93,7 +93,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             throw new SearchNotFoundException("Account is not verified");
         }
         String jwtToken = jwtService.generateToken(authenticatedUser);
-        return new LoginResponse().setToken(jwtToken).setExpiresIn(jwtService.getExpirationTime());
+        LoginResponse loginResponse = new LoginResponse()
+            .setToken(jwtToken)
+            .setExpiresIn(jwtService.getExpirationTime())
+            .setAccountId(authenticatedUser.getAccountId());
+
+        return loginResponse;
     }
 
     @Override

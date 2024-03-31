@@ -7,6 +7,8 @@ import { ForgotPasswordComponent } from './features/components/forgot-password/f
 import { DashboardComponent } from './features/components/dashboard/dashboard.component';
 import { NavComponent } from './shared/components/nav/nav.component';
 import { authenticationGuard } from './core/guards/authentication/authentication.guard';
+import { ListingsComponent } from './features/components/listings/listings.component';
+import { OrdersComponent } from './features/components/orders/orders.component';
 
 export const routes: Routes = [
     {
@@ -30,14 +32,18 @@ export const routes: Routes = [
         children: [{ path: '', component: ForgotPasswordComponent }]
     },
     {
-        path: '',
-        component: NavComponent,
-        children: [
-            { 
-                path: 'dashboard', 
-                component: DashboardComponent,
-                canActivate: [authenticationGuard]
-            }
-        ]
+        path: 'dashboard', 
+        component: DashboardComponent,
+        canActivate: [authenticationGuard]
+    },
+    {
+        path: 'listings', 
+        component: ListingsComponent,
+        canActivate: [authenticationGuard]
+    },
+    {
+        path: 'orders', 
+        component: OrdersComponent,
+        canActivate: [authenticationGuard]
     }
 ];

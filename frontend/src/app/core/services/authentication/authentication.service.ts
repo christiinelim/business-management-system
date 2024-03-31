@@ -17,7 +17,7 @@ export class AuthenticationService {
   constructor(
     private http: HttpClient,
     private globalService: GlobalService,
-    private cookieService: CookieService,
+    private cookieService: CookieService
   ) {}
 
   signup(account: Account) {
@@ -40,8 +40,10 @@ export class AuthenticationService {
     return this.http.post<any>(this.globalService.apiUrl + '/auth/login', login).pipe(
       tap(response => {
         const token = response.data.token;
-        if (token) {
+        const accountId = response.data.accountId;
+        if (token && accountId) {
           this.saveToken(token);
+          this.saveAccountId(accountId);
         } else {
           console.log("Error signing in")
         }
@@ -59,6 +61,18 @@ export class AuthenticationService {
 
   removeToken() {
     this.cookieService.delete('token');
+  }
+
+  private saveAccountId(accountId: string){
+    this.cookieService.set('id', accountId);
+  }
+
+  getAccountId() {
+    return this.cookieService.get('id');
+  }
+
+  removeAccountId() {
+    this.cookieService.delete('id');
   }
 
 }

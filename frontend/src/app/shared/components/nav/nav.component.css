@@ -10,13 +10,19 @@
     width: calc(100% - 200px);
 }
 
+.content-div {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+}
+
 .content {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
     border-bottom: 1px solid #eee;
-    height: 40px
+    height: 40px;
 }
 
 .content-nav {
@@ -121,6 +127,8 @@
 }
 
 .nav-profile svg {
+    width: 17px;
+    height: auto;
     color: #3D85D4;
 }
 
@@ -154,6 +162,14 @@
     .nav-item-name {
         font-size: 14px;
     }
+
+    .content-nav div {
+        font-size: 14px;
+    }
+
+    .nav-profile svg {
+        width: 19px;
+    }
 }
 
 @media (min-width: 992px) {
@@ -181,5 +197,13 @@
 
     .nav-item-name {
         font-size: 15px;
+    }
+
+    .content-nav div {
+        font-size: 15px;
+    }
+
+    .nav-profile svg {
+        width: 21px;
     }
 }

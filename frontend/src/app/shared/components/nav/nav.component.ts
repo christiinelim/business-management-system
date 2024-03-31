@@ -11,11 +11,19 @@ import { CoreModule } from '../../../core/core.module';
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.css'
 })
-export class NavComponent{
+export class NavComponent implements OnInit {
   isNavExpanded: boolean = false;
   isProfileExpanded: boolean = false;
+  currentPage: string = "";
   
   constructor(private router: Router, private authenticationService: AuthenticationService) {}
+
+  ngOnInit(): void {
+    const state = window.history.state;
+    if (state && state.currentPage) {
+      this.currentPage = state.currentPage;
+    }
+  }
 
   toggleNav() {
     this.isNavExpanded = !this.isNavExpanded;
@@ -27,6 +35,19 @@ export class NavComponent{
 
   navigateToHome() {
     this.authenticationService.removeToken();
+    this.authenticationService.removeAccountId();
     this.router.navigateByUrl('/login');
+  }
+
+  navigateToDashboard() {
+    this.router.navigateByUrl('/dashboard', { state: { currentPage: "Dashboard"} });
+  }
+
+  navigateToListings() {
+    this.router.navigateByUrl('/listings', { state: { currentPage: "Listings"} });
+  }
+
+  navigateToOrders() {
+    this.router.navigateByUrl('/orders', { state: { currentPage: "Orders"} });
   }
 }

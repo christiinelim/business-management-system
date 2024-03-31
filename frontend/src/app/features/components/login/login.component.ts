@@ -60,7 +60,8 @@ export class LoginComponent implements OnInit {
       this.authenticationService.login(login)
         .subscribe((response: any) => {
           this.loginError = false;
-          this.router.navigateByUrl('/dashboard');
+          console.log(response)
+          this.router.navigateByUrl('/dashboard', { state: { currentPage: "Dashboard"} });
         }, (error: any) => {
           
           if (error.error === "Error: Account does not exist, please sign up"){

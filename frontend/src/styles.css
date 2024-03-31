@@ -47,6 +47,6 @@ app-root {
 
 @media (min-width: 992px) {
     html, body, p, h1, h2, h3, h4, div {
-        font-size: 13px;
+        font-size: 12px;
     }
 }

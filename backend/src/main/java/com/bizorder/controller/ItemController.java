@@ -45,7 +45,7 @@ public class ItemController {
     }
 
     // get all items by a seller
-    @GetMapping("seller/{accountId}")
+    @GetMapping("account/{accountId}")
     public ResponseEntity<Object> getItemsBySeller(@PathVariable("accountId") Integer accountId) {
         try {
             return ResponseHandler.responseBuilder("Requested seller items retrieved", HttpStatus.OK, itemService.getItemsByAccount(accountId));
