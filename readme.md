@@ -28,10 +28,11 @@ This project aims to solve the pain point of small business owners by providing 
 - **Integration**:
   - Telegram Bot API
 
-## Proposed ER Diagram
-
-![ER Diagram](./images/er-diagram.png)
-
-## Proposed SQL Schema
-
-![SQL Schema](./images/sql-schema.png)
+## Overview of layout
+![Homepage](./images/home.png)
+![Sign Up Page](./images/sign-up.png)
+![Verification Page](./images/verification.png)
+![Login Page](./images/login-page.png)
+![Forgot Password Page](./images/forgot-password.png)
+![Listings Page](./images/listings.png)
+![Orders Page](./images/orders.png)

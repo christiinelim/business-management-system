@@ -39,14 +39,99 @@ app-root {
     gap: 20px;
 }
 
+/* edit and delete */
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 2px;
+    margin-top: 10px;
+}
+
+.actions-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+}
+
+.actions-item svg {
+    width: 10px;
+    height: 10px;
+}
+
+.edit {
+    border: 1px solid #6CBF98;
+}
+
+.edit svg {
+    color: #6CBF98;
+}
+
+.delete {
+    border: 1px solid #EB9F9F;
+}
+
+.delete svg {
+    color: #EB9F9F;
+}
+
+.edit:hover {
+    cursor: pointer;
+    border: 1px solid #399469;
+}
+
+.edit svg:hover {
+    cursor: pointer;
+    color: #399469;
+}
+
+.delete:hover {
+    cursor: pointer;
+    border: 1px solid #E86868;
+}
+
+.delete svg:hover {
+    cursor: pointer;
+    color: #E86868;
+}
+
 @media (min-width: 768px) {
     html, body, p, h1, h2, h3, h4, div {
         font-size: 11px;
+    }
+
+    /* edit and delete */
+    .actions {
+        gap: 4px;
+        margin-top: 12px;
+    }
+    
+    .actions-item {
+        width: 19px;
+        height: 19px;
+    }
+    
+    .actions-item svg {
+        width: 11px;
+        height: 11px;
     }
 }
 
 @media (min-width: 992px) {
     html, body, p, h1, h2, h3, h4, div {
         font-size: 12px;
+    }
+
+    /* edit and delete */
+    .actions-item {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .actions-item svg {
+        width: 12px;
+        height: 12px;
     }
 }

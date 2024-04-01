@@ -56,13 +56,14 @@ public class Order {
     public Order() {
     }
 
-    public Order(String note, String paid, String status, Date collection_date, Customer customer, Account account) {
+    public Order(String note, String paid, String status, Date collection_date, Customer customer, Account account, Date createdAt) {
         this.note = note;
         this.paid = paid;
         this.status = status;
         this.collection_date = collection_date;
         this.customer = customer;
         this.account = account;
+        this.createdAt = createdAt;
     }
 
     // Getters and setters
@@ -120,5 +121,13 @@ public class Order {
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 }

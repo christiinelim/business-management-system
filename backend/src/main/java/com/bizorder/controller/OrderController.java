@@ -45,8 +45,8 @@ public class OrderController {
     }
 
     // get all order by a customer
-    @GetMapping("seller/{accountId}")
-    public ResponseEntity<Object> getOrderBySeller(@PathVariable("accountId") Integer accountId) {
+    @GetMapping("account/{accountId}")
+    public ResponseEntity<Object> getOrderByAccount(@PathVariable("accountId") Integer accountId) {
         try {
             return ResponseHandler.responseBuilder("Requested orders retrieved", HttpStatus.OK, orderService.getOrderByAccount(accountId));
         } catch (Exception e) {

@@ -4,6 +4,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { GlobalService } from './services/global/global.service';
 import { ItemService } from './services/item/item.service';
 import { HeadersInterceptorService } from './services/headers-interceptor/headers-interceptor.service';
+import { OrderService } from './services/order/order.service';
 
 
 
@@ -16,6 +17,7 @@ import { HeadersInterceptorService } from './services/headers-interceptor/header
     AuthenticationService,
     GlobalService,
     ItemService,
+    OrderService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HeadersInterceptorService,
