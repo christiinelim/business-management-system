@@ -23,4 +23,12 @@ export class ItemService {
   createItem(item: Item) {
     return this.http.post<Item>(this.globalService.apiUrl + '/item', item);
   }
+
+  updateItem(itemId: any, item: Item) {
+    return this.http.put<Item>(this.globalService.apiUrl + '/item/' + itemId, item);
+  }
+
+  deleteItem(itemId: any) {
+    return this.http.delete(this.globalService.apiUrl + '/item/' + itemId);
+  }
 }

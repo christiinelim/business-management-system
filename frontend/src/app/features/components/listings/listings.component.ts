@@ -20,8 +20,15 @@ export class ListingsComponent implements OnInit{
   protected items: Item[] = [];
   protected showFormPopup: boolean = false;
   protected error: boolean = false;
+  protected showDeletePopup: boolean = false;
   protected errorMessage: string = "Missing input fields";
+  protected productToDelete: string = "";
   protected productForm!: FormGroup;
+  protected deleteItemId: number = 0;
+  protected editItemId: number = 0;
+  protected status: string = "";
+  protected action: string = "";
+  protected formHeader: string = "";
 
   constructor(private itemService: ItemService, private authenticationService: AuthenticationService, private router: Router, private cookieService: CookieService) {
 
@@ -57,21 +64,32 @@ export class ListingsComponent implements OnInit{
         }
       };
 
-      this.itemService.createItem(item)
-        .subscribe((response: any) => {
-          this.showFormPopup = false;
-          this.refreshData();
-        }, (error: any) => {
-          console.log(error)
-        }); 
+      if (this.status === "add"){
+        this.itemService.createItem(item)
+          .subscribe((response: any) => {
+            this.showFormPopup = false;
+            this.refreshData();
+          }, (error: any) => {
+            console.log(error)
+          }); 
+      } else {
+        this.itemService.updateItem(this.editItemId, item)
+          .subscribe((response: any) => {
+            this.showFormPopup = false;
+            this.refreshData();
+          }, (error: any) => {
+            console.log(error)
+          }); 
+      }
     }
   }
 
+
+  // Retrieve Items listed
   refreshData() {
     this.itemService.getItemsByAccountId()
       .subscribe((response: any) => {
         this.items = response.data;
-        console.log(this.items);
       }, (error: any) => {
         if (error.error.Error === "The JWT signature is invalid or the token has expired"){
           this.authenticationService.removeToken();
@@ -80,4 +98,41 @@ export class ListingsComponent implements OnInit{
         }
       });
   }
+
+  // show form 
+  openForm (status: any, action: any, formHeader: any, item: any = null) {
+    if (status === "edit" && item) {
+      this.editItemId = item.itemId;
+      this.productForm.setValue({
+        name: item.name,
+        description: item.description,
+        cost: item.cost,
+        stock_on_hand: item.stock_on_hand,
+        reference: item.reference
+      });
+    }
+    this.status = status;
+    this.action = action;
+    this.formHeader = formHeader;
+    this.showFormPopup = true;
+  } 
+
+  // delete popup
+  deletePopup(itemName: any, itemId: any) {
+    this.showDeletePopup = true;
+    this.productToDelete = itemName;
+    this.deleteItemId = itemId;
+  }
+
+  // delete item
+  deleteItem() {
+    this.itemService.deleteItem(this.deleteItemId)
+      .subscribe((response: any) => {
+        this.showDeletePopup = false;
+        this.refreshData();
+      }, (error: any) => {
+        console.log(error)
+      });
+  }
+
 }
