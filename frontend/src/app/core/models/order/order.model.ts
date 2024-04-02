@@ -4,14 +4,13 @@ export interface Order {
   paid: string;
   status: string;
   createdAt: Date;
-  stock_on_hand: number;
   customer: {
     customerId: number;
     name: string;
     contact: string;
     address: string;
     paymentMethod: string;
-    collectionDate: Date
+    collectionMethod: string
   };
   account: {
     accountId: number;

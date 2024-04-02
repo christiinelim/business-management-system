@@ -5,6 +5,7 @@ import { GlobalService } from './services/global/global.service';
 import { ItemService } from './services/item/item.service';
 import { HeadersInterceptorService } from './services/headers-interceptor/headers-interceptor.service';
 import { OrderService } from './services/order/order.service';
+import { ItemOrderService } from './services/item-order/item-order.service';
 
 
 
@@ -18,6 +19,7 @@ import { OrderService } from './services/order/order.service';
     GlobalService,
     ItemService,
     OrderService,
+    ItemOrderService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HeadersInterceptorService,
