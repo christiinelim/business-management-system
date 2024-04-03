@@ -79,6 +79,7 @@ public class ItemOrderServiceImpl implements ItemOrderService {
         if (existingItemOrderOptional.isPresent()) {
             ItemOrder existingItemOrder = existingItemOrderOptional.get();
             existingItemOrder.setQuantity(itemOrder.getQuantity());
+            existingItemOrder.setItem(itemOrder.getItem());
     
             itemOrderRepository.save(existingItemOrder);
             

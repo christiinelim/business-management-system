@@ -12,6 +12,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
 import { ItemService } from '../../../core/services/item/item.service';
 import { Item } from '../../../core/models/item/item.model';
+import { ItemOrder } from '../../../core/models/item-order/item-order.model';
 
 @Component({
   selector: 'app-orders',
@@ -28,14 +29,20 @@ export class OrdersComponent implements OnInit {
   protected totalCost: number = 0;
   protected editOrderId: number = 0;
   protected deleteOrderId: number = 0;
+  protected deletePurchaseId: number = 0;
+  protected purchaseId: number = 0;
   protected showFormPopup: boolean = false;
   protected error: boolean = false;
   protected showDeletePopup: boolean = false;
   protected showAddItemForm: boolean = false;
+  protected addItemError: boolean = false;
   protected orderForm!: FormGroup;
-  protected customerOrderToDelete: string = "";
+  protected itemForm!: FormGroup;
+  protected deleteMessage: string = "";
   protected formHeader: string = "";
-  protected itemsMap: { [key: number]: string } = {};
+  protected itemsMap: { [key: string]: number } = {};
+  protected status: string = "";
+  protected deleteStatus = "";
 
   constructor(
     private orderService: OrderService, 
@@ -48,6 +55,8 @@ export class OrdersComponent implements OnInit {
 
   ngOnInit(): void {
     this.refreshData();
+    this.retrieveItems();
+
 
     this.orderForm = new FormGroup({
       collectionDate: new FormControl("", [Validators.required]),
@@ -56,7 +65,10 @@ export class OrdersComponent implements OnInit {
       status: new FormControl("", [Validators.required])
     });
 
-    this.retrieveItems();
+    this.itemForm = new FormGroup({
+      itemName: new FormControl("", [Validators.required]),
+      quantity: new FormControl("", [Validators.required])
+    });
   }
 
 
@@ -65,6 +77,21 @@ export class OrdersComponent implements OnInit {
     this.orderService.getOrdersByAccountId()
       .subscribe((response: any) => {
         this.orders = response.data;
+      }, (error: any) => {
+        if (error.error.Error === "The JWT signature is invalid or the token has expired"){
+          this.authenticationService.removeToken();
+          this.authenticationService.removeAccountId();
+          this.router.navigateByUrl('/login');
+        }
+      });
+  }
+
+  // retrive item order
+  refreshItemOrderData(orderId: number) {
+    this.itemOrderService.getItemOrderByOrderId(orderId)
+      .subscribe((response: any) => {
+        this.purchaseData = response.data;
+        this.calculateTotalCost();
       }, (error: any) => {
         if (error.error.Error === "The JWT signature is invalid or the token has expired"){
           this.authenticationService.removeToken();
@@ -84,17 +111,7 @@ export class OrdersComponent implements OnInit {
   // toggle collapse order
   toggleCollapse(index: number, orderId: any) {
     this.expandedRowIndex = this.expandedRowIndex === index ? -1 : index;
-    this.itemOrderService.getItemOrderByOrderId(orderId)
-      .subscribe((response: any) => {
-        this.purchaseData = response.data;
-        this.calculateTotalCost();
-      }, (error: any) => {
-        if (error.error.Error === "The JWT signature is invalid or the token has expired"){
-          this.authenticationService.removeToken();
-          this.authenticationService.removeAccountId();
-          this.router.navigateByUrl('/login');
-        }
-      });
+    this.refreshItemOrderData(orderId);
   }
 
   // open form
@@ -103,12 +120,12 @@ export class OrdersComponent implements OnInit {
     this.showFormPopup = true;
 
     this.editOrderId = order.orderId;
-      this.orderForm.setValue({
-        collectionDate: order.collectionDate,
-        note: order.note,
-        paid: order.paid,
-        status: order.status
-      });
+    this.orderForm.setValue({
+      collectionDate: order.collectionDate,
+      note: order.note,
+      paid: order.paid,
+      status: order.status
+    });
   }
 
   // submit form
@@ -139,21 +156,65 @@ export class OrdersComponent implements OnInit {
   }
 
   // delete popup
-  deletePopUp(customerName: any, orderId: any) {
-    this.customerOrderToDelete = customerName;
+  deletePopUp(messageDetail: any, id: any, status: any) {
     this.showDeletePopup = true;
-    this.deleteOrderId = orderId;
+    if (status === "Delete Order") {
+      this.deleteMessage = "Ordered By: " + messageDetail;
+      this.deleteOrderId = id;
+      this.deleteStatus = "Delete Order";
+    } else {
+      this.deleteMessage = "Purchase: " + messageDetail;
+      this.deletePurchaseId = id;
+      this.deleteStatus = "Delete Purchase";
+    }
+    
   }
 
   // delete 
-  deleteOrder() {
-    this.orderService.deleteOrder(this.deleteOrderId)
+  confirmDelete() {
+    if (this.deleteStatus === "Delete Order") {
+      this.orderService.deleteOrder(this.deleteOrderId)
       .subscribe((response: any) => {
         this.showDeletePopup = false;
         this.refreshData();
       }, (error: any) => {
         console.log(error)
       });
+    } else {
+      this.itemOrderService.deletePurchase(this.deletePurchaseId)
+      .subscribe((response: any) => {
+        this.showDeletePopup = false;
+        const orderId = this.orders[this.expandedRowIndex].orderId || 0;
+        this.refreshItemOrderData(orderId);
+      }, (error: any) => {
+        console.log(error)
+      });
+    }
+    
+  }
+
+  // add item
+  onAddItemClick() {
+    this.showAddItemForm = true;
+    this.status = "New";
+  }
+
+  // edit item
+  async onEditItemClick(itemOrder: ItemOrder) {
+    this.showAddItemForm = true;
+    this.status = "Update";
+    this.purchaseId = itemOrder.purchaseId || 0;
+
+    await this.simulateDataLoading();
+
+    this.itemForm.patchValue({
+      quantity: itemOrder.quantity,
+      itemName: itemOrder.item.name
+    });    
+  }
+
+  async simulateDataLoading() {
+    await new Promise(resolve => setTimeout(resolve, 10)); 
   }
 
   // retrieve items listed
@@ -161,7 +222,7 @@ export class OrdersComponent implements OnInit {
     this.itemService.getItemsByAccountId(this.cookieService.get('id'))
       .subscribe((response: any) => {
         const itemsData = response.data;
-        itemsData.map((item: any) => this.itemsMap[item.itemId] = item.name);
+        itemsData.map((item: any) => this.itemsMap[item.name] = item.itemId);
         console.log(this.itemsMap);
       }, (error: any) => {
         if (error.error.Error === "The JWT signature is invalid or the token has expired"){
@@ -172,5 +233,44 @@ export class OrdersComponent implements OnInit {
       });
   }
 
+  submitItemForm(formData: any, purchaseId?: number) {
+    if (!formData.quantity || !formData.itemName) {
+      this.addItemError = true;
+    } else {
+      this.addItemError = false;
+      this.showAddItemForm = false;
+
+      const { quantity, itemName } = formData;
+      const orderId = this.orders[this.expandedRowIndex].orderId || 0;
+      const itemOrder: ItemOrder = {
+        quantity, 
+        item: {
+          itemId: this.itemsMap[itemName]
+        },
+        order: {
+          orderId: orderId
+        }
+      };
+
+      if (this.status === "New") {
+        this.itemOrderService.createPurchase(itemOrder)
+            .subscribe((response: any) => {
+              this.refreshItemOrderData(orderId);
+            }, (error: any) => {
+              console.log(error)
+            }); 
+      } else {
+        // update
+        this.itemOrderService.updatePurchase(itemOrder, this.purchaseId)
+            .subscribe((response: any) => {
+              this.refreshItemOrderData(orderId);
+            }, (error: any) => {
+              console.log(error)
+            }); 
+
+
+      }
+    }
+  }
   
 }

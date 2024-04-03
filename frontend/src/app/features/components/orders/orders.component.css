@@ -44,6 +44,10 @@ div {
     padding: 10px 30px 0px 30px;
 }
 
+.expanded-details:hover {
+    cursor: default;
+}
+
 .detail-heading {
     display: flex;
     justify-content: center;
@@ -123,6 +127,77 @@ div {
     font-size: 11px;
 }
 
+/* add item form */
+.add-form {
+    margin-bottom: 10px;
+}
+
+.add-form select {
+    max-width: 100%;
+    border: none;
+    background-color: transparent;
+}
+
+.add-form select:focus,
+.add-form input:focus {
+    outline: none;
+}
+
+.add-form-item {
+    padding-left: 3px !important
+}
+
+.add-form input {
+    max-width: 100%;
+    width: 20px;
+}
+
+.choice {
+    display: flex;
+    gap: 5px;
+}
+
+.save svg {
+    width: 11px;
+    color: #6CBF98;
+}
+
+.cancel svg {
+    width: 15px;
+    color: #EB9F9F;
+}
+
+.save svg:hover {
+    cursor: pointer;
+    color: #399469;
+}
+
+.cancel:hover {
+    cursor: pointer;
+    color: #E86868;
+
+}
+
+.save button {
+    background-color: transparent;
+    border: none;
+    padding: 0 !important;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.add-item-error {
+    height: 20px !important;
+}
+
+.add-item-error svg {
+    height: 10px
+}
+
 @media (min-width: 768px) {
 
     .wrapper {
@@ -185,6 +260,38 @@ div {
     /* delete warning */
     .delete-name {
         font-size: 13px;
+    }
+
+    /* add item form */
+    .add-form {
+        margin-bottom: 15px;
+    }
+
+    .add-form input {
+        width: 30px;
+    }
+    
+    .choice {
+        display: flex;
+        gap: 4px;
+    }
+    
+    .save svg {
+        width: 16px;
+        height: auto;
+    }
+    
+    .cancel svg {
+        width: 22px;
+        height: auto;
+    }
+
+    .add-item-error {
+        height: 30px !important;
+    }
+    
+    .add-item-error svg {
+        height: 13px
     }
 
 }

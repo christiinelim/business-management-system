@@ -36,3 +36,4 @@ This project aims to solve the pain point of small business owners by providing 
 ![Forgot Password Page](./images/forgot-password.png)
 ![Listings Page](./images/listings.png)
 ![Orders Page](./images/orders.png)
+![Orders Detail](./images/order-detail.png)
