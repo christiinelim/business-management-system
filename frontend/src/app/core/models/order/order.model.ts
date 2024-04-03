@@ -3,8 +3,8 @@ export interface Order {
   note: string;
   paid: string;
   status: string;
-  createdAt: Date;
-  customer: {
+  createdAt?: Date;
+  customer?: {
     customerId: number;
     name: string;
     contact: string;
@@ -12,7 +12,7 @@ export interface Order {
     paymentMethod: string;
     collectionMethod: string
   };
-  account: {
+  account?: {
     accountId: number;
   },
   collectionDate: Date;
