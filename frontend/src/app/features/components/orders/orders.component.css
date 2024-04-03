@@ -113,7 +113,7 @@ div {
     height: 48%;
 }
 
-input, select {
+.form-pop input, .form-pop select {
     width: 100%;
     height: 20px
 }
@@ -178,6 +178,10 @@ input, select {
         height: 65%;
     }
 
+    .form-pop input, .form-pop select {
+        height: 30px
+    }
+
     /* delete warning */
     .delete-name {
         font-size: 13px;
@@ -219,6 +223,10 @@ input, select {
 
     .form-popup {
         height: 70%;
+    }
+
+    .form-pop input, .form-pop select {
+        height: 35px
     }
 
     /* delete warning */

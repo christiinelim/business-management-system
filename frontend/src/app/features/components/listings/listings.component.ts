@@ -87,7 +87,7 @@ export class ListingsComponent implements OnInit{
 
   // Retrieve Items listed
   refreshData() {
-    this.itemService.getItemsByAccountId()
+    this.itemService.getItemsByAccountId(this.cookieService.get('id'))
       .subscribe((response: any) => {
         this.items = response.data;
       }, (error: any) => {

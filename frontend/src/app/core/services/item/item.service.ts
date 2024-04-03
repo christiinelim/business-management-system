@@ -15,8 +15,7 @@ export class ItemService {
     private cookieService: CookieService
   ) { }
 
-  getItemsByAccountId() {
-    const accountId = this.cookieService.get('id');
+  getItemsByAccountId(accountId: any) {
     return this.http.get(this.globalService.apiUrl + '/item/account/' + accountId);
   }
 

@@ -9,6 +9,9 @@ import { OrderService } from '../../../core/services/order/order.service';
 import { ItemOrderService } from '../../../core/services/item-order/item-order.service';
 import { Purchase } from '../../../core/models/purchase/purchase.model';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { CookieService } from 'ngx-cookie-service';
+import { ItemService } from '../../../core/services/item/item.service';
+import { Item } from '../../../core/models/item/item.model';
 
 @Component({
   selector: 'app-orders',
@@ -28,16 +31,19 @@ export class OrdersComponent implements OnInit {
   protected showFormPopup: boolean = false;
   protected error: boolean = false;
   protected showDeletePopup: boolean = false;
-  protected showAddItemForm: boolean = true;
+  protected showAddItemForm: boolean = false;
   protected orderForm!: FormGroup;
   protected customerOrderToDelete: string = "";
   protected formHeader: string = "";
+  protected itemsMap: { [key: number]: string } = {};
 
   constructor(
     private orderService: OrderService, 
     private authenticationService: AuthenticationService, 
     private router: Router,
-    private itemOrderService: ItemOrderService) {
+    private itemOrderService: ItemOrderService,
+    private cookieService: CookieService,
+    private itemService: ItemService) {
   }
 
   ngOnInit(): void {
@@ -48,11 +54,13 @@ export class OrdersComponent implements OnInit {
       note: new FormControl("", [Validators.required]),
       paid: new FormControl("", [Validators.required]),
       status: new FormControl("", [Validators.required])
-    })
+    });
+
+    this.retrieveItems();
   }
 
 
-  // Retrieve Orders
+  // retrieve orders
   refreshData() {
     this.orderService.getOrdersByAccountId()
       .subscribe((response: any) => {
@@ -147,5 +155,22 @@ export class OrdersComponent implements OnInit {
         console.log(error)
       });
   }
+
+  // retrieve items listed
+  retrieveItems() {
+    this.itemService.getItemsByAccountId(this.cookieService.get('id'))
+      .subscribe((response: any) => {
+        const itemsData = response.data;
+        itemsData.map((item: any) => this.itemsMap[item.itemId] = item.name);
+        console.log(this.itemsMap);
+      }, (error: any) => {
+        if (error.error.Error === "The JWT signature is invalid or the token has expired"){
+          this.authenticationService.removeToken();
+          this.authenticationService.removeAccountId();
+          this.router.navigateByUrl('/login');
+        }
+      });
+  }
+
   
 }
