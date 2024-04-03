@@ -1,0 +1,169 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 40px 18%;
+}
+
+.heading {
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+    margin-bottom: 50px;
+}
+
+.heading div {
+    font-size: 17px;
+}
+
+.profile-items {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    padding-left: 10px
+}
+
+.profile-items img {
+    width: 23px;
+    height: auto
+}
+
+.username {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.username div {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.username svg {
+    width: 40px;
+    height: auto;
+    color: #3D85D4;
+}
+
+
+.profile-items svg {
+    width: 20px;
+    height: auto;
+    color: #3D85D4;
+}
+
+.section-heading {
+    font-weight: bold;
+    font-size: 15px;
+    border-bottom: 1px solid black;
+    margin-top: 30px;
+}
+
+.icon-div {
+    width: 40px;
+}
+
+.category-div {
+    width: 60px
+}
+
+@media (min-width: 768px) {
+
+    .wrapper {
+        padding: 40px 25%;
+    }
+
+    .heading {
+        margin-bottom: 55px;
+    }
+    
+    .heading div {
+        font-size: 18px;
+    }
+
+    .profile-items {
+        margin-top: 23px;
+        padding-left: 15px
+    }
+    
+    .profile-items img {
+        width: 25px;
+        height: auto
+    }
+    
+    .username div {
+        font-size: 16px;
+    }
+    
+    .username svg {
+        width: 50px;
+    }
+    
+    
+    .profile-items svg {
+        width: 23px;
+        height: auto;
+    }
+    
+    .section-heading {
+        font-size: 16px;
+        margin-top: 40px;
+    }
+    
+    .icon-div {
+        width: 50px;
+    }
+    
+    .category-div {
+        width: 70px
+    }
+
+}
+
+@media (min-width: 992px) {
+
+    .wrapper {
+        padding: 40px 30%;
+    }
+    
+    .heading div {
+        font-size: 19px;
+    }
+
+    .profile-items {
+        margin-top: 28px;
+        padding-left: 20px
+    }
+    
+    .profile-items img {
+        width: 30px;
+        height: auto
+    }
+    
+    .username div {
+        font-size: 17px;
+    }
+    
+    .username svg {
+        width: 60px;
+    }
+    
+    
+    .profile-items svg {
+        width: 26px;
+        height: auto;
+    }
+    
+    .section-heading {
+        font-size: 17px;
+        margin-top: 50px;
+    }
+    
+    .icon-div {
+        width: 60px;
+    }
+    
+    .category-div {
+        width: 80px
+    }
+}

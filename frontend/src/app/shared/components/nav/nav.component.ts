@@ -39,6 +39,10 @@ export class NavComponent implements OnInit {
     this.router.navigateByUrl('/login');
   }
 
+  navigateToProfile() {
+    this.router.navigateByUrl('/profile', { state: { currentPage: "Profile"} });
+  }
+
   navigateToDashboard() {
     this.router.navigateByUrl('/dashboard', { state: { currentPage: "Dashboard"} });
   }

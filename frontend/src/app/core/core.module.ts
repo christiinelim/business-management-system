@@ -3,9 +3,10 @@ import { AuthenticationService } from './services/authentication/authentication.
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { GlobalService } from './services/global/global.service';
 import { ItemService } from './services/item/item.service';
-import { HeadersInterceptorService } from './services/headers-interceptor/headers-interceptor.service';
 import { OrderService } from './services/order/order.service';
 import { ItemOrderService } from './services/item-order/item-order.service';
+import { HeadersInterceptorService } from './interceptors/headers-interceptor/headers-interceptor.service';
+import { AccountService } from './services/account/account.service';
 
 
 
@@ -20,6 +21,7 @@ import { ItemOrderService } from './services/item-order/item-order.service';
     ItemService,
     OrderService,
     ItemOrderService,
+    AccountService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HeadersInterceptorService,

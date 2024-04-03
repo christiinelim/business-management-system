@@ -219,7 +219,7 @@ export class OrdersComponent implements OnInit {
 
   // retrieve items listed
   retrieveItems() {
-    this.itemService.getItemsByAccountId(this.cookieService.get('id'))
+    this.itemService.getItemsByAccountId()
       .subscribe((response: any) => {
         const itemsData = response.data;
         itemsData.map((item: any) => this.itemsMap[item.name] = item.itemId);
