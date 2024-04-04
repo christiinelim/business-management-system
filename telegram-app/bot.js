@@ -8,8 +8,8 @@ require('dotenv').config();
 let currentOption;
 let previousOption;
 let keyboardOptions;
-let selectedSellerId;
-let selectedSeller;
+let selectedAccountId;
+let selectedAccount;
 let bot;
 let customer_information = false;
 const customer_info = {
@@ -39,13 +39,13 @@ const token = process.env.API_KEY;
 
 
 (async () => {
-    const sellersData = await data.getAccountsData();
-    const sellerMap = {};
-    const sellerList = sellersData.map((seller) => {
-        sellerMap[seller.name] = seller.sellerId;
-        return seller.name;
+    const accountsData = await data.getAccountsData();
+    const accountMap = {};
+    const accountList = accountsData.map((account) => {
+        accountMap[account.name] = account.accountId;
+        return account.name;
     });
-    keyboardOptions = sellerList.map((seller) => [{ text: seller }]);
+    keyboardOptions = accountList.map((account) => [{ text: account }]);
     keyboardOptions.push([{ text: "Back" }]);
     keyboardOptions.push([{ text: "Exit" }]);
 
@@ -78,28 +78,28 @@ const token = process.env.API_KEY;
             purchase_information = false;
             await displayViewPurchase(msg);
             view_purchase = true;
-        } else if (sellerList.includes(currentOption)) {
+        } else if (accountList.includes(currentOption)) {
             resetCustomerInformation();
             purchase_information = false;
-            selectedSeller = currentOption;
-            selectedSellerId = sellerMap[selectedSeller];
+            selectedAccount = currentOption;
+            selectedAccountId = accountMap[selectedAccount];
 
-            await onSellerClick(msg, selectedSeller);
+            await onSellerClick(msg, selectedAccount);
 
         } else if (currentOption == "View seller profile") {
-            if (selectedSellerId){
+            if (selectedAccountId){
                 resetCustomerInformation();
                 purchase_information = false;
                 await onViewProfileClick(msg);   
             } 
         } else if (currentOption == "View products"){
-            if (selectedSellerId){
+            if (selectedAccountId){
                 resetCustomerInformation();
                 purchase_information = false;
                 await onViewProductsClick(msg);
             }
         } else if (currentOption == "Place order"){
-            if (selectedSellerId){
+            if (selectedAccountId){
                 customer_information = true;
                 purchase_information = false;
                 await onPlaceOrderClick(msg, customer_information_count);
@@ -121,7 +121,7 @@ const token = process.env.API_KEY;
         } else if (currentOption == "Submit"){
             purchase_information = false;
             quantity_check = false;
-            await sendOrder();
+            await sendOrder(msg);
         } else if (cartOut & currentOption == "Add a note") {
             await addNoteMessage(msg);
         } else if (cartOut & currentOption != "Add a note") {
@@ -143,16 +143,9 @@ const token = process.env.API_KEY;
             view_order_id = msg.text;
             if (view_order_id){
                 await displayPurchase(msg);
-                view_purchase = null;
+                view_purchase = false;
             }
-        }
-        
-        
-        
-        
-        
-        
-        
+        }  
         else if (currentOption == "Back") {
             resetCustomerInformation();
             view_purchase = false;
@@ -160,19 +153,19 @@ const token = process.env.API_KEY;
             currentOption = previousOption;
             
             if (currentOption == "View seller profile") {
-                currentOption = selectedSeller;
-                await onSellerClick(msg, selectedSeller);
+                currentOption = selectedAccount;
+                await onSellerClick(msg, selectedAccount);
 
             } else if (currentOption == "Make a purchase") {
                 await start(msg);
 
-            } else if (sellerList.includes(currentOption)) {
+            } else if (accountList.includes(currentOption)) {
                 currentOption = "Make a purchase";
                 await purchase(msg);
                 
             } else if (currentOption == "View products") {
-                currentOption = selectedSeller;
-                await onSellerClick(msg, selectedSeller);
+                currentOption = selectedAccount;
+                await onSellerClick(msg, selectedAccount);
             } else {
                 await start(msg);
             }
@@ -242,10 +235,10 @@ function displayViewPurchase(msg) {
 
 
 // CHOSEN SELLER
-function onSellerClick(msg, selectedSeller) {
+function onSellerClick(msg, selectedAccount) {
     bot.sendMessage(
         msg.chat.id,
-        `You have selected ${selectedSeller}, please select what you like to view.`,
+        `You have selected ${selectedAccount}, please select what you like to view.`,
         {
             reply_markup: {
                 keyboard: [
@@ -265,7 +258,7 @@ function onSellerClick(msg, selectedSeller) {
 
 // VIEW PROFILE
 async function onViewProfileClick(msg) {
-    const sellerData = await data.getAccountData(selectedSellerId);
+    const sellerData = await data.getAccountData(selectedAccountId);
 
     await bot.sendMessage(
         msg.chat.id,
@@ -288,14 +281,14 @@ async function onViewProfileClick(msg) {
 
 // VIEW PRODUCTS
 async function onViewProductsClick(msg) {
-    const sellerItems = await data.getSellerItemsData(selectedSellerId);
-    const itemList = sellerItems.map((item) => {
+    const accountItems = await data.getAccountItemsData(selectedAccountId);
+    const itemList = accountItems.map((item) => {
         itemMap[item.name] = item.itemId;
         return item.name;
     });
 
     let message = '';
-    sellerItems.forEach(item => {
+    accountItems.forEach(item => {
         message += `Product: ${item.name}\n`;
         message += `Cost: ${item.cost}\n`;
         message += `Description: ${item.description}\n`;
@@ -325,7 +318,7 @@ async function onPlaceOrderClick(msg, count){
     if (count < 2){
         await bot.sendMessage(msg.chat.id, `Please enter your ${customer_query[count]}`);
     } else if (count == 2) {
-        await bot.sendMessage(msg.chat.id, `Please enter your delivery ${customer_query[count]} if applicable, else indicate NA`);
+        await bot.sendMessage(msg.chat.id, `Please enter your ${customer_query[count]} if applicable, else indicate NA`);
     } else if (count == 3) {
         await bot.sendMessage(
             msg.chat.id,
@@ -369,7 +362,7 @@ function resetCustomerInformation(){
 
 // CHOOSE ITEM
 async function onSelectItem(msg){
-    const sellerItems = await data.getSellerItemsData(selectedSellerId);
+    const sellerItems = await data.getAccountItemsData(selectedAccountId);
     const itemList = sellerItems.map((item) => {
         itemMap[item.name] = item.itemId;
         return item.name;
@@ -451,7 +444,7 @@ function submitMessage(msg){
     );
 }
 
-async function sendOrder() {
+async function sendOrder(msg) {
     // insert customer info
     const responseCustomer = await data.postCustomerData(customerInfo);
     const customerIdIndex = responseCustomer.data.lastIndexOf(' ');
@@ -465,8 +458,8 @@ async function sendOrder() {
         "customer": {
             "customerId": customerId
         },
-        "seller": {
-            "sellerId": selectedSellerId
+        "account": {
+            "accountId": selectedAccountId
         }
     });
     const orderIdIndex = responseOrder.data.lastIndexOf(' ');
@@ -484,13 +477,18 @@ async function sendOrder() {
             }
         });
     }
+
+    bot.sendMessage(
+        msg.chat.id,
+        `Your order has been sent. Your reference ID is ${orderId}. Please type /start to start again`,
+    );
 }
 
 async function displayPurchase(msg){
     const purchaseData = await data.getOrder(view_order_id);
     await bot.sendMessage(
         msg.chat.id,
-        `Purchased from: ${purchaseData[0].order.seller.name}\nItem: ${purchaseData[0].item.name}\nQuantity: ${purchaseData[0].quantity}`,
+        `Purchased from: ${purchaseData[0].order.account.name}\nItem: ${purchaseData[0].item.name}\nQuantity: ${purchaseData[0].quantity}`,
         {
             reply_markup: {
                 keyboard: [

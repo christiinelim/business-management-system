@@ -11,7 +11,7 @@ async function getToken() {
             "email": email,
             "password": password
         });
-        jwtToken = response.data.token;
+        jwtToken = response.data.data.token;
         tokenExpirationTime = new Date().getTime() + response.data.expiresIn;
     } catch (error) {
         console.error('Error fetching token:', error);
@@ -39,7 +39,7 @@ async function getAccountsData() {
 
 async function getAccountData(accountId) {
     await refreshTokenIfNeeded();
-    const response = await axios.get(`http://localhost:8080/api/seller/${accountId}`, {
+    const response = await axios.get(`http://localhost:8080/api/account/${accountId}`, {
         headers: {
             'Authorization': `Bearer ${jwtToken}`
         }
@@ -48,9 +48,9 @@ async function getAccountData(accountId) {
     return data;
 }
 
-async function getSellerItemsData(accountId){
+async function getAccountItemsData(accountId){
     await refreshTokenIfNeeded();
-    const response = await axios.get(`http://localhost:8080/api/item/seller/${accountId}`, {
+    const response = await axios.get(`http://localhost:8080/api/item/account/${accountId}`, {
         headers: {
             'Authorization': `Bearer ${jwtToken}`
         }
@@ -128,7 +128,7 @@ getToken();
 module.exports = {
     getAccountsData,
     getAccountData,
-    getSellerItemsData,
+    getAccountItemsData,
     postCustomerData,
     postOrderData,
     postPurchaseData,
