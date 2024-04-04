@@ -60,13 +60,18 @@ export class LoginComponent implements OnInit {
       this.authenticationService.login(login)
         .subscribe((response: any) => {
           this.loginError = false;
-          this.router.navigateByUrl('/dashboard', { state: { currentPage: "Dashboard"} });
+          this.router.navigateByUrl('/listings', { state: { currentPage: "Listings"} });
         }, (error: any) => {
           
           if (error.error === "Error: Account does not exist, please sign up"){
             this.errorMessage = "Account does not exist, please sign up";
           } else if (error.error === "Error: Wrong email or password"){
             this.errorMessage = "Wrong email or password";
+          } else if (error.error === "Error: Account is not verified"){
+            setTimeout(() => {
+              this.router.navigateByUrl('/verification', { state: { email: formData.email }});
+            }, 4000);
+            this.errorMessage = "Please verify your account, you will be redirected to the verification page";
           }
           this.loginError = true;
         });

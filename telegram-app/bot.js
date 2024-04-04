@@ -39,7 +39,7 @@ const token = process.env.API_KEY;
 
 
 (async () => {
-    const sellersData = await data.getSellersData();
+    const sellersData = await data.getAccountsData();
     const sellerMap = {};
     const sellerList = sellersData.map((seller) => {
         sellerMap[seller.name] = seller.sellerId;
@@ -265,7 +265,7 @@ function onSellerClick(msg, selectedSeller) {
 
 // VIEW PROFILE
 async function onViewProfileClick(msg) {
-    const sellerData = await data.getSellerData(selectedSellerId);
+    const sellerData = await data.getAccountData(selectedSellerId);
 
     await bot.sendMessage(
         msg.chat.id,

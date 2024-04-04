@@ -1,7 +1,7 @@
 export interface Account {
   name: string;
-  email: string;
-  password: string;
+  email?: string;
+  password?: string;
   contact: string;
   instagram: string;
   tiktok: string;

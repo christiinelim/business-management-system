@@ -62,8 +62,8 @@
     border-radius: 5px;
     width: 48px;
     height: 20px;
-    font-size: 11px;
     font-weight: bold;
+    font-size: 10px;
 }
 
 .cancel button {
@@ -88,7 +88,7 @@
 
 .edit-icon svg {
     color: #C8C5C5;
-    width: 12px;
+    width: 14px;
 }
 
 .edit-icon svg:hover {
@@ -118,6 +118,53 @@ input {
 
 .form-error {
     margin-top: 20px
+}
+
+.warning-header {
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.warning-content {
+    text-align: center;
+    margin: 5px 0px 20px 0px;
+}
+
+.delete-button {
+    background-color: #d85b62;
+    border: 1px solid #d85b62;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 5px 10px;
+    margin-top: 40px;
+}
+
+.delete-button:hover {
+    background-color: #FF7979;
+    border: 1px solid #FF7979;
+}
+
+.delete-button-div {
+    display: flex;
+    justify-content: center;
+}
+
+.delete-account {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    justify-content: center;
+    color: #856404 !important;
+    background-color: #fff3cd;
+    position: relative;
+    padding: 6px 12px;
+    margin-bottom: 1rem;
+    border: 1px solid ffeeba;
+    border-radius: 5px;
+    font-size: 10px;
+    width: 100%;
+    text-align: center;
 }
 
 @media (min-width: 768px) {
@@ -171,6 +218,26 @@ input {
         width: 70px
     }
 
+    .edit-icon svg {
+        width: 16px;
+    }
+
+    .edit-mode-button button {
+        font-size: 11px;
+    }
+
+    input {
+        width: 140px;
+        height: 25px;
+    }
+
+    .warning-header {
+        font-size: 18px;
+    }
+    
+    .warning-content {
+        margin: 10px 0px 25px 0px;
+    }
 }
 
 @media (min-width: 992px) {
@@ -218,5 +285,28 @@ input {
     
     .category-div {
         width: 80px
+    }
+
+    .edit-icon svg {
+        width: 18px;
+    }
+
+    .edit-mode-button button {
+        font-size: 12px;
+        width: 53px;
+        height: 22px;
+    }
+
+    input {
+        width: 150px;
+        height: 27px;
+    }
+
+    .warning-header {
+        font-size: 19px;
+    }
+    
+    .warning-content {
+        margin: 10px 0px 25px 0px;
     }
 }

@@ -90,6 +90,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         Account authenticatedUser = authenticate(loginUserDto);
         if (authenticatedUser.getStatus().equals("Unverified")) {
+            // remove old token
+            verificationTokenRepository.deleteByEmail(loginUserDto.getEmail());
+
+            // send new verification code
+            Integer verificationToken = generateAndSaveVerificationToken(loginUserDto.getEmail());
+            emailService.sendVerificationEmail(loginUserDto.getEmail(), verificationToken);
+
             throw new SearchNotFoundException("Account is not verified");
         }
         String jwtToken = jwtService.generateToken(authenticatedUser);

@@ -20,6 +20,8 @@ export class ProfileComponent implements OnInit {
   protected account: Account | undefined;
   protected editMode: boolean = false;
   protected error: boolean = false;
+  protected deleteWarning: boolean = false;
+  protected deleteAccountMessage: boolean = false;
   protected profileForm!: FormGroup;
 
   constructor(private accountService: AccountService, private router: Router, private authenticationService: AuthenticationService) {
@@ -65,8 +67,27 @@ export class ProfileComponent implements OnInit {
 
   }
 
+  // exit edit mode
   onExit() {
     this.editMode = false;
+    this.error = false;
+  }
+
+  // delete account
+  deleteAccount() {
+    this.deleteAccountMessage = true;
+    this.deleteWarning = false;
+    
+    setTimeout(() => {
+      this.accountService.deleteAccount()
+        .subscribe((response: any) => {
+          this.authenticationService.removeToken();
+          this.authenticationService.removeAccountId();
+          this.router.navigateByUrl('');
+        }, (error: any) => {
+          console.log(error)
+        }); 
+    }, 4000);
   }
 
   // submit
@@ -75,6 +96,23 @@ export class ProfileComponent implements OnInit {
       this.error = true;
     } else {
       this.error = false;
+      const { name, contact, instagram, tiktok, carousell } = formData;
+      const account: Account = {
+        name,
+        contact,
+        instagram,
+        tiktok,
+        carousell
+      };
+
+      this.accountService.updateAccount(account)
+        .subscribe((response: any) => {
+          this.editMode = false;
+          this.getAccountData();
+        }, (error: any) => {
+          console.log(error)
+        }); 
+
     }
   }
   

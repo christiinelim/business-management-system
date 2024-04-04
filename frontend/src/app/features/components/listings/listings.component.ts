@@ -69,6 +69,7 @@ export class ListingsComponent implements OnInit{
           .subscribe((response: any) => {
             this.showFormPopup = false;
             this.refreshData();
+            this.productForm.reset();
           }, (error: any) => {
             console.log(error)
           }); 
@@ -77,6 +78,7 @@ export class ListingsComponent implements OnInit{
           .subscribe((response: any) => {
             this.showFormPopup = false;
             this.refreshData();
+            this.productForm.reset();
           }, (error: any) => {
             console.log(error)
           }); 

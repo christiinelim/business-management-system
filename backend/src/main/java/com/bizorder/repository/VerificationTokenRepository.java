@@ -25,4 +25,9 @@ public interface VerificationTokenRepository extends JpaRepository<VerificationT
     @Modifying
     @Query("DELETE FROM VerificationToken WHERE token = :token")
     void deleteByVerificationToken(Integer token);
+
+    @Transactional
+    @Modifying
+    @Query("DELETE FROM VerificationToken WHERE email = :email")
+    void deleteByEmail(String email);
 }

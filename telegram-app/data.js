@@ -7,7 +7,7 @@ const password = process.env.ADMIN_PASSWORD;
 
 async function getToken() {
     try {
-        const response = await axios.post("http://localhost:8080/auth/login", {
+        const response = await axios.post("http://localhost:8080/api/auth/login", {
             "email": email,
             "password": password
         });
@@ -26,9 +26,9 @@ async function refreshTokenIfNeeded() {
     }
 }
 
-async function getSellersData() {
+async function getAccountsData() {
     await refreshTokenIfNeeded();
-    const response = await axios.get("http://localhost:8080/seller", {
+    const response = await axios.get("http://localhost:8080/api/account", {
         headers: {
             'Authorization': `Bearer ${jwtToken}`
         }
@@ -37,9 +37,9 @@ async function getSellersData() {
     return data;
 }
 
-async function getSellerData(sellerId) {
+async function getAccountData(accountId) {
     await refreshTokenIfNeeded();
-    const response = await axios.get(`http://localhost:8080/seller/${sellerId}`, {
+    const response = await axios.get(`http://localhost:8080/api/seller/${accountId}`, {
         headers: {
             'Authorization': `Bearer ${jwtToken}`
         }
@@ -48,9 +48,9 @@ async function getSellerData(sellerId) {
     return data;
 }
 
-async function getSellerItemsData(sellerId){
+async function getSellerItemsData(accountId){
     await refreshTokenIfNeeded();
-    const response = await axios.get(`http://localhost:8080/item/seller/${sellerId}`, {
+    const response = await axios.get(`http://localhost:8080/api/item/seller/${accountId}`, {
         headers: {
             'Authorization': `Bearer ${jwtToken}`
         }
@@ -62,7 +62,7 @@ async function getSellerItemsData(sellerId){
 
 async function postCustomerData(customerInfo){
     await refreshTokenIfNeeded();
-    const apiUrl = 'http://localhost:8080/customer';
+    const apiUrl = 'http://localhost:8080/api/customer';
     try {
         const response = await axios.post(apiUrl, customerInfo, {
             headers: {
@@ -78,7 +78,7 @@ async function postCustomerData(customerInfo){
 
 async function postOrderData(orderInfo){
     await refreshTokenIfNeeded();
-    const apiUrl = 'http://localhost:8080/order';
+    const apiUrl = 'http://localhost:8080/api/order';
     try {
         const response = await axios.post(apiUrl, orderInfo, {
             headers: {
@@ -94,7 +94,7 @@ async function postOrderData(orderInfo){
 
 async function postPurchaseData(purchaseInfo){
     await refreshTokenIfNeeded();
-    const apiUrl = 'http://localhost:8080/purchase';
+    const apiUrl = 'http://localhost:8080/api/purchase';
     try {
         const response = await axios.post(apiUrl, purchaseInfo, {
             headers: {
@@ -110,7 +110,7 @@ async function postPurchaseData(purchaseInfo){
 async function getOrder(orderId){
     await refreshTokenIfNeeded();
     try {
-        const response = await axios.get(`http://localhost:8080/purchase/order/${orderId}`, {
+        const response = await axios.get(`http://localhost:8080/api/purchase/order/${orderId}`, {
             headers: {
                 'Authorization': `Bearer ${jwtToken}`
             }
@@ -126,8 +126,8 @@ async function getOrder(orderId){
 getToken();
 
 module.exports = {
-    getSellersData,
-    getSellerData,
+    getAccountsData,
+    getAccountData,
     getSellerItemsData,
     postCustomerData,
     postOrderData,

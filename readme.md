@@ -70,3 +70,10 @@ able to perform the following functional requirements (abbreviated as FR):
     - Node.js
     - Express
 
+## Future Implementations
+
+### 1. Two-Factor Authentication (2FA)
+Enhance security measures by implementing Two-Factor Authentication (2FA) to protect user accounts. This additional layer of security requires users to verify their identity through a second factor, mobile device, before gaining access to the system.
+
+### 2. Sales Data Analysis Dashboard
+Introduce a dashboard feature to analyze sales data effectively. This dashboard will provide insights into sales performance by comparing current month orders with the previous month. It will break down sales by items to identify which products generate the most profit, allowing for informed decision-making and strategic planning.

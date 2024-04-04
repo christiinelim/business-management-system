@@ -79,6 +79,7 @@ button:hover{
     gap: 6px;
     align-items: center;
     justify-content: center;
+    text-align: center;
     color: #721c24 !important;
     background-color: #f8d7da;
     position: relative;

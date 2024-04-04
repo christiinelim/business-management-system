@@ -3,7 +3,6 @@ package com.bizorder.service.impl;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.bizorder.exception.SearchNotFoundException;
@@ -14,11 +13,9 @@ import com.bizorder.service.AccountService;
 @Service
 public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
-    private final PasswordEncoder passwordEncoder;
 
-    public AccountServiceImpl(AccountRepository accountRepository, PasswordEncoder passwordEncoder) {
+    public AccountServiceImpl(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -40,8 +37,6 @@ public class AccountServiceImpl implements AccountService {
         
         if (existingAccountOptional.isPresent()) {
             Account existingAccount = existingAccountOptional.get();
-            existingAccount.setEmail(account.getEmail());
-            existingAccount.setPassword(passwordEncoder.encode(account.getPassword()));
             existingAccount.setName(account.getName());
             existingAccount.setContact(account.getContact());
             existingAccount.setInstagram(account.getInstagram());
