@@ -1,0 +1,312 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 40px 18%;
+}
+
+.heading {
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+    margin-bottom: 50px;
+}
+
+.heading div {
+    font-size: 17px;
+}
+
+.profile-items {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    padding-left: 10px
+}
+
+.profile-items img {
+    width: 23px;
+    height: auto
+}
+
+.username {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.username div {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.username svg {
+    width: 40px;
+    height: auto;
+    color: #3D85D4;
+}
+
+
+.profile-items svg {
+    width: 20px;
+    height: auto;
+    color: #3D85D4;
+}
+
+.edit-mode-icons {
+    display: flex;
+    gap: 5px
+}
+
+.edit-mode-button button {
+    background-color: transparent;
+    border-radius: 5px;
+    width: 48px;
+    height: 20px;
+    font-weight: bold;
+    font-size: 10px;
+}
+
+.cancel button {
+    border: 1px solid #C8C5C5;
+    color: #C8C5C5;
+}
+
+.cancel button:hover {
+    border: 1px solid #ADAAAA;
+    color: #ADAAAA;
+}
+
+.save button {
+    border: 1px solid #3D85D4;
+    color: #3D85D4;
+}
+
+.save button:hover {
+    border: 1px solid #4399F8;
+    color: #4399F8;
+}
+
+.edit-icon svg {
+    color: #C8C5C5;
+    width: 14px;
+}
+
+.edit-icon svg:hover {
+    cursor: pointer;
+    color: #ADAAAA;
+}
+
+input {
+    width: 120px;
+    height: 20px;
+}
+
+.section-heading {
+    font-weight: bold;
+    font-size: 15px;
+    border-bottom: 1px solid black;
+    margin-top: 30px;
+}
+
+.icon-div {
+    width: 40px;
+}
+
+.category-div {
+    width: 60px
+}
+
+.form-error {
+    margin-top: 20px
+}
+
+.warning-header {
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.warning-content {
+    text-align: center;
+    margin: 5px 0px 20px 0px;
+}
+
+.delete-button {
+    background-color: #d85b62;
+    border: 1px solid #d85b62;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 5px 10px;
+    margin-top: 40px;
+}
+
+.delete-button:hover {
+    background-color: #FF7979;
+    border: 1px solid #FF7979;
+}
+
+.delete-button-div {
+    display: flex;
+    justify-content: center;
+}
+
+.delete-account {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    justify-content: center;
+    color: #856404 !important;
+    background-color: #fff3cd;
+    position: relative;
+    padding: 6px 12px;
+    margin-bottom: 1rem;
+    border: 1px solid ffeeba;
+    border-radius: 5px;
+    font-size: 10px;
+    width: 100%;
+    text-align: center;
+}
+
+@media (min-width: 768px) {
+
+    .wrapper {
+        padding: 40px 25%;
+    }
+
+    .heading {
+        margin-bottom: 55px;
+    }
+    
+    .heading div {
+        font-size: 18px;
+    }
+
+    .profile-items {
+        margin-top: 23px;
+        padding-left: 15px
+    }
+    
+    .profile-items img {
+        width: 25px;
+        height: auto
+    }
+    
+    .username div {
+        font-size: 16px;
+    }
+    
+    .username svg {
+        width: 50px;
+    }
+    
+    
+    .profile-items svg {
+        width: 23px;
+        height: auto;
+    }
+    
+    .section-heading {
+        font-size: 16px;
+        margin-top: 40px;
+    }
+    
+    .icon-div {
+        width: 50px;
+    }
+    
+    .category-div {
+        width: 70px
+    }
+
+    .edit-icon svg {
+        width: 16px;
+    }
+
+    .edit-mode-button button {
+        font-size: 11px;
+    }
+
+    input {
+        width: 140px;
+        height: 25px;
+    }
+
+    .warning-header {
+        font-size: 18px;
+    }
+    
+    .warning-content {
+        margin: 10px 0px 25px 0px;
+    }
+}
+
+@media (min-width: 992px) {
+
+    .wrapper {
+        padding: 40px 30%;
+    }
+    
+    .heading div {
+        font-size: 19px;
+    }
+
+    .profile-items {
+        margin-top: 28px;
+        padding-left: 20px
+    }
+    
+    .profile-items img {
+        width: 30px;
+        height: auto
+    }
+    
+    .username div {
+        font-size: 17px;
+    }
+    
+    .username svg {
+        width: 60px;
+    }
+    
+    
+    .profile-items svg {
+        width: 26px;
+        height: auto;
+    }
+    
+    .section-heading {
+        font-size: 17px;
+        margin-top: 50px;
+    }
+    
+    .icon-div {
+        width: 60px;
+    }
+    
+    .category-div {
+        width: 80px
+    }
+
+    .edit-icon svg {
+        width: 18px;
+    }
+
+    .edit-mode-button button {
+        font-size: 12px;
+        width: 53px;
+        height: 22px;
+    }
+
+    input {
+        width: 150px;
+        height: 27px;
+    }
+
+    .warning-header {
+        font-size: 19px;
+    }
+    
+    .warning-content {
+        margin: 10px 0px 25px 0px;
+    }
+}
