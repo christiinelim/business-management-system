@@ -52,6 +52,55 @@
     color: #3D85D4;
 }
 
+.edit-mode-icons {
+    display: flex;
+    gap: 5px
+}
+
+.edit-mode-button button {
+    background-color: transparent;
+    border-radius: 5px;
+    width: 48px;
+    height: 20px;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.cancel button {
+    border: 1px solid #C8C5C5;
+    color: #C8C5C5;
+}
+
+.cancel button:hover {
+    border: 1px solid #ADAAAA;
+    color: #ADAAAA;
+}
+
+.save button {
+    border: 1px solid #3D85D4;
+    color: #3D85D4;
+}
+
+.save button:hover {
+    border: 1px solid #4399F8;
+    color: #4399F8;
+}
+
+.edit-icon svg {
+    color: #C8C5C5;
+    width: 12px;
+}
+
+.edit-icon svg:hover {
+    cursor: pointer;
+    color: #ADAAAA;
+}
+
+input {
+    width: 120px;
+    height: 20px;
+}
+
 .section-heading {
     font-weight: bold;
     font-size: 15px;
@@ -65,6 +114,10 @@
 
 .category-div {
     width: 60px
+}
+
+.form-error {
+    margin-top: 20px
 }
 
 @media (min-width: 768px) {

@@ -6,6 +6,7 @@ import { AccountService } from '../../../core/services/account/account.service';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../../core/services/authentication/authentication.service';
 import { Account } from '../../../core/models/account/account.model';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-profile',
@@ -17,6 +18,9 @@ import { Account } from '../../../core/models/account/account.model';
 
 export class ProfileComponent implements OnInit {
   protected account: Account | undefined;
+  protected editMode: boolean = false;
+  protected error: boolean = false;
+  protected profileForm!: FormGroup;
 
   constructor(private accountService: AccountService, private router: Router, private authenticationService: AuthenticationService) {
 
@@ -24,6 +28,14 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAccountData();
+
+    this.profileForm = new FormGroup({
+      name: new FormControl("", [Validators.required]),
+      contact: new FormControl("", [Validators.required, Validators.pattern('[0-9]{8}')]),
+      instagram: new FormControl("", [Validators.required]),
+      tiktok: new FormControl("", [Validators.required]),
+      carousell: new FormControl("", [Validators.required])
+    })
   }
 
   getAccountData() {
@@ -38,4 +50,32 @@ export class ProfileComponent implements OnInit {
         }
       });
   }
+
+  // edit profile
+  onEdit() {
+    this.editMode = true;
+
+    this.profileForm.setValue({
+      name: this.account?.name,
+      contact: this.account?.contact,
+      instagram: this.account?.instagram,
+      tiktok: this.account?.tiktok,
+      carousell: this.account?.carousell
+    });
+
+  }
+
+  onExit() {
+    this.editMode = false;
+  }
+
+  // submit
+  submitForm(formData: any) {
+    if (!formData.name || !formData.contact || !formData.instagram || !formData.tiktok || !formData.carousell) {
+      this.error = true;
+    } else {
+      this.error = false;
+    }
+  }
+  
 }
