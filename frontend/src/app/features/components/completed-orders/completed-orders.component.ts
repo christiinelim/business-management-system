@@ -14,14 +14,13 @@ import { ItemService } from '../../../core/services/item/item.service';
 import { ItemOrder } from '../../../core/models/item-order/item-order.model';
 
 @Component({
-  selector: 'app-orders',
+  selector: 'app-completed-orders',
   standalone: true,
   imports: [NavComponent, CoreModule, FeaturesModule],
-  templateUrl: './orders.component.html',
-  styleUrl: './orders.component.css'
+  templateUrl: './completed-orders.component.html',
+  styleUrl: './completed-orders.component.css'
 })
-
-export class OrdersComponent implements OnInit {
+export class CompletedOrdersComponent implements OnInit {
   protected orders: Order[] = [];
   protected expandedRowIndex: number = -1;
   protected purchaseData: Purchase[] = [];
@@ -76,7 +75,7 @@ export class OrdersComponent implements OnInit {
     this.orderService.getOrdersByAccountId()
       .subscribe((response: any) => {
         const responseOrders = response.data
-        this.orders = responseOrders.filter((order: Order) => order.status === 'Pending');
+        this.orders = responseOrders.filter((order: Order) => order.status === 'Completed');
       }, (error: any) => {
         if (error.error.Error === "The JWT signature is invalid or the token has expired"){
           this.authenticationService.removeToken();

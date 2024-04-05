@@ -8,6 +8,7 @@ import { authenticationGuard } from './core/guards/authentication/authentication
 import { ListingsComponent } from './features/components/listings/listings.component';
 import { OrdersComponent } from './features/components/orders/orders.component';
 import { ProfileComponent } from './features/components/profile/profile.component';
+import { CompletedOrdersComponent } from './features/components/completed-orders/completed-orders.component';
 
 export const routes: Routes = [
     {
@@ -38,6 +39,11 @@ export const routes: Routes = [
     {
         path: 'orders', 
         component: OrdersComponent,
+        canActivate: [authenticationGuard]
+    },
+    {
+        path: 'completed', 
+        component: CompletedOrdersComponent,
         canActivate: [authenticationGuard]
     },
     {
