@@ -22,7 +22,8 @@ import { ItemOrder } from '../../../core/models/item-order/item-order.model';
 })
 
 export class OrdersComponent implements OnInit {
-  protected orders: Order[] = [];
+  protected pendingOrders: Order[] = [];
+  protected completedOrders: Order[] = [];
   protected expandedRowIndex: number = -1;
   protected purchaseData: Purchase[] = [];
   protected totalCost: number = 0;
@@ -35,6 +36,9 @@ export class OrdersComponent implements OnInit {
   protected showDeletePopup: boolean = false;
   protected showAddItemForm: boolean = false;
   protected addItemError: boolean = false;
+  protected showPending: boolean = true;
+  protected isPendingTabActive: boolean = true;
+  protected expandedRowType: string = "Pending"
   protected orderForm!: FormGroup;
   protected itemForm!: FormGroup;
   protected deleteMessage: string = "";
@@ -75,8 +79,12 @@ export class OrdersComponent implements OnInit {
   refreshData() {
     this.orderService.getOrdersByAccountId()
       .subscribe((response: any) => {
-        const responseOrders = response.data
-        this.orders = responseOrders.filter((order: Order) => order.status === 'Pending');
+        const responseOrders = response.data;
+        console.log(responseOrders)
+        this.pendingOrders = responseOrders.filter((order: Order) => order.status === 'Pending');
+        console.log(this.pendingOrders)
+        this.completedOrders = responseOrders.filter((order: Order) => order.status === 'Completed');
+        console.log(this.completedOrders)
       }, (error: any) => {
         if (error.error.Error === "The JWT signature is invalid or the token has expired"){
           this.authenticationService.removeToken();
@@ -108,8 +116,26 @@ export class OrdersComponent implements OnInit {
     }, 0);
   }
 
+  // toggle between pending and completed
+  onPendingTabClick() {
+    this.showPending = true; 
+    this.expandedRowType = 'Pending'; 
+    this.expandedRowIndex = -1;
+    this.showAddItemForm = false;
+    this.isPendingTabActive = true;
+  }
+
+  onCompletedTabClick() {
+    this.showPending = false; 
+    this.expandedRowType = 'Completed'; 
+    this.expandedRowIndex = -1;
+    this.showAddItemForm = false;
+    this.isPendingTabActive = false;
+  }
+
   // toggle collapse order
   toggleCollapse(index: number, orderId: any) {
+    this.showAddItemForm = false;
     this.expandedRowIndex = this.expandedRowIndex === index ? -1 : index;
     this.refreshItemOrderData(orderId);
   }
@@ -184,7 +210,12 @@ export class OrdersComponent implements OnInit {
       this.itemOrderService.deletePurchase(this.deletePurchaseId)
       .subscribe((response: any) => {
         this.showDeletePopup = false;
-        const orderId = this.orders[this.expandedRowIndex].orderId || 0;
+        let orderId = -1;
+        if (this.showPending) {
+          orderId = this.pendingOrders[this.expandedRowIndex].orderId || 0;
+        } else {
+          orderId = this.completedOrders[this.expandedRowIndex].orderId || 0;
+        }
         this.refreshItemOrderData(orderId);
       }, (error: any) => {
         console.log(error)
@@ -233,6 +264,11 @@ export class OrdersComponent implements OnInit {
       });
   }
 
+  // get orders depending on show pending
+  getOrdersToShow(): Order[] {
+    return this.showPending ? this.pendingOrders : this.completedOrders;
+  }
+
   submitItemForm(formData: any, purchaseId?: number) {
     if (!formData.quantity || !formData.itemName) {
       this.addItemError = true;
@@ -241,7 +277,13 @@ export class OrdersComponent implements OnInit {
       this.showAddItemForm = false;
 
       const { quantity, itemName } = formData;
-      const orderId = this.orders[this.expandedRowIndex].orderId || 0;
+      let orderId = -1;
+      if (this.showPending) {
+        orderId = this.pendingOrders[this.expandedRowIndex].orderId || 0;
+      } else {
+        orderId = this.completedOrders[this.expandedRowIndex].orderId || 0;
+      }
+      
       const itemOrder: ItemOrder = {
         quantity, 
         item: {
@@ -263,6 +305,7 @@ export class OrdersComponent implements OnInit {
         // update
         this.itemOrderService.updatePurchase(itemOrder, this.purchaseId)
             .subscribe((response: any) => {
+              console.log(orderId)
               this.refreshItemOrderData(orderId);
             }, (error: any) => {
               console.log(error)

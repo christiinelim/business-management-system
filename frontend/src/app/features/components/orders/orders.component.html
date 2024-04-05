@@ -1,5 +1,12 @@
 <app-nav>
     <div class="wrapper">
+        <div class="tabs-div">
+            <div class="type-tabs">
+                <div (click)="onPendingTabClick()" class="pending-completed-tab" [class.active]="isPendingTabActive">Pending</div>
+                <div (click)="onCompletedTabClick()" class="pending-completed-tab" [class.active]="!isPendingTabActive">Completed</div>
+            </div>
+        </div>
+
         <div class="row heading">
             <div class="col-2">Order Date</div>
             <div class="col-2">Collection Date</div>
@@ -8,7 +15,7 @@
             <div class="col-2">Status</div>
             <div class="col-2 action-heading"><div>Action</div></div>
         </div>
-        <div class="row order-row" *ngFor="let order of orders; let i = index" [ngClass]="{'row-alternate': i % 2 !== 0}">
+        <div class="row order-row" *ngFor="let order of getOrdersToShow(); let i = index" [ngClass]="{'row-alternate': i % 2 !== 0}">
             <div class="col-2" (click)="toggleCollapse(i, order.orderId)">{{order.createdAt | date:'dd/MM/yy'}}</div>
             <div class="col-2" (click)="toggleCollapse(i, order.orderId)">{{order.collectionDate | date:'dd/MM/yy'}}</div>
             <div class="col-2" (click)="toggleCollapse(i, order.orderId)">{{order.note}}</div>
@@ -27,7 +34,7 @@
                     </svg>
                 </div>
             </div>
-            <div class="col-12 expanded-details" *ngIf="expandedRowIndex === i">
+            <div class="col-12 expanded-details" *ngIf="expandedRowIndex === i && expandedRowType === order.status">
                 <div class="detail-heading">
                     <div>Customer Detail</div>
                 </div>

@@ -198,6 +198,43 @@ input[type=number]::-webkit-outer-spin-button {
     height: 10px
 }
 
+/* pending and completed tabs */
+.tabs-div {
+    display: flex;
+    justify-content: center;
+}
+
+.type-tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    background-color: #eee;
+    padding: 4px;
+    width: 200px;
+    border-radius: 999px;
+    font-weight: bold;
+}
+
+.pending-completed-tab {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 10px;
+    width: 50%;
+    height: 25px
+}
+
+.pending-completed-tab:hover {
+    cursor: pointer;
+}
+
+.active {
+    color: white;
+    background-color: #FF8622;
+    border-radius: 999px;
+
+}
+
 
 @media (min-width: 768px) {
 
@@ -295,6 +332,18 @@ input[type=number]::-webkit-outer-spin-button {
         height: 13px
     }
 
+    /* pending and completed tabs */
+    .type-tabs {
+        margin-bottom: 30px;
+        padding: 5px;
+        width: 220px;
+    }
+    
+    .pending-completed-tab {
+        font-size: 11px;
+        height: 27px
+    }
+
 }
 
 @media (min-width: 992px) {
@@ -340,5 +389,17 @@ input[type=number]::-webkit-outer-spin-button {
     /* delete warning */
     .delete-name {
         font-size: 15px;
+    }
+
+    /* pending and completed tabs */
+    .type-tabs {
+        margin-bottom: 35px;
+        padding: 6px;
+        width: 230px;
+    }
+    
+    .pending-completed-tab {
+        font-size: 13px;
+        height: 29px
     }
 }

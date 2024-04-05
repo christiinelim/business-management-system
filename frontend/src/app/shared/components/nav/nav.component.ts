@@ -48,10 +48,6 @@ export class NavComponent implements OnInit {
   }
 
   navigateToPendingOrders() {
-    this.router.navigateByUrl('/orders', { state: { currentPage: "Pending Orders"} });
-  }
-
-  navigateToCompletedOrders() {
-    this.router.navigateByUrl('/completed', { state: { currentPage: "Completed Orders"} });
+    this.router.navigateByUrl('/orders', { state: { currentPage: "Orders"} });
   }
 }
