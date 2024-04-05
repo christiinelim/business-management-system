@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bizorder.api.AuthenticationApi;
 import com.bizorder.dtos.ForgotPasswordRequest;
 import com.bizorder.dtos.LoginAccountDto;
 import com.bizorder.dtos.ResetPasswordRequest;
@@ -18,7 +19,7 @@ import com.bizorder.service.EmailService;
 
 @RequestMapping("/api/auth")
 @RestController
-public class AuthenticationController {
+public class AuthenticationController implements AuthenticationApi {
 
     private final AuthenticationService authenticationService;
     private final EmailService emailService;

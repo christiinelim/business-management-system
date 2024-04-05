@@ -11,13 +11,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bizorder.api.OrderApi;
 import com.bizorder.model.Order;
 import com.bizorder.response.ResponseHandler;
 import com.bizorder.service.OrderService;
 
 @RestController
 @RequestMapping("/api/order")
-public class OrderController {
+public class OrderController implements OrderApi {
 
     OrderService orderService;
 

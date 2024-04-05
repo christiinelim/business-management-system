@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bizorder.api.CustomerApi;
 import com.bizorder.exception.SearchNotFoundException;
 import com.bizorder.model.Customer;
 import com.bizorder.response.ResponseHandler;
@@ -18,7 +19,7 @@ import com.bizorder.service.CustomerService;
 
 @RestController
 @RequestMapping("/api/customer")
-public class CustomerController {
+public class CustomerController implements CustomerApi {
 
     CustomerService customerService;
 

@@ -3,6 +3,7 @@ package com.bizorder.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bizorder.api.AccountApi;
 import com.bizorder.model.Account;
 import com.bizorder.response.ResponseHandler;
 import com.bizorder.service.AccountService;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/api/account")
-public class AccountController {
+public class AccountController implements AccountApi {
 
     AccountService accountService;
 

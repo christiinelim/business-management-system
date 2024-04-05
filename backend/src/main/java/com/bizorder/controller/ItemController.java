@@ -11,13 +11,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bizorder.api.ItemApi;
 import com.bizorder.model.Item;
 import com.bizorder.response.ResponseHandler;
 import com.bizorder.service.ItemService;
 
 @RestController
 @RequestMapping("/api/item")
-public class ItemController {
+public class ItemController implements ItemApi {
 
     ItemService itemService;
 
@@ -44,11 +45,11 @@ public class ItemController {
         }
     }
 
-    // get all items by a seller
+    // get all items by a account
     @GetMapping("account/{accountId}")
-    public ResponseEntity<Object> getItemsBySeller(@PathVariable("accountId") Integer accountId) {
+    public ResponseEntity<Object> getItemsByAccount(@PathVariable("accountId") Integer accountId) {
         try {
-            return ResponseHandler.responseBuilder("Requested seller items retrieved", HttpStatus.OK, itemService.getItemsByAccount(accountId));
+            return ResponseHandler.responseBuilder("Requested account items retrieved", HttpStatus.OK, itemService.getItemsByAccount(accountId));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
         }
@@ -57,7 +58,7 @@ public class ItemController {
 
     // Create
     @PostMapping
-    public ResponseEntity<Object> createSeller(@RequestBody Item item) {
+    public ResponseEntity<Object> createItem(@RequestBody Item item) {
         try {
             return ResponseHandler.responseBuilder("Item created", HttpStatus.OK, itemService.createItem(item));
         } catch (Exception e) {
@@ -67,7 +68,7 @@ public class ItemController {
 
     // Update
     @PutMapping("{itemId}")
-    public ResponseEntity<Object> updateSeller(@PathVariable("itemId") Integer itemId, @RequestBody Item item) {
+    public ResponseEntity<Object> updateItem(@PathVariable("itemId") Integer itemId, @RequestBody Item item) {
         try {
             return ResponseHandler.responseBuilder("Item details updated", HttpStatus.OK, itemService.updateItem(item, itemId));
         } catch (Exception e) {
