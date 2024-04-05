@@ -23,8 +23,11 @@ import { ItemOrder } from '../../../core/models/item-order/item-order.model';
 })
 
 export class OrdersComponent implements OnInit {
-  protected orders: Order[] = [];
+  // protected orders: Order[] = [];
+  protected pendingOrders: Order[] = [];
+  protected completedOrders: Order[] = [];
   protected expandedRowIndex: number = -1;
+  protected expandedRowIndexCompleted: number = -1;
   protected purchaseData: Purchase[] = [];
   protected totalCost: number = 0;
   protected editOrderId: number = 0;
@@ -36,6 +39,7 @@ export class OrdersComponent implements OnInit {
   protected showDeletePopup: boolean = false;
   protected showAddItemForm: boolean = false;
   protected addItemError: boolean = false;
+  protected showOrderComplete: boolean = false;
   protected orderForm!: FormGroup;
   protected itemForm!: FormGroup;
   protected deleteMessage: string = "";
@@ -76,7 +80,9 @@ export class OrdersComponent implements OnInit {
   refreshData() {
     this.orderService.getOrdersByAccountId()
       .subscribe((response: any) => {
-        this.orders = response.data;
+        const orders = response.data;
+        this.pendingOrders = orders.filter((order: Order) => order.status === 'Pending');
+        this.completedOrders = orders.filter((order: Order) => order.status === 'Completed');
       }, (error: any) => {
         if (error.error.Error === "The JWT signature is invalid or the token has expired"){
           this.authenticationService.removeToken();
@@ -112,6 +118,16 @@ export class OrdersComponent implements OnInit {
   toggleCollapse(index: number, orderId: any) {
     this.expandedRowIndex = this.expandedRowIndex === index ? -1 : index;
     this.refreshItemOrderData(orderId);
+  }
+
+  toggleCollapseCompleted(index: number, orderId: any) {
+    this.expandedRowIndexCompleted = this.expandedRowIndexCompleted === index ? -1 : index;
+    this.refreshItemOrderData(orderId);
+  }
+
+  // toggle order complete
+  toggleOrderCompleteTable() {
+    this.showOrderComplete = !this.showOrderComplete
   }
 
   // open form
@@ -184,7 +200,7 @@ export class OrdersComponent implements OnInit {
       this.itemOrderService.deletePurchase(this.deletePurchaseId)
       .subscribe((response: any) => {
         this.showDeletePopup = false;
-        const orderId = this.orders[this.expandedRowIndex].orderId || 0;
+        const orderId = this.pendingOrders[this.expandedRowIndex].orderId || 0;
         this.refreshItemOrderData(orderId);
       }, (error: any) => {
         console.log(error)
@@ -241,7 +257,7 @@ export class OrdersComponent implements OnInit {
       this.showAddItemForm = false;
 
       const { quantity, itemName } = formData;
-      const orderId = this.orders[this.expandedRowIndex].orderId || 0;
+      const orderId = this.pendingOrders[this.expandedRowIndex].orderId || 0;
       const itemOrder: ItemOrder = {
         quantity, 
         item: {

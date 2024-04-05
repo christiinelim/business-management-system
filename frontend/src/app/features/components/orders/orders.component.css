@@ -114,7 +114,7 @@ div {
 }
 
 .form-popup {
-    height: 48%;
+    height: 55%;
 }
 
 .form-pop input, .form-pop select {
@@ -198,6 +198,25 @@ input[type=number]::-webkit-outer-spin-button {
     height: 10px
 }
 
+/* completed order table */
+.completed {
+    background-color: #FF8622;
+    color: white;
+    font-weight: bold;
+    padding: 10px 7.5px;
+    margin-bottom: 20px;
+}
+
+.completed:hover {
+    cursor: pointer;
+    background-color: #FF9922;
+}
+
+.completed-row {
+    display: flex;
+    justify-content: space-between;
+}
+
 @media (min-width: 768px) {
 
     .wrapper {
@@ -250,7 +269,7 @@ input[type=number]::-webkit-outer-spin-button {
     }
 
     .form-popup {
-        height: 65%;
+        height: 70%;
     }
 
     .form-pop input, .form-pop select {
@@ -329,7 +348,7 @@ input[type=number]::-webkit-outer-spin-button {
     }
 
     .form-popup {
-        height: 70%;
+        height: 75%;
     }
 
     .form-pop input, .form-pop select {

@@ -82,7 +82,7 @@ public class OrderServiceImpl implements OrderService {
         
         if (existingOrderOptional.isPresent()) {
             Order existingOrder = existingOrderOptional.get();
-            // existingOrder.setCollectionDate(order.getCollectionDate());
+            existingOrder.setCollectionDate(order.getCollectionDate());
             existingOrder.setNote(order.getNote());
             existingOrder.setPaid(order.getPaid());
             existingOrder.setStatus(order.getStatus());

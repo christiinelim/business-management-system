@@ -19,7 +19,8 @@ const customer_info = {
     "payment method": "paymentMethod",
     "collection method": "collectionMethod"
 };
-const customer_query = ["name", "contact", "delivery address", "payment method", "collection method"];
+let collectionDate;
+const customer_query = ["name", "contact", "delivery address", "payment method", "collection method", "collection date"];
 let customerInfo = {};
 let customer_information_count = 0;
 let purchase_information = false;
@@ -106,9 +107,14 @@ const token = process.env.API_KEY;
             }
         } else if (customer_information){
             currentOption = "Place order";
-            customerInfo[customer_info[customer_query[customer_information_count]]] = msg.text;
+            if (customer_information_count < 5) {
+                customerInfo[customer_info[customer_query[customer_information_count]]] = msg.text;
+            } else if (customer_information_count == 5) {
+                collectionDate = msg.text;
+            }
+            
             customer_information_count += 1;
-            if (customer_information_count == 5) {
+            if (customer_information_count == 6) {
                 resetCustomerInformation();
                 purchase_information = true;
                 await onSelectItem(msg);
@@ -334,7 +340,7 @@ async function onPlaceOrderClick(msg, count){
                 }
             }
         );
-    } else {
+    } else if (count == 4) {
         await bot.sendMessage(
             msg.chat.id,
             `Please choose your ${customer_query[count]}`,
@@ -349,6 +355,8 @@ async function onPlaceOrderClick(msg, count){
                 }
             }
         );
+    } else {
+        await bot.sendMessage(msg.chat.id, `Please enter the preferred ${customer_query[count]}, please indicate in yyyy-mm-dd format`);
     }
 }
 
@@ -460,7 +468,8 @@ async function sendOrder(msg) {
         },
         "account": {
             "accountId": selectedAccountId
-        }
+        },
+        "collectionDate": collectionDate
     });
     const orderIdIndex = responseOrder.data.lastIndexOf(' ');
     const orderId = responseOrder.data.substring(orderIdIndex + 1);

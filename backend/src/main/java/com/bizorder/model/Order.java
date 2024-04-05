@@ -1,9 +1,12 @@
 package com.bizorder.model;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -35,7 +38,8 @@ public class Order {
     private String status;
 
     @Column(name = "collection_date")
-    private Date collection_date;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate collection_date;
 
     @CreationTimestamp
     @Column(updatable = false, name = "created_at")
@@ -56,7 +60,7 @@ public class Order {
     public Order() {
     }
 
-    public Order(String note, String paid, String status, Date collection_date, Customer customer, Account account, Date createdAt) {
+    public Order(String note, String paid, String status, LocalDate collection_date, Customer customer, Account account, Date createdAt) {
         this.note = note;
         this.paid = paid;
         this.status = status;
@@ -99,11 +103,11 @@ public class Order {
         this.status = status;
     }
 
-    public Date getCollectionDate() {
+    public LocalDate getCollectionDate() {
         return collection_date;
     }
 
-    public void setCollectionDate(Date collection_date) {
+    public void setCollectionDate(LocalDate collection_date) {
         this.collection_date = collection_date;
     }
 
