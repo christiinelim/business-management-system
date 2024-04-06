@@ -17,11 +17,11 @@ import { FooterComponent } from '../../../shared/components/footer/footer.compon
 })
 
 export class LoginComponent implements OnInit {
-  protected loginForm!: FormGroup;
-  protected display: boolean = false;
-  protected message: string = "";
-  protected loginError: boolean = false;
-  protected errorMessage: string = "";
+  loginForm!: FormGroup;
+  display: boolean = false;
+  message: string = "";
+  loginError: boolean = false;
+  errorMessage: string = "";
 
   constructor(private authenticationService: AuthenticationService, private router: Router){
     

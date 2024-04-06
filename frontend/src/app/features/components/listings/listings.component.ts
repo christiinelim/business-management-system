@@ -17,18 +17,18 @@ import { CookieService } from 'ngx-cookie-service';
 })
 
 export class ListingsComponent implements OnInit{
-  protected items: Item[] = [];
-  protected showFormPopup: boolean = false;
-  protected error: boolean = false;
-  protected showDeletePopup: boolean = false;
-  protected errorMessage: string = "Missing input fields";
-  protected productToDelete: string = "";
-  protected productForm!: FormGroup;
-  protected deleteItemId: number = 0;
-  protected editItemId: number = 0;
-  protected status: string = "";
-  protected action: string = "";
-  protected formHeader: string = "";
+  items: Item[] = [];
+  showFormPopup: boolean = false;
+  error: boolean = false;
+  showDeletePopup: boolean = false;
+  errorMessage: string = "Missing input fields";
+  productToDelete: string = "";
+  productForm!: FormGroup;
+  deleteItemId: number = 0;
+  editItemId: number = 0;
+  status: string = "";
+  action: string = "";
+  formHeader: string = "";
 
   constructor(private itemService: ItemService, private authenticationService: AuthenticationService, private router: Router, private cookieService: CookieService) {
 

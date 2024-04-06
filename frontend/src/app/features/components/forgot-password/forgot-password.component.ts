@@ -19,14 +19,14 @@ import { FooterComponent } from '../../../shared/components/footer/footer.compon
   styleUrl: './forgot-password.component.css'
 })
 export class ForgotPasswordComponent implements OnInit {
-  protected reset: boolean = false;
-  protected resetForm!: FormGroup;
-  protected confirmPasswordInvalid: boolean = false;
-  protected description: string = "Enter your email address to reset your password";
-  protected emailed: boolean = false;
-  protected submitError: boolean = false;
-  protected errorMessage: string = "";
-  protected loading: boolean = false; 
+  reset: boolean = false;
+  resetForm!: FormGroup;
+  confirmPasswordInvalid: boolean = false;
+  description: string = "Enter your email address to reset your password";
+  emailed: boolean = false;
+  submitError: boolean = false;
+  errorMessage: string = "";
+  loading: boolean = false; 
 
   constructor (private authenticationService: AuthenticationService, private router: Router) {
 

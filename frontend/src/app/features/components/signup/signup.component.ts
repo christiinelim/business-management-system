@@ -20,12 +20,12 @@ import { FooterComponent } from '../../../shared/components/footer/footer.compon
 })
 
 export class SignupComponent implements OnInit {
-  protected signupForm!: FormGroup;
-  protected confirmPasswordInvalid: boolean = false;
-  protected subscription: Subscription | undefined;
-  protected submitError: boolean = false;
-  protected errorMessage: string = "";
-  protected loading: boolean = false; 
+  signupForm!: FormGroup;
+  confirmPasswordInvalid: boolean = false;
+  subscription: Subscription | undefined;
+  submitError: boolean = false;
+  errorMessage: string = "";
+  loading: boolean = false; 
 
   constructor(private authenticationService: AuthenticationService, private router: Router) {
     

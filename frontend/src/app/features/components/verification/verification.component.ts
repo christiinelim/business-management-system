@@ -18,10 +18,10 @@ import { FooterComponent } from '../../../shared/components/footer/footer.compon
 })
 
 export class VerificationComponent {
-  protected verificationForm!: FormGroup;
-  protected email: string;
-  protected subscription: Subscription | undefined;
-  protected verificationError: boolean = false;
+  verificationForm!: FormGroup;
+  email: string;
+  subscription: Subscription | undefined;
+  verificationError: boolean = false;
 
   constructor (private route: ActivatedRoute, private authenticationService: AuthenticationService, private router: Router) {
     this.email = "";

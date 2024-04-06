@@ -200,7 +200,7 @@ const token = process.env.API_KEY;
 function start(msg) {
     bot.sendMessage(
         msg.chat.id,
-        "Please select what you like to do",
+        "Please select what you like to do. Do note that the seller will contact you for further arrangements once order has been received. If you like to make any changes, please let the seller know, only the seller will be able to make any changes.",
         {
             reply_markup: {
                 keyboard: [

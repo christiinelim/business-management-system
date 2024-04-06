@@ -22,30 +22,30 @@ import { ItemOrder } from '../../../core/models/item-order/item-order.model';
 })
 
 export class OrdersComponent implements OnInit {
-  protected pendingOrders: Order[] = [];
-  protected completedOrders: Order[] = [];
-  protected expandedRowIndex: number = -1;
-  protected purchaseData: Purchase[] = [];
-  protected totalCost: number = 0;
-  protected editOrderId: number = 0;
-  protected deleteOrderId: number = 0;
-  protected deletePurchaseId: number = 0;
-  protected purchaseId: number = 0;
-  protected showFormPopup: boolean = false;
-  protected error: boolean = false;
-  protected showDeletePopup: boolean = false;
-  protected showAddItemForm: boolean = false;
-  protected addItemError: boolean = false;
-  protected showPending: boolean = true;
-  protected isPendingTabActive: boolean = true;
-  protected expandedRowType: string = "Pending"
-  protected orderForm!: FormGroup;
-  protected itemForm!: FormGroup;
-  protected deleteMessage: string = "";
-  protected formHeader: string = "";
-  protected itemsMap: { [key: string]: number } = {};
-  protected status: string = "";
-  protected deleteStatus = "";
+  pendingOrders: Order[] = [];
+  completedOrders: Order[] = [];
+  expandedRowIndex: number = -1;
+  purchaseData: Purchase[] = [];
+  totalCost: number = 0;
+  editOrderId: number = 0;
+  deleteOrderId: number = 0;
+  deletePurchaseId: number = 0;
+  purchaseId: number = 0;
+  showFormPopup: boolean = false;
+  error: boolean = false;
+  showDeletePopup: boolean = false;
+  showAddItemForm: boolean = false;
+  addItemError: boolean = false;
+  showPending: boolean = true;
+  isPendingTabActive: boolean = true;
+  expandedRowType: string = "Pending"
+  orderForm!: FormGroup;
+  itemForm!: FormGroup;
+  deleteMessage: string = "";
+  formHeader: string = "";
+  itemsMap: { [key: string]: number } = {};
+  status: string = "";
+  deleteStatus = "";
 
   constructor(
     private orderService: OrderService, 
@@ -310,8 +310,6 @@ export class OrdersComponent implements OnInit {
             }, (error: any) => {
               console.log(error)
             }); 
-
-
       }
     }
   }

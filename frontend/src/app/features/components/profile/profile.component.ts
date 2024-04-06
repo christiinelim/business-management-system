@@ -17,12 +17,12 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 
 export class ProfileComponent implements OnInit {
-  protected account: Account | undefined;
-  protected editMode: boolean = false;
-  protected error: boolean = false;
-  protected deleteWarning: boolean = false;
-  protected deleteAccountMessage: boolean = false;
-  protected profileForm!: FormGroup;
+  account: Account | undefined;
+  editMode: boolean = false;
+  error: boolean = false;
+  deleteWarning: boolean = false;
+  deleteAccountMessage: boolean = false;
+  profileForm!: FormGroup;
 
   constructor(private accountService: AccountService, private router: Router, private authenticationService: AuthenticationService) {
 
