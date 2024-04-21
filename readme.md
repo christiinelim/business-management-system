@@ -1,4 +1,4 @@
-# Business Management System
+# BizOrder Management System
 
 ## Project Introduction
 This project aims to solve the pain points of small business owners by providing a system to keep track of customer orders. The system allows customers to interact with a Telegram bot to view order details, place orders, and check product availability. Business owners can manage orders, update inventory, and add new products via a frontend dashboard.
